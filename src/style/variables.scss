@@ -1,0 +1,6 @@
+@mixin fontPoppins($size, $weight, $line-height) {
+  font-family: 'Poppins', sans-serif;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+}
