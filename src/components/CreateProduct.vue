@@ -5,10 +5,7 @@
     <div class="select">
       <p>Select Current Product</p>
       <select v-model="category">
-        <option value="1">Category 1</option>
-        <option value="2">Category 2</option>
-        <option value="3">Category 3</option>
-        <option value="4">Category 4</option>
+        <option :value="category.id" v-for="(category, index) of categories" :key="index">{{category.title}}</option>
       </select>
     </div>
     <div class="upload">
@@ -44,9 +41,10 @@
 import axios from 'axios'
 export default {
   name: "CreateProduct",
+  props: ['categories'],
   data() {
     return {
-      category: '1',
+      category: '',
       nameEng: '',
       nameAr: '',
       volume: 0,
@@ -57,6 +55,7 @@ export default {
   },
   methods: {
     async postProduct() {
+      let vm = this
       let dataENG = {
         imageUri: '',
         price: this.price,
@@ -65,15 +64,18 @@ export default {
         title: this.nameEng,
         description: this.descriptionEng
       }
-      // let dataAR = {
-      //   title: this.nameAr,
-      //   description: this.descriptionAr
-      // }
+      let dataAR = {
+        title: this.nameAr,
+        description: this.descriptionAr
+      }
 
       await axios.post('https://gulfawaterweb.azurewebsites.net/ShopItems', dataENG)
-      .then(res => console.log(res))
+      .then(async (res) => {
+        await axios.post(`https://gulfawaterweb.azurewebsites.net/ShopItems/${res.data}/localization?culture=ar`, dataAR)
+            .then(() => {vm.$emit('close-create')})
+            .catch(err => console.log(err))
+      })
       .catch(err => console.log(err))
-      console.log(dataENG)
     },
   }
 }

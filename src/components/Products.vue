@@ -1,56 +1,75 @@
-<template >
-<div class="products">
-  <div class="row">
-    <h2 class="row-title">Products</h2>
-    <button class="button-create product" @click="createNewProduct">Create New Products</button>
-  </div>
-  <div class="row">
-    <div class="categories">
-      <button class="button-category">Category 1</button>
-      <button class="button-category">Category 2</button>
-      <button class="button-category">Category 3</button>
-      <button class="button-category">Category 4</button>
+<template>
+  <div class="products">
+    <div class="row">
+      <h2 class="row-title">Products</h2>
+      <button class="button-create product" @click="createNewProduct">Create New Products</button>
     </div>
-    <button class="button-create category">+ Add New Category</button>
-  </div>
-  <div class="items">
-    <div class="item" v-for="n in 20" :key="n">
-      <button class="item-edit"></button>
-      <img src="../assets/bottle.svg" alt="">
-      <div class="item-info">
-        <div class="item-info-row"><span class="price">$25.00</span><span class="price-promo">$27.00</span></div>
-        <div class="item-info-row"><span class="volume">0.33 LT</span></div>
-        <div class="item-info-row">
-          <p class="description">
-            Buxton Pure Lite Bux Pure Lite Buxton Pure
-          </p>
+    <div class="row">
+      <div class="categories">
+        <button class="button-category" v-for="(category, index) of categories" :key="index">{{ category.title }}
+        </button>
+      </div>
+      <button class="button-create category">+ Add New Category</button>
+    </div>
+    <div class="items">
+      <div class="item" v-for="(item, index) of items" :key="index">
+        <button class="item-edit"></button>
+        <img :src="item.imageUri ? item.imageUri : require('../assets/bottle.svg')" alt="">
+        <div class="item-info">
+          <div class="item-info-row"><span class="price">${{item.price}}</span><span class="price-promo">$27.00</span></div>
+          <div class="item-info-row"><span class="volume">{{item.volume}} LT</span></div>
+          <div class="item-info-row">
+            <p class="description">
+              {{ item.description }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
+    <CreateProduct
+        v-if="createMode"
+        :categories="categories"
+        @close-create="closeCreate"/>
   </div>
-  <CreateProduct v-if="createMode" @close-create="closeCreate"/>
-</div>
 </template>
 
 <script>
 import CreateProduct from "@/components/CreateProduct";
+import axios from 'axios';
+
 export default {
-name: "Products",
+  name: "Products",
   components: {CreateProduct},
-  data () {
-  return {
-    createMode: false
-  }
+  data() {
+    return {
+      createMode: false,
+      categories: [],
+      items: []
+    }
+  },
+  async created() {
+    await this.getCategories()
+    await this.getItems()
   },
   methods: {
-    createNewProduct () {
+    createNewProduct() {
       this.createMode = true
       this.$emit('create-mode')
     },
-    closeCreate () {
+    async closeCreate() {
       this.createMode = false
       this.$emit('create-mode')
-
+      await this.getItems()
+    },
+    async getCategories() {
+      await axios.get('https://gulfawaterweb.azurewebsites.net/Categories')
+          .then(res => this.categories = res.data)
+          .catch(err => console.log(err))
+    },
+    async getItems() {
+      await axios.get('https://gulfawaterweb.azurewebsites.net/ShopItems')
+          .then(res => this.items = res.data)
+          .catch(err => console.log(err))
     }
   }
 }
@@ -58,11 +77,13 @@ name: "Products",
 
 <style scoped lang="scss">
 @import "../style/variables";
-.products{
+
+.products {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 10px;
+
   button {
     border: none;
     outline: none;
@@ -71,21 +92,25 @@ name: "Products",
     color: white;
 
   }
-  .row{
+
+  .row {
     display: flex;
     width: 100%;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    &-title{
+
+    &-title {
       @include fontPoppins(22px, 500, 20px);
     }
-    .button-create{
+
+    .button-create {
       background: #ED1C24;
       padding: 10px 20px;
       @include fontPoppins(12px, 600, 18px);
     }
-    .button-category{
+
+    .button-category {
       background: #D2F4FF;
       color: #005CB9;
       padding: 10px 20px;
@@ -94,12 +119,14 @@ name: "Products",
 
     }
   }
-  .items{
+
+  .items {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     width: 90%;
-    .item{
+
+    .item {
       width: 20%;
       min-width: 150px;
       max-width: 200px;
@@ -111,10 +138,13 @@ name: "Products",
       display: flex;
       flex-direction: column;
       align-items: center;
-      img{
-        width: 40%;
+
+      img {
+        width: 100px;
+        height: 200px;
       }
-      &-edit{
+
+      &-edit {
         position: absolute;
         top: 10px;
         right: 10px;
@@ -122,22 +152,30 @@ name: "Products",
         width: 37px;
         background: url(../assets/icons/edit.svg) no-repeat center, rgba(28, 200, 255, 0.2);;
       }
-      &-info{
-        &-row{
+
+      &-info {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        &-row {
           display: flex;
           justify-content: space-between;
           padding: 5px 0;
-          .price{
+
+          .price {
             @include fontPoppins(15px, 500, 16px);
+
             &-promo {
               text-decoration: line-through;
               @include fontPoppins(12px, 500, 16px);
             }
           }
-          .volume{
+
+          .volume {
             @include fontPoppins(12px, 500, 16px);
           }
-          .description{
+
+          .description {
             @include fontPoppins(12px, 600, 16px);
           }
         }
