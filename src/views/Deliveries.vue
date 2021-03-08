@@ -1,18 +1,23 @@
 <template>
 <div id="deliveries">
+  <TopRow
+      @search="searchValue = $event"
+  />
   <TableOfContent
       :titles="titles"
       :info="deliveries"
+      v-model="searchValue"
   />
 </div>
 </template>
 
 <script>
-import TableOfContent from "@/components/helpers/TableOfContent";
+const TableOfContent = () => import('@/components/helpers/TableOfContent')
+import TopRow from "@/components/helpers/TopRow";
 
 export default {
   name: "Deliveries",
-  components: {TableOfContent},
+  components: {TopRow, TableOfContent},
   data () {
     return {
       titles: [
@@ -66,7 +71,9 @@ export default {
           paymentMethod: 'Credit Card',
           driver: 'Robert Cooper'
         }
-      ]
+      ],
+      searchValue: ''
+
     }
   }
 }

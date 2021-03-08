@@ -8,7 +8,7 @@
         <input class="item-input" :type="item.type" v-model="item.value">
       </div>
       <div class="item">
-        <base-button @btn-click="isAuthAction">{{ modes[mode].button }}</base-button>
+        <base-button @btn-click="isAuthAction" :background="'#005CB9'">{{ modes[mode].button }}</base-button>
       </div>
     </div>
     <div class="links">
@@ -153,7 +153,6 @@ export default {
 
       &-input {
         width: 100%;
-        outline: none;
         border: 1px solid #E8E8E8;
         border-radius: 5px;
         padding: 10px;

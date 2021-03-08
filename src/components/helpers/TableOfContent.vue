@@ -9,7 +9,7 @@
       </h2>
     </div>
     <div class="content">
-      <div class="item" v-for="(row, n) of info" :key="n">
+      <div class="item" v-for="(row, n) of sortedInfo" :key="n">
         <span
             :style="`width: ${width}%`"
             v-for="(prop, index) in row"
@@ -30,12 +30,30 @@ export default {
     },
     info: {
       type: Array
+    },
+    value: {
+      type: String,
+      default: ''
     }
   },
   computed: {
     width () {
       let num = this.titles.length
       return 100/num
+    },
+    sortedInfo () {
+      let sort = []
+      if(this.value) {
+        for(let item of this.info) {
+          for(let prop in item) {
+            if(String(item[prop]).toLowerCase().includes(this.value.toLowerCase())) {
+              sort.push(item)
+              break;
+            }
+          }
+        }
+      } else return this.info
+      return sort
     }
   }
 }
@@ -45,9 +63,7 @@ export default {
 @import "../../style/variables";
 
 .table {
-  border-top: 1px solid #E8E8E8;
   padding: 20px 15px;
-  margin: 10px 30px;
   .titles{
     display: flex;
     text-align: center;

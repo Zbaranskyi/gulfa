@@ -122,6 +122,7 @@ export default {
     border-radius: 10px;
     margin: 60px 60px 30px 30px;
     width: 100%;
+    padding: 30px;
   }
 }
 </style>

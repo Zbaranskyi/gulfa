@@ -4,3 +4,7 @@
   font-weight: $weight;
   line-height: $line-height;
 }
+input, button {
+  outline: none;
+  border: none;
+}
