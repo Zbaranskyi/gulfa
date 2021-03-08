@@ -3,7 +3,9 @@
     <div class="row">
       <div class="categories">
         <button
+            @click="selectedCategory = index"
             class="button-category"
+            :class="{selected: selectedCategory === index}"
             v-for="(category, index) of categories"
             :key="index">{{ category.title }}</button>
       </div>
@@ -11,7 +13,7 @@
     </div>
     <div class="items">
       <product-item
-          v-for="(item, index) of items" :key="index" :item="item"
+          v-for="(item, index) of filteredItems" :key="index" :item="item"
       />
     </div>
     <CreateProduct
@@ -39,13 +41,14 @@ export default {
     }
   },
   computed: {
-    // filteredItems () {
-    //
-    // }
+    filteredItems () {
+      return this.items.filter(el=>el.categoryId === this.categories[this.selectedCategory].id)
+    }
   },
   async created() {
-    await this.getCategories()
     await this.getItems()
+
+    await this.getCategories()
     console.log(this.categories)
     console.log(this.items)
   },
@@ -80,7 +83,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   button {
     border: none;
     border-radius: 10px;
@@ -112,7 +114,8 @@ export default {
       margin: 5px 10px;
       @include fontPoppins(12px, 600, 18px);
       &.selected {
-
+        color: #FFFFFF;
+        background: #005CB9;
       }
     }
   }
