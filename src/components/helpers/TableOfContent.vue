@@ -70,7 +70,7 @@ export default {
     background: #D2F4FF;
     border-radius: 10px;
     @include fontPoppins(12px, 600, 18px);
-    color: #005CB9;
+    color: $color-background-blue;
     .item{
       padding: 10px 0;
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="item">
-    <button class="item-edit"></button>
+    <button class="item-edit" @click="$emit('open-modal')"></button>
     <img :src="item.imageUri ? item.imageUri : require('../../assets/bottle.svg')" alt="">
     <div class="item-info">
       <div class="item-info-row"><span class="price">${{item.price}}</span><span class="price-promo">$27.00</span></div>
@@ -53,6 +53,8 @@ export default {
     right: 10px;
     height: 37px;
     width: 37px;
+    border-radius: 5px;
+    cursor: pointer;
     background: url(../../assets/icons/edit.svg) no-repeat center, rgba(28, 200, 255, 0.2);
   }
 

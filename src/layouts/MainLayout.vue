@@ -1,11 +1,8 @@
 <template>
 <div class="main-layout">
-  <div class="profile">
-    <div class="logo">
-
-    </div>
-    <span class="name">Admin John</span>
-  </div>
+  <AdminMenu
+      v-model="menu"
+  />
   <div class="side-menu">
     <Logo/>
     <ul>
@@ -28,6 +25,7 @@
 </template>
 
 <script>
+import AdminMenu from "@/components/helpers/AdminMenu";
 const Logo = () => import('@/components/helpers/Logo')
 export default {
   name: "MainLayout",
@@ -42,9 +40,11 @@ export default {
           'Sale',
           'Notifications'
       ],
+      menu: false
     }
   },
   components: {
+    AdminMenu,
     Logo
   },
   computed: {
@@ -65,25 +65,7 @@ export default {
   min-width: 1000px;
   display: flex;
   position: relative;
-  .profile{
-    position: absolute;
-    top: 10px;
-    right: 80px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    .logo{
-      background: url(../assets/icons/menu/users.svg) no-repeat center, white;
-      border-radius: 50%;
-      height: 40px;
-      width: 40px;
-      margin: 0 15px;
-    }
-    .name{
-      @include fontPoppins(12px, 600, 18px);
-      color: #005CB9;
-    }
-  }
+
   .side-menu{
     //width: 300px;
     padding: 0 50px;

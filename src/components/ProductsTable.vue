@@ -13,31 +13,34 @@
     </div>
     <div class="items">
       <product-item
+          @open-modal="modal=true; editItem=item"
           v-for="(item, index) of filteredItems" :key="index" :item="item"
       />
     </div>
-    <CreateProduct
-        v-if="createMode"
-        :categories="categories"
-        @close-create="closeCreate"/>
+    <edit-product
+        v-if="modal"
+        :editItem="editItem"
+        v-model="modal"/>
   </div>
 </template>
 
 <script>
-import CreateProduct from "@/components/CreateProduct";
 import BaseButton from "@/components/helpers/BaseButton";
 import ProductItem from "@/components/helpers/ProductItem";
 import axios from 'axios';
+import EditProduct from "@/components/helpers/EditProduct";
 
 export default {
   name: "ProductsTable",
-  components: {ProductItem, BaseButton, CreateProduct},
+  components: {EditProduct, ProductItem, BaseButton},
   data() {
     return {
       createMode: false,
       categories: [],
       items: [],
-      selectedCategory: 0
+      selectedCategory: 0,
+      modal: false,
+      editItem: null
     }
   },
   computed: {
@@ -46,9 +49,10 @@ export default {
     }
   },
   async created() {
-    await this.getItems()
 
     await this.getCategories()
+    await this.getItems()
+
     console.log(this.categories)
     console.log(this.items)
   },
@@ -72,7 +76,10 @@ export default {
           .then(res => this.items = res.data)
           .catch(err => console.log(err))
     }
-  }
+  },
+  // updated() {
+  //   console.log(this.modal)
+  // }
 }
 </script>
 
@@ -109,13 +116,13 @@ export default {
 
     .button-category {
       background: #D2F4FF;
-      color: #005CB9;
+      color: $color-background-blue;
       padding: 10px 20px;
       margin: 5px 10px;
       @include fontPoppins(12px, 600, 18px);
       &.selected {
         color: #FFFFFF;
-        background: #005CB9;
+        background: $color-background-blue;
       }
     }
   }

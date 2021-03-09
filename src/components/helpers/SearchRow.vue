@@ -17,6 +17,7 @@ export default {
 @import "../../style/variables";
 
 .search {
+  min-width: 200px;
   border: 1px solid #E8E8E8;
   border-radius: 10px;
   @include fontPoppins(12px, 400, 18px);
