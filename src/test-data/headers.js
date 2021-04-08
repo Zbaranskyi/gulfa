@@ -7,3 +7,10 @@ export const orders = [
     'Payment Method',
     'View Details'
 ]
+export const paymentsHeaders = [
+    'ID',
+    'Date&Time',
+    'Customer Name',
+    'Price',
+    'Payment Method'
+]
