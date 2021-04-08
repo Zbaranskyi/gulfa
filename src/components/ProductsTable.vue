@@ -20,15 +20,16 @@
     <edit-product
         v-if="modal"
         :editItem="editItem"
-        v-model="modal"/>
+        v-model="modal"
+    />
   </div>
 </template>
 
 <script>
 import BaseButton from "@/components/helpers/BaseButton";
 import ProductItem from "@/components/helpers/ProductItem";
-import axios from 'axios';
 import EditProduct from "@/components/helpers/EditProduct";
+import api from "@/service/api";
 
 export default {
   name: "ProductsTable",
@@ -40,7 +41,7 @@ export default {
       items: [],
       selectedCategory: 0,
       modal: false,
-      editItem: null
+      editItem: 'null',
     }
   },
   computed: {
@@ -67,19 +68,16 @@ export default {
       await this.getItems()
     },
     async getCategories() {
-      await axios.get('https://gulfawaterweb.azurewebsites.net/Categories')
+      await api.GET('/Categories')
           .then(res => this.categories = res.data)
           .catch(err => console.log(err))
     },
     async getItems() {
-      await axios.get('https://gulfawaterweb.azurewebsites.net/ShopItems')
+      await api.GET('/ShopItems')
           .then(res => this.items = res.data)
           .catch(err => console.log(err))
     }
-  },
-  // updated() {
-  //   console.log(this.modal)
-  // }
+  }
 }
 </script>
 

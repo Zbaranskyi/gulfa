@@ -45,6 +45,7 @@ export default {
   img {
     width: 100px;
     height: 200px;
+    //height: 100px;
   }
 
   &-edit {

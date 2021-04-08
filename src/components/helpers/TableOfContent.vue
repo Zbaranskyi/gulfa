@@ -2,7 +2,7 @@
   <div class="table">
     <div class="titles">
       <h2 class="item"
-          :style="`width: ${width}%`"
+          :style="width"
           v-for="(title, index) of titles"
           :key="index">
         {{ title }}
@@ -11,9 +11,11 @@
     <div class="content">
       <div class="item" v-for="(row, n) of sortedInfo" :key="n">
         <span
-            :style="`width: ${width}%`"
-            v-for="(prop, index) in row"
-            :key="index">
+            :class="{details: orders && (name === `details`) }"
+            v-for="(prop, name) in row"
+            :style="width"
+            @click="showDetails(row.id, name)"
+            :key="`${prop+name}`">
           {{prop}}
         </span>
       </div>
@@ -34,12 +36,16 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    orders: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
     width () {
       let num = this.titles.length
-      return 100/num
+      return {width: `${100 / num}%`}
     },
     sortedInfo () {
       let sort = []
@@ -54,6 +60,13 @@ export default {
         }
       } else return this.info
       return sort
+    }
+  },
+  methods: {
+    showDetails (id, name) {
+      if(this.orders && name === 'details') {
+        this.$emit('show-details', id)
+      }
     }
   }
 }
@@ -86,6 +99,10 @@ export default {
         border: 1px solid #E8E8E8;
         border-radius: 10px;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+      }
+      span.details {
+        cursor: pointer;
+        text-decoration: underline;
       }
     }
   }

@@ -1,10 +1,11 @@
 <template >
   <div class="shadow" v-if="value">
-    <div class="modal">
+    <div class="modal" :style="`max-width: ${orders ? `800`:`600`}px`">
       <span class="close" @click="$emit('close')"><img src="../assets/icons/close.svg" alt=""></span>
       <h2 class="title"><slot name="title"></slot></h2>
       <slot></slot>
       <base-button
+          v-show="!withoutButton"
           @btn-click="$emit('btn-click')"
           class="button"
           background="#005CB9"
@@ -22,6 +23,14 @@ export default {
   components: {BaseButton},
   props: {
     value: {
+      type: Boolean,
+      default: false
+    },
+    orders: {
+      type: Boolean,
+      default: false
+    },
+    withoutButton: {
       type: Boolean,
       default: false
     }
