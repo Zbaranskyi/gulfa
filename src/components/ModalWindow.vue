@@ -4,13 +4,23 @@
       <span class="close" @click="$emit('close')"><img src="../assets/icons/close.svg" alt=""></span>
       <h2 class="title"><slot name="title"></slot></h2>
       <slot></slot>
-      <base-button
-          v-show="!withoutButton"
-          @btn-click="$emit('btn-click')"
-          class="button"
-          background="#005CB9"
-         :width="40"
-      ><slot name="button"></slot></base-button>
+      <div style="display: flex; width: 100%; justify-content: space-around">
+        <base-button
+            v-show="!withoutButton"
+            @btn-click="$emit('btn-click')"
+            class="button"
+            background="#005CB9"
+            :width="40"
+        ><slot name="button"></slot></base-button>
+        <base-button
+            v-show="deleteButton"
+            @btn-click="$emit('delete-product')"
+            class="button"
+            background="#ED1C24"
+            :width="40"
+        >Delete</base-button>
+      </div>
+
 <!--      <div style="background: yellow; width: 100%; height: 100%"></div>-->
     </div>
   </div>
@@ -31,6 +41,10 @@ export default {
       default: false
     },
     withoutButton: {
+      type: Boolean,
+      default: false
+    },
+    deleteButton: {
       type: Boolean,
       default: false
     }

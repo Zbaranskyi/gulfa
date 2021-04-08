@@ -70,7 +70,7 @@ export default {
 @import "../style/variables";
 
 .main-layout{
-  background: #E5E5E5;
+  background: #F3F3F3;
   width: 100vw;
   min-height: 100vh;
   min-width: 1000px;

@@ -95,10 +95,11 @@ export default {
       display: flex;
       text-align: center;
       padding: 10px 0;
+      margin: 5px 0;
       &:hover{
         border: 1px solid #E8E8E8;
         border-radius: 10px;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
       }
       span.details {
         cursor: pointer;
