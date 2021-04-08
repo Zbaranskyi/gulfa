@@ -28,8 +28,7 @@
 <script>
 import BaseButton from "@/components/helpers/BaseButton";
 import ProductItem from "@/components/helpers/ProductItem";
-import EditProduct from "@/components/helpers/EditProduct";
-import api from "@/service/api";
+import EditProduct from "@/components/products/EditProduct";
 
 export default {
   name: "ProductsTable",
@@ -37,8 +36,6 @@ export default {
   data() {
     return {
       createMode: false,
-      categories: [],
-      items: [],
       selectedCategory: 0,
       modal: false,
       editItem: 'null',
@@ -49,6 +46,12 @@ export default {
       type: String,
       default: ''
     },
+    items: {
+      type: Array
+    },
+    categories: {
+      type: Array
+    }
   },
   computed: {
     filteredItems () {
@@ -69,14 +72,6 @@ export default {
       return sort
     }
   },
-  async created() {
-
-    await this.getCategories()
-    await this.getItems()
-
-    console.log(this.categories)
-    console.log(this.items)
-  },
   methods: {
     createNewProduct() {
       this.createMode = true
@@ -87,16 +82,6 @@ export default {
       this.$emit('create-mode')
       await this.getItems()
     },
-    async getCategories() {
-      await api.GET('/Categories')
-          .then(res => this.categories = res.data)
-          .catch(err => console.log(err))
-    },
-    async getItems() {
-      await api.GET('/ShopItems')
-          .then(res => this.items = res.data)
-          .catch(err => console.log(err))
-    }
   }
 }
 </script>

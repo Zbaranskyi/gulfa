@@ -1,5 +1,6 @@
 <template>
   <modal-window
+      deleteButton
       @close="$emit('input', false)"
       @btn-click="saveChanges"
       :value="value">
@@ -8,6 +9,10 @@
     </template>
     <template #default>
       <div class="main-block">
+        <div class="select-category">
+          <p>Select Category</p>
+          <select ></select>
+        </div>
         <div class="image-block">
           <img v-if="base64Img" class="image" :src="base64Img" alt="">
           <img v-else-if="image" class="image" :src="image" alt="">
@@ -109,6 +114,7 @@ export default {
     this.price = `${this.editItem.price}`
     this.name = this.editItem.title
     this.image = this.editItem.imageUri
+    this.descript = this.editItem.description
   },
   mixins: [encodeImage],
   methods: {
