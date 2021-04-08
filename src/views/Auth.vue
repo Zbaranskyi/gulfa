@@ -13,9 +13,8 @@
     </div>
     <div class="links">
       <router-link to="/auth/forgot">Forgot your password?</router-link>
-      <p>New in?
-        <router-link to="/auth/signup">Sign Up</router-link>
-      </p>
+      <p v-show="mode==='forgot' || mode==='signup'">Back to <router-link  to="/auth/signin">log in page</router-link></p>
+      <p>New in?<router-link to="/auth/signup">Sign Up</router-link></p>
     </div>
   </div>
 </template>

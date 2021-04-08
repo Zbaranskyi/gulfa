@@ -38,7 +38,7 @@ export default {
   right: 80px;
   display: flex;
   cursor: pointer;
-  background: #e5e5e5;
+  background: #F3F3F3;
   flex-direction: column;
   border-radius: 10px;
   width: 200px;
