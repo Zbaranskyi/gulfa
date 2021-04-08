@@ -6,15 +6,13 @@
   <div class="side-menu">
     <Logo/>
     <ul>
-      <li v-for="(page, index) of pages" :key="index" :class="{active: route === page.toLowerCase()}">
-        <router-link class="link" :to="`/${page.toLowerCase()}`">
+      <li v-for="(page, index) of pages" :key="index">
+        <router-link class="link" :to="`/${page.name.toLowerCase()}`">
           <span
+              :class="[page.name.toLowerCase(), {active: route === page.name.toLowerCase()}]"
               class="link-logo"
-              :style="`${page.toLowerCase() === $route.name ?
-            `background: url(${require(`../assets/icons/menu/${page.toLowerCase()}-select.svg`)}) no-repeat center, #005CB9` :
-            `background: url(${require(`../assets/icons/menu/${page.toLowerCase()}.svg`)}) no-repeat center`}`"
           ></span>
-          {{page}}</router-link>
+          {{page.name}}</router-link>
       </li>
     </ul>
   </div>
@@ -32,13 +30,27 @@ export default {
   data () {
     return {
       pages: [
-          'Products',
-          'Users',
-          'Deliveries',
-          'Drivers',
-          'Payments',
-          'Sale',
-          'Notifications'
+        {
+          name: 'Products'
+        },
+        {
+          name: 'Orders'
+        },
+        {
+          name: 'Customers'
+        },
+        {
+          name: 'Drivers'
+        },
+        {
+          name: 'Payments'
+        },
+        {
+          name: 'Sale'
+        },
+        {
+          name: 'Notifications'
+        }
       ],
       menu: false
     }
@@ -50,8 +62,7 @@ export default {
   computed: {
     route () {
       return this.$route.name
-    }
-  }
+    }}
 }
 </script>
 
@@ -90,9 +101,57 @@ export default {
             height: 37px;
             border-radius: 10px;
             margin-right: 10px;
-            //&.active{
-            //  background: #005CB9;
-            //}
+            background-repeat: no-repeat;
+            background-position: center;
+            &.products{
+              background-image: url('../assets/icons/menu/products.svg');
+              &.active {
+                background-color: #005CB9;
+                background-image: url('../assets/icons/menu/products-select.svg');
+              }
+            }
+            &.orders{
+              background-image: url('../assets/icons/menu/orders.svg');
+              &.active {
+                background-color: #005CB9;
+                background-image: url('../assets/icons/menu/orders-select.svg');
+              }
+            }
+            &.customers{
+              background-image: url('../assets/icons/menu/users.svg');
+              &.active {
+                background-color: #005CB9;
+                background-image: url('../assets/icons/menu/users-select.svg');
+              }
+            }
+            &.drivers{
+              background-image: url('../assets/icons/menu/drivers.svg');
+              &.active {
+                background-color: #005CB9;
+                background-image: url('../assets/icons/menu/drivers-select.svg');
+              }
+            }
+            &.payments{
+              background-image: url('../assets/icons/menu/payments.svg');
+              &.active {
+                background-color: #005CB9;
+                background-image: url('../assets/icons/menu/payments-select.svg');
+              }
+            }
+            &.sale{
+              background-image: url('../assets/icons/menu/sale.svg');
+              &.active {
+                background-color: #005CB9;
+                background-image: url('../assets/icons/menu/sale-select.svg');
+              }
+            }
+            &.notifications{
+              background-image: url('../assets/icons/menu/notifications.svg');
+              &.active {
+                background-color: #005CB9;
+                background-image: url('../assets/icons/menu/notifications-select.svg');
+              }
+            }
           }
         }
 
