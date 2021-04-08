@@ -14,7 +14,7 @@
     <div class="items">
       <product-item
           @open-modal="modal=true; editItem=item"
-          v-for="(item, index) of filteredItems" :key="index" :item="item"
+          v-for="(item, index) of sortedInfo" :key="index" :item="item"
       />
     </div>
     <edit-product
@@ -44,9 +44,29 @@ export default {
       editItem: 'null',
     }
   },
+  props: {
+    value: {
+      type: String,
+      default: ''
+    },
+  },
   computed: {
     filteredItems () {
       return this.items.filter(el=>el.categoryId === this.categories[this.selectedCategory].id)
+    },
+    sortedInfo () {
+      let sort = []
+      if(this.value) {
+        for(let item of this.filteredItems) {
+          for(let prop in item) {
+            if(String(item[prop]).toLowerCase().includes(this.value.toLowerCase())) {
+              sort.push(item)
+              break;
+            }
+          }
+        }
+      } else return this.filteredItems
+      return sort
     }
   },
   async created() {

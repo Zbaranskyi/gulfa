@@ -3,8 +3,11 @@
   <TopRow
       :btn-background="'#ED1C24'"
       :btn-text="btnText"
+      @search="searchValue = $event"
   />
-  <ProductsTable/>
+  <ProductsTable
+      v-model="searchValue"
+  />
 </div>
 </template>
 
@@ -16,7 +19,8 @@ export default {
   components: {ProductsTable, TopRow},
   data () {
     return {
-      btnText: 'Create New Products'
+      btnText: 'Create New Products',
+      searchValue: ''
     }
   }
 }
