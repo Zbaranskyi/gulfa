@@ -10,7 +10,7 @@
       <div class="main-block">
         <div class="select-category">
           <p>Select Category</p>
-          <select v-model="category">
+          <select id="select-category" v-model="category">
             <option v-for="item of categories" :value="item.id" :key="item.id">{{item.title}}</option>
           </select>
         </div>
@@ -22,29 +22,6 @@
           <input style="display: none" type="file" id="file" @change="onChangeFileUpload"/>
         </div>
         <div class="info">
-          <div class="info-row">
-            <InputWithLabel
-                title="Volume"
-                v-model="volume"
-                inputType="number"
-                :width="40"
-                inputLabel="LT"
-            />
-            <InputWithLabel
-                title="Price"
-                v-model="price"
-                inputType="number"
-                :width="25"
-                inputLabel="$"
-            />
-            <InputWithLabel
-                title="New Price"
-                v-model="newPrice"
-                inputType="number"
-                :width="25"
-                inputLabel="$"
-            />
-          </div>
           <div class="info-row">
             <InputWithLabel
                 title="Name"
@@ -69,6 +46,22 @@
                 v-model="arDescript"
                 align="right"
                 :width="50"
+            />
+          </div>
+          <div class="info-row">
+            <InputWithLabel
+                title="Price"
+                v-model="price"
+                inputType="number"
+                :width="25"
+                inputLabel="$"
+            />
+            <InputWithLabel
+                title="Volume"
+                v-model="volume"
+                inputType="number"
+                :width="40"
+                inputLabel="LT"
             />
           </div>
         </div>
@@ -136,6 +129,7 @@ export default {
 .main-block{
   display: flex;
   flex-direction: column;
+  width: 100%;
   @include fontPoppins(12px, 400, 20px);
   .select-category{
     position: relative;
@@ -144,19 +138,21 @@ export default {
       border: 1px solid #E8E8E8;
       border-radius: 10px;
       padding: 10px;
+      cursor: pointer;
     }
     p{
-      &:after{
-        position: absolute;
-        display: block;
-        content: '';
-        width: 17px;
-        height: 17px;
-        background: #005CB9 url('../../assets/icons/arrow.svg') no-repeat center;
-        top: 30px;
-        left: 279px;
-        border-radius: 5px;
-      }
+      //&:after{
+      //  position: absolute;
+      //  display: block;
+      //  content: '';
+      //  width: 17px;
+      //  height: 17px;
+      //  background: #005CB9 url('../../assets/icons/arrow.svg') no-repeat center;
+      //  top: 30px;
+      //  left: 279px;
+      //  border-radius: 5px;
+      //  cursor: pointer;
+      //}
     }
 
   }
@@ -165,7 +161,7 @@ export default {
     margin-bottom: 30px;
   }
   .image{
-    width: 50px;
+    width: 150px;
     height: 100px;
     border: 1px dashed #E7E6E6;
     border-radius: 10px;
@@ -189,6 +185,7 @@ export default {
     display: flex;
     flex-direction: column;
     &-row {
+      margin-top: 10px;
       display: flex;
       &.descriptions{
         //justify-content: space-between;

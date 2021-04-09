@@ -3,13 +3,15 @@
     <div class="row">
       <div class="categories">
         <button
-            @click="selectedCategory = index"
             class="button-category"
             :class="{selected: selectedCategory === index}"
             v-for="(category, index) of categories"
-            :key="index">{{ category.title }}</button>
+            :key="index">
+          <span @click="selectedCategory = index">{{ category.title }}</span>
+          <span @click="editCategory(category.id)" class="edit-category"></span>
+        </button>
       </div>
-      <base-button :background="'#ED1C24'" :width="15">+ Add New Category</base-button>
+      <base-button :background="'#ED1C24'" :width="15" @btn-click="showAddCategory = true">+ Add New Category</base-button>
     </div>
     <div class="items">
       <product-item
@@ -19,8 +21,18 @@
     </div>
     <edit-product
         v-if="modal"
+        :categories="categories"
         :editItem="editItem"
         v-model="modal"
+    />
+    <add-category
+        v-if="showAddCategory"
+        v-model="showAddCategory"
+    />
+    <edit-category
+        v-if="showEditCategory"
+        :category="category"
+        v-model="showEditCategory"
     />
   </div>
 </template>
@@ -29,16 +41,21 @@
 import BaseButton from "@/components/helpers/BaseButton";
 import ProductItem from "@/components/helpers/ProductItem";
 import EditProduct from "@/components/products/EditProduct";
+import AddCategory from "./products/AddCategory";
+import EditCategory from "./products/EditCategory";
 
 export default {
   name: "ProductsTable",
-  components: {EditProduct, ProductItem, BaseButton},
+  components: {EditCategory, AddCategory, EditProduct, ProductItem, BaseButton},
   data() {
     return {
       createMode: false,
       selectedCategory: 0,
       modal: false,
       editItem: 'null',
+      showAddCategory: false,
+      showEditCategory: false,
+      category: {}
     }
   },
   props: {
@@ -54,15 +71,15 @@ export default {
     }
   },
   computed: {
-    filteredItems () {
-      return this.items.filter(el=>el.categoryId === this.categories[this.selectedCategory].id)
+    filteredItems() {
+      return this.items.filter(el => el.categoryId === this.categories[this.selectedCategory].id)
     },
-    sortedInfo () {
+    sortedInfo() {
       let sort = []
-      if(this.value) {
-        for(let item of this.filteredItems) {
-          for(let prop in item) {
-            if(String(item[prop]).toLowerCase().includes(this.value.toLowerCase())) {
+      if (this.value) {
+        for (let item of this.filteredItems) {
+          for (let prop in item) {
+            if (String(item[prop]).toLowerCase().includes(this.value.toLowerCase())) {
               sort.push(item)
               break;
             }
@@ -82,6 +99,10 @@ export default {
       this.$emit('create-mode')
       await this.getItems()
     },
+    editCategory (id) {
+      this.showEditCategory = true
+      this.category = this.categories.find(el=>el.id === id)
+    }
   }
 }
 </script>
@@ -93,11 +114,27 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   button {
     border: none;
     border-radius: 10px;
-    cursor: pointer;
+    cursor: auto;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    span {
+      cursor: pointer;
+    }
+  }
+
+  .edit-category {
+    display: block;
+    height: 16px;
+    width: 16px;
+    margin-left: 20px;
+    margin-right: 10px;
+    background: url('../assets/icons/edit.svg') no-repeat center;
   }
 
   .row {
@@ -106,7 +143,9 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-
+    .categories {
+      display: flex;
+    }
     &-title {
       @include fontPoppins(22px, 500, 20px);
     }
@@ -120,12 +159,16 @@ export default {
     .button-category {
       background: #D2F4FF;
       color: $color-background-blue;
-      padding: 10px 20px;
+      padding: 10px 0 10px 20px;
       margin: 5px 10px;
       @include fontPoppins(12px, 600, 18px);
+
       &.selected {
         color: #FFFFFF;
         background: $color-background-blue;
+        .edit-category {
+          background: url('../assets/icons/edit-white.svg') no-repeat center;
+        }
       }
     }
   }
