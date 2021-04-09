@@ -6,6 +6,7 @@
     />
     <base-button
         v-if="btnBanners"
+        @btn-click="$emit('upload-banners')"
         background="#005CB9"
         :width="10"
     >Upload Banners</base-button>

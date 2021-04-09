@@ -3,8 +3,6 @@ import App from './App.vue'
 
 import router from './router'
 
-Vue.prototype.$mainRoute = 'https://gulfawaterweb.azurewebsites.net'
-
 Vue.config.productionTip = false
 
 new Vue({

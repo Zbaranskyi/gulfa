@@ -1,7 +1,7 @@
 <template>
 <div
     class="btn"
-    :style="`background: ${background}; width: ${width}%`"
+    :style="`background: ${background}; width: ${width}%; color: ${textColor}`"
     @click="$emit('btn-click')">
   <slot></slot>
 </div>
@@ -18,6 +18,10 @@ export default {
     width: {
       type: Number,
       default: 100
+    },
+    textColor: {
+      type: String,
+      default: 'white'
     }
   }
 }

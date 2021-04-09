@@ -14,3 +14,22 @@ export const paymentsHeaders = [
     'Price',
     'Payment Method'
 ]
+export const customersHeaders = [
+    'Name',
+    'Last Name',
+    'Phone Number',
+    'Birthday',
+    'City',
+    'Family Members',
+    'Last Order',
+    'Subscription',
+    ''
+]
+export const driversHeaders = [
+    'Name',
+    'Last Name',
+    'Phone Number',
+    'Email',
+    'Employee ID',
+    'edit'
+]

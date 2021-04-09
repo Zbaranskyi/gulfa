@@ -5,18 +5,21 @@
           :style="width"
           v-for="(title, index) of titles"
           :key="index">
-        {{ title }}
+        {{ title === 'edit' ? '' : title }}
       </h2>
     </div>
     <div class="content">
       <div class="item" v-for="(row, n) of sortedInfo" :key="n">
         <span
-            :class="{details: orders && (name === `details`) }"
+            :class="{details: orders && (name === `details`)}"
             v-for="(prop, name) in row"
             :style="width"
-            @click="showDetails(row.id, name)"
+            @click="actionClick(row.id, name)"
             :key="`${prop+name}`">
           {{prop}}
+        </span>
+        <span v-if="edit" :style="width">
+          <button  class="item-edit" @click="$emit('edit-action', row)"></button>
         </span>
       </div>
     </div>
@@ -38,6 +41,10 @@ export default {
       default: ''
     },
     orders: {
+      type: Boolean,
+      default: false
+    },
+    edit: {
       type: Boolean,
       default: false
     }
@@ -63,7 +70,7 @@ export default {
     }
   },
   methods: {
-    showDetails (id, name) {
+    actionClick (id, name) {
       if(this.orders && name === 'details') {
         this.$emit('show-details', id)
       }
@@ -93,9 +100,17 @@ export default {
     color: #2F3741;
     .item{
       display: flex;
+      align-items: center;
       text-align: center;
       padding: 10px 0;
       margin: 5px 0;
+      &-edit{
+          height: 37px;
+          width: 37px;
+          border-radius: 5px;
+          cursor: pointer;
+          background: url(../../assets/icons/edit.svg) no-repeat center, rgba(28, 200, 255, 0.2);
+      }
       &:hover{
         border: 1px solid #E8E8E8;
         border-radius: 10px;

@@ -48,7 +48,7 @@ export default {
     margin: 10px 20px 0 0;
     resize: none;
     box-sizing: border-box;
-    @include fontPoppins(12px, 500, 20px);
+    @include fontPoppins(12px, 500, 14px);
   }
 }
 

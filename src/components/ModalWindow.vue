@@ -19,6 +19,14 @@
             background="#ED1C24"
             :width="40"
         >Delete</base-button>
+        <base-button
+            v-show="cancelButton"
+            @btn-click="$emit('cancel-action')"
+            class="button"
+            background="white"
+            :width="40"
+            textColor="black"
+        >Cancel</base-button>
       </div>
 
 <!--      <div style="background: yellow; width: 100%; height: 100%"></div>-->
@@ -45,6 +53,10 @@ export default {
       default: false
     },
     deleteButton: {
+      type: Boolean,
+      default: false
+    },
+    cancelButton: {
       type: Boolean,
       default: false
     }
