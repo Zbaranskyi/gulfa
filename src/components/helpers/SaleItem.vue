@@ -1,9 +1,10 @@
 <template>
   <div class="sale-item">
+    <button class="item-edit" @click="$emit('edit-item', item.id)"></button>
     <p><span>Title: </span>{{ item.title[lang] }}</p>
     <div class="item-flex">
-      <p><span>Type: </span>{{ item.type }}</p>
-      <p><span>Validity: </span>{{ item.validity }}</p>
+      <p><span>Type: </span>{{ item.typeValue }} %</p>
+      <p><span>Validity: </span>{{ item.fromDate }} - {{item.toDate}}</p>
     </div>
     <p><span>Description: </span>{{ item.description[lang] }}</p>
     <p><span>Products:</span></p>
@@ -47,7 +48,18 @@ export default {
   margin: 20px auto;
   padding: 20px;
   color: #2F3741;
+  position: relative;
   @include fontPoppins(12px, 400, 18px);
+  .item-edit {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 37px;
+    width: 37px;
+    border-radius: 5px;
+    cursor: pointer;
+    background: url(../../assets/icons/edit.svg) no-repeat center, rgba(28, 200, 255, 0.2);
+  }
   span {
     font-weight: 600;
     padding-right: 10px;
