@@ -21,3 +21,42 @@ export default {
     DELETE: async (endpoint, token) => await makeRequest({type: 'DELETE', endpoint, token}),
     PATCH: async (endpoint, data, token) => await makeRequest({type: 'PATCH', endpoint, data, token}),
 }
+//get product
+//put product
+//post product
+//delete product
+//get category
+//put category
+//post category
+//delete category
+
+//get banner
+//post banner
+//delete banner
+
+//get order
+//get order/{id}
+
+
+//get customer
+//put customer
+//delete customer
+
+//get driver
+//put driver
+//post driver
+//delete driver
+
+//get payment
+
+//get sale
+//get sale/{id}
+//put sale
+//post sale
+//delete sale
+
+//get notification
+//post notification
+
+//post login
+//post forgotPassword
