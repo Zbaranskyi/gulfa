@@ -1,7 +1,10 @@
 <template>
   <div>
     <component :is="layout">
-      <router-view></router-view>
+      <router-view
+          @success-action="successMessage"
+          @error-action="errorMessage"
+      ></router-view>
     </component>
   </div>
 </template>
@@ -19,6 +22,22 @@ export default {
   computed: {
     layout () {
       return `${this.$route.meta.layout || 'auth'}-layout`
+    }
+  },
+  methods: {
+    successMessage () {
+      this.$message({
+        message: 'Success',
+        type: 'success',
+        center: true
+      });
+    },
+    errorMessage () {
+      this.$message({
+        message: 'Error',
+        type: 'error',
+        center: true
+      });
     }
   }
 }

@@ -61,15 +61,11 @@ export default {
   mixins: [encodeImage],
   methods: {
     saveChanges () {
-      let changedData = {
-        description: this.descript,
-        imageUri: this.base64Img || this.image,
-        price: this.price,
-        title: this.name,
-        volume: this.volume
-      }
-      let data = {...this.editItem, ...changedData}
-      console.log(data)
+      let formdata = new FormData()
+      formdata.append('Title', this.name)
+      formdata.append('File', this.file)
+      this.$emit('input', false)
+      this.$emit('add-category', {formdata, dataAr: {title: this.arName}})
     }
   }
 }

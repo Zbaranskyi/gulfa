@@ -20,6 +20,8 @@
 
 <script>
 // import BaseButton from "@/components/helpers/BaseButton";
+import api from "@/service/api";
+
 const Logo = () => import('@/components/helpers/Logo')
 const BaseButton = () => import('@/components/helpers/BaseButton')
 // import axios from "axios";
@@ -36,12 +38,12 @@ export default {
             email: {
               name: 'Email',
               type: 'text',
-              value: ''
+              value: 'gulfa.admin@mail.com'
             },
             password: {
               name: 'Password',
               type: 'password',
-              value: ''
+              value: 'Kk123456@'
             }
           },
           button: 'Log In'
@@ -84,6 +86,9 @@ export default {
   computed: {
     mode() {
       return this.$route.params.mode
+    },
+    checkEmailAndPassword () {
+      return !!(this.modes[this.mode].fields.email.value && this.modes[this.mode].fields.password.value)
     }
   },
   methods: {
@@ -91,6 +96,10 @@ export default {
       let data = {}
       switch (this.mode) {
         case 'signin':
+          data.email = this.modes[this.mode].fields.email.value
+          data.password = this.modes[this.mode].fields.password.value
+            this.logIn(data)
+              break;
         case 'signup':
           data.email = this.modes[this.mode].fields.email.value
           data.password = this.modes[this.mode].fields.password.value
@@ -98,11 +107,35 @@ export default {
         case 'forgot':
           data.email = this.modes[this.mode].fields.email.value
       }
-      console.log(data)
-      this.$router.push('/')
+      // console.log(data)
+      // this.$router.push('/')
       // axios.post(this.$mainRoute + `/${this.mode}`, data)
       // .then(res=>console.log(res))
       // .catch(err=>console.log(err))
+    },
+    async logIn (data) {
+      if(this.checkEmailAndPassword) {
+        await api.POST('/admin/login', data)
+        .then(res=>{
+          let token = res.data.token
+          localStorage.setItem('token', token)
+          this.$router.push('/')
+        })
+        .catch(e=>{
+          console.log(e.response)
+          this.$message({
+            message: e?.response?.data?.title || 'Error with authorization',
+            type: 'error',
+            center: true
+          });
+        })
+      } else {
+        this.$message({
+          message: 'Error with credentials',
+          type: 'error',
+          center: true
+        });
+      }
     }
   }
 }

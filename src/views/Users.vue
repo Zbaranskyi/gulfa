@@ -22,6 +22,7 @@
 import {customersHeaders} from "../test-data/headers";
 import {customers, customersFull} from "../test-data/customers";
 import EditCustomer from "../components/customers/EditCustomer";
+import api from "@/service/api";
 
 export default {
   name: "Users",
@@ -44,9 +45,11 @@ export default {
     editCustomer ({name}) {
       this.customer = this.fullData.find(el=>el.name === name)
       this.showEditCustomer = true
+    },
+    async getCustomers () {
+      await api.GET('/')
     }
   }
-
 }
 </script>
 

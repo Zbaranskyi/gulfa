@@ -1,7 +1,7 @@
 <template>
   <modal-window
       @close="$emit('input', false)"
-      @btn-click="saveChanges"
+      @btn-click="addNewBanner"
       :value="value">
     <template #title>
       Upload Banner
@@ -44,16 +44,10 @@ export default {
   },
   mixins: [encodeImage],
   methods: {
-    saveChanges () {
-      let changedData = {
-        description: this.descript,
-        imageUri: this.base64Img || this.image,
-        price: this.price,
-        title: this.name,
-        volume: this.volume
-      }
-      let data = {...this.editItem, ...changedData}
-      console.log(data)
+    async addNewBanner () {
+      let formdata = new FormData()
+      formdata.append('mediafile', this.file)
+      this.$emit('add-banner', formdata)
     }
   }
 }

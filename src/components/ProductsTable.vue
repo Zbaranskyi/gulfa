@@ -24,15 +24,20 @@
         :categories="categories"
         :editItem="editItem"
         v-model="modal"
+        @edit-product="$emit('edit-product', $event)"
+        @delete-product="deleteProduct"
     />
     <add-category
         v-if="showAddCategory"
         v-model="showAddCategory"
+        @add-category="$emit('add-category', $event)"
     />
     <edit-category
         v-if="showEditCategory"
         :category="category"
         v-model="showEditCategory"
+        @delete-category="$emit('delete-category', $event)"
+
     />
   </div>
 </template>
@@ -102,6 +107,9 @@ export default {
     editCategory (id) {
       this.showEditCategory = true
       this.category = this.categories.find(el=>el.id === id)
+    },
+    deleteProduct (id) {
+      this.$emit('delete-product', id)
     }
   }
 }
@@ -145,6 +153,7 @@ export default {
     padding: 10px;
     .categories {
       display: flex;
+      flex-wrap: wrap;
     }
     &-title {
       @include fontPoppins(22px, 500, 20px);

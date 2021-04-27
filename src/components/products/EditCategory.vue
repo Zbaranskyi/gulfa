@@ -42,6 +42,7 @@
     <confirmation-delete
         v-if="confirmDelete"
         v-model="confirmDelete"
+        @delete-product="deleteProduct"
     />
   </div>
 </template>
@@ -89,6 +90,10 @@ export default {
       }
       let data = {...this.editItem, ...changedData}
       console.log(data)
+    },
+    deleteProduct () {
+      this.$emit('delete-category', this.category.id)
+      this.$emit('input', false)
     }
   }
 }

@@ -2,14 +2,9 @@
   <div class="top-row">
     <TitleOfPage/>
     <SearchRow
+        v-if="!withoutSearch"
         @search="$emit('search', $event)"
     />
-    <base-button
-        v-if="btnBanners"
-        @btn-click="$emit('upload-banners')"
-        background="#005CB9"
-        :width="10"
-    >Upload Banners</base-button>
     <switch-language
         v-if="btnSwitch"
         :lang="value"
@@ -42,10 +37,6 @@ export default {
       type: String,
       default: ''
     },
-    btnBanners: {
-      type: Boolean,
-      default: false
-    },
     btnWidth: {
       type: Number,
       default: 20
@@ -57,6 +48,10 @@ export default {
     value: {
       type: String,
       default: 'en'
+    },
+    withoutSearch: {
+      type: Boolean,
+      default: false
     }
   }
 }

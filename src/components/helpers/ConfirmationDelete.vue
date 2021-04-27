@@ -4,6 +4,8 @@
       withoutButton
       deleteButton
       @close="$emit('input', false)"
+      @cancel-action="$emit('input', false)"
+      @delete-product="deleteProduct"
       :value="value">
     <template #title>
       Confirm deletion
@@ -28,6 +30,12 @@ export default {
     value: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    deleteProduct() {
+      this.$emit('delete-product')
+      this.$emit('input', false)
     }
   }
 }

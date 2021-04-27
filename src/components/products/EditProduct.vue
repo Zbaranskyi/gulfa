@@ -84,6 +84,7 @@
     <confirmation-delete
         v-if="confirmDelete"
         v-model="confirmDelete"
+        @delete-product="deleteProduct"
     />
   </div>
 </template>
@@ -109,7 +110,7 @@ export default {
       arDescript: '',
       image: null,
       category: '',
-      confirmDelete: false
+      confirmDelete: false,
     }
   },
   props: {
@@ -125,11 +126,11 @@ export default {
     }
   },
   mounted() {
-    console.log(this.editItem)
     this.volume = `${this.editItem.volume}`
     this.price = `${this.editItem.price}`
     this.name = this.editItem.title
     this.arName = this.editItem.titleAr
+    this.arDescript = this.editItem.descriptionAr
     this.image = this.editItem.imageUri
     this.descript = this.editItem.description
     this.category = this.editItem.categoryId
@@ -137,15 +138,25 @@ export default {
   mixins: [encodeImage],
   methods: {
     saveChanges () {
-      let changedData = {
+      let id = this.editItem.id
+      let formdata = null
+      if(this.file) {
+        formdata = new FormData()
+        formdata.append('file', this.file)
+      }
+      let data = {
+        categoryId: this.category,
         description: this.descript,
-        imageUri: this.base64Img || this.image,
         price: this.price,
         title: this.name,
         volume: this.volume
       }
-      let data = {...this.editItem, ...changedData}
-      console.log(data)
+      this.$emit('edit-product', {data, formdata, id})
+      this.$emit('input', false)
+    },
+    deleteProduct () {
+      this.$emit('delete-product', this.editItem.id)
+      this.$emit('input', false)
     }
   }
 }

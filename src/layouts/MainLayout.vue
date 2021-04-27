@@ -50,6 +50,9 @@ export default {
         },
         {
           name: 'Notifications'
+        },
+        {
+          name: 'Banners'
         }
       ],
       menu: false
@@ -150,6 +153,13 @@ export default {
               &.active {
                 background-color: #005CB9;
                 background-image: url('../assets/icons/menu/notifications-select.svg');
+              }
+            }
+            &.banners{
+              background-image: url('../assets/icons/menu/banners.svg');
+              &.active {
+                background-color: #005CB9;
+                background-image: url('../assets/icons/menu/banners-select.svg');
               }
             }
           }

@@ -9,7 +9,7 @@
     <transition name="slide-fade">
       <div class="menu" v-if="value">
         <p
-            @click="$router.push('auth')"
+            @click="logOut"
             class="title">Logout</p>
       </div>
     </transition>
@@ -24,6 +24,10 @@ export default {
     openClose () {
       this.menu = !this.menu
       this.$emit('input', this.menu)
+    },
+    logOut() {
+      localStorage.removeItem('token')
+      this.$router.push('auth')
     }
   }
 }

@@ -19,24 +19,13 @@ export default {
     POST: async (endpoint, data, token, formdata) => await makeRequest({type: 'POST', endpoint, data, token, formdata}),
     PUT: async (endpoint, data, token, params) => await makeRequest({type: 'PUT', endpoint, data, params, token}),
     DELETE: async (endpoint, token) => await makeRequest({type: 'DELETE', endpoint, token}),
-    PATCH: async (endpoint, data, token) => await makeRequest({type: 'PATCH', endpoint, data, token}),
+    PATCH: async (endpoint, data, token, formdata) => await makeRequest({type: 'PATCH', endpoint, data, token, formdata}),
 }
-//get product
-//put product
-//post product
-//delete product
-//get category
 //put category
-//post category
 //delete category
-
-//get banner
-//post banner
-//delete banner
 
 //get order
 //get order/{id}
-
 
 //get customer
 //put customer
