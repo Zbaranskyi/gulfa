@@ -1,6 +1,10 @@
+// ordersId: null
+// subscriptionIsActive: false
+
+
 export const customers = [
     {
-        // "id": "6ea4c4fd-ea5e-4218-9d34-9dc19724cc13",
+        "id": "6ea4c4fd-ea5e-4218-9d34-9dc9724cc13",
         "name": "nikita",
         "lastName": "loginov",
         "number": "0671112233",
@@ -11,6 +15,7 @@ export const customers = [
         subscription: 'Active'
     },
     {
+        "id": "6ea4c4fd-ea5e-4218-9d34-9dc19724cc3",
         name: 'Andrey',
         lastName: 'Smith',
         number: '+ 123 456 7890',
@@ -21,6 +26,7 @@ export const customers = [
         subscription: 'Active'
     },
     {
+        "id": "6ea4c4fd-ea5e-4218-9d34-9dc19724cc3",
         name: 'Max',
         lastName: 'Smith',
         number: '+ 123 456 7890',

@@ -4,6 +4,7 @@
         deleteButton
         @close="$emit('input', false)"
         @delete-product="confirmDelete=true"
+        @btn-click="saveChanges"
         :value="value">
       <template #title>
         Customer Profile
@@ -14,47 +15,47 @@
             <div class="info-row">
               <InputWithLabel
                   title="First Name"
-                  v-model="name"
+                  v-model="editCustomer.name"
                   :width="50"
               />
               <InputWithLabel
                   title="Last Name"
-                  v-model="lastName"
+                  v-model="editCustomer.lastName"
                   :width="50"
               />
             </div>
             <div class="info-row">
               <InputWithLabel
                   title="Phone Number"
-                  v-model="number"
+                  v-model="editCustomer.number"
                   :width="50"
               />
               <InputWithLabel
                   title="Birthday"
-                  v-model="birthday"
+                  v-model="editCustomer.birthday"
                   :width="50"
               />
             </div>
             <div class="info-row">
               <InputWithLabel
                   title="City"
-                  v-model="city"
+                  v-model="editCustomer.city"
                   :width="50"
               />
               <InputWithLabel
                   title="Family Members"
-                  v-model="family"
+                  v-model="editCustomer.family"
                   :width="50"
               />
             </div>
             <div class="info-row">
               <InputWithLabel
                   title="Subscription"
-                  v-model="subscription"
+                  v-model="editCustomer.subscription"
                   :width="50"
               />
             </div>
-            <p><span>Orders:</span> {{orders.join(', ')}}</p>
+            <p><span>Orders:</span> {{editCustomer.orders.join(', ')}}</p>
           </div>
         </div>
       </template>
@@ -65,6 +66,7 @@
     <confirmation-delete
         v-if="confirmDelete"
         v-model="confirmDelete"
+        @delete-product="deleteCustomer"
     />
   </div>
 </template>
@@ -79,26 +81,29 @@ export default {
   components: {ConfirmationDelete, InputWithLabel, ModalWindow},
   data () {
     return {
-      name: '',
-      lastName: '',
-      number: '',
-      birthday: '',
-      city: '',
-      family: '',
-      subscription: '',
-      orders: [],
+      editCustomer: {
+        name: '',
+        lastName: '',
+        number: '',
+        birthday: '',
+        city: '',
+        family: '',
+        subscription: '',
+        orders: [],
+      },
       confirmDelete: false
+
     }
   },
   created() {
-    this.name = this.customer.name
-    this.lastName = this.customer.lastName
-    this.number = this.customer.number
-    this.birthday = this.customer.birthday
-    this.city = this.customer.city
-    this.family = this.customer.family
-    this.subscription = this.customer.subscription
-    this.orders = this.customer.orders
+    this.editCustomer.name = this.customer.name
+    this.editCustomer.lastName = this.customer.lastName
+    this.editCustomer.number = this.customer.number
+    this.editCustomer.birthday = this.customer.birthday
+    this.editCustomer.city = this.customer.city
+    this.editCustomer.family = this.customer.family
+    this.editCustomer.subscription = this.customer.subscription
+    this.editCustomer.orders = this.customer.orders
   },
   props: {
     value: {
@@ -109,6 +114,17 @@ export default {
       type: Object
     }
   },
+  methods: {
+    deleteCustomer () {
+      this.$emit('delete-customer', this.customer.id)
+      this.$emit('input', false)
+    },
+    saveChanges () {
+
+      this.$emit('save-changes', this.editCustomer, this.customer.id)
+      this.$emit('input', false)
+    }
+  }
 }
 </script>
 

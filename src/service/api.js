@@ -27,9 +27,7 @@ export default {
 //get order
 //get order/{id}
 
-//get customer
 //put customer
-//delete customer
 
 //get driver
 //put driver

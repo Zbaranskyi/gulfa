@@ -11,8 +11,8 @@
     <div class="content">
       <div class="item" v-for="(row, n) of sortedInfo" :key="n">
         <span
-            :class="{details: orders && (name === `details`)}"
             v-for="(prop, name) in row"
+            :class="{details: orders && (name === `details`), 'd-none': name === 'id'}"
             :style="width"
             @click="actionClick(row.id, name)"
             :key="`${prop+name}`">
@@ -119,6 +119,9 @@ export default {
       span.details {
         cursor: pointer;
         text-decoration: underline;
+      }
+      span.d-none {
+        display: none;
       }
     }
   }
