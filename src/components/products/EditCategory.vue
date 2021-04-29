@@ -2,7 +2,7 @@
   <div>
     <modal-window
         deleteButton
-        @close="$emit('input', false)"
+        @close="closeModal"
         @btn-click="saveChanges"
         @delete-product="confirmDelete=true"
         :value="value">
@@ -42,7 +42,7 @@
     <confirmation-delete
         v-if="confirmDelete"
         v-model="confirmDelete"
-        @delete-product="deleteProduct"
+        @delete-product="deleteCategory"
     />
   </div>
 </template>
@@ -69,24 +69,49 @@ export default {
       type: Boolean,
       default: false
     },
-    category: {
-      type: Object
+    categoryId: {
+      type: String
     }
   },
-  created() {
-    this.name = this.category.title
-    this.arName = this.category.titleAr
-    this.image = this.category.imageUri
+  async created() {
+    this.$store.commit('setLoading')
+
+    await this.$store.dispatch('getSelectedCategory', this.categoryId)
+    .then(()=>{
+      this.name = this.getSelectedCategory.title
+      this.arName = this.getSelectedCategory.titleAr
+      this.image = this.getSelectedCategory.imageUri
+    })
+    this.$store.commit('unsetLoading')
+  },
+  computed: {
+    getSelectedCategory () {
+      return this.$store.getters.getSelectedCategory
+    }
   },
   mixins: [encodeImage],
   methods: {
-    saveChanges () {
-      
-    },
-    deleteProduct () {
-      this.$emit('delete-category', this.category.id)
+    async saveChanges () {
+      let id = this.editItemID
+      let formdata = null
+      if (this.file) {
+        formdata = new FormData()
+        formdata.append('File', this.file)
+      }
+      let data = {
+        title: this.name,
+      }
+      await this.$store.dispatch('putCategory', {data, formdata, id})
       this.$emit('input', false)
-    }
+    },
+    async deleteCategory () {
+      await this.$store.dispatch('deleteCategory', this.categoryId)
+      this.$emit('input', false)
+    },
+    closeModal() {
+      this.$store.commit('setSelectedCategory', {})
+      this.$emit('input', false)
+    },
   }
 }
 </script>

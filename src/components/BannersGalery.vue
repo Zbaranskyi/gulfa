@@ -36,9 +36,9 @@ export default {
       this.deletedBannerId = id
       this.confirmDelete = true
     },
-    async deleteBanner () {
+    deleteBanner () {
       this.confirmDelete = false
-      this.$emit('delete-banner', this.deletedBannerId)
+      this.$store.dispatch('deleteBanner', this.deletedBannerId)
       this.deletedBannerId = ''
     }
   }

@@ -92,36 +92,64 @@ export default {
         orders: [],
       },
       confirmDelete: false
-
+    }
+  },
+  computed: {
+    getFullData () {
+      let el = this.$store.getters.getFullData(this.customerID)
+      return {
+        id: el.id,
+        name: el.firstName ?? '',
+        lastName: el.lastName ?? '',
+        number: el.phoneNumber ?? '',
+        birthday: el?.birthDate ? new Intl.DateTimeFormat('en-GB').format(new Date(el.birthDate)) : '',
+        city: el.cityName ?? '',
+        family: String(el.familyMembersCount),
+        lastOrder: el.ordersId?.length ? el.ordersId[0] : '',
+        orders: el.ordersId ?? [],
+        subscription: el.subscriptionIsActive ? 'yes' : ''
+      }
     }
   },
   created() {
-    this.editCustomer.name = this.customer.name
-    this.editCustomer.lastName = this.customer.lastName
-    this.editCustomer.number = this.customer.number
-    this.editCustomer.birthday = this.customer.birthday
-    this.editCustomer.city = this.customer.city
-    this.editCustomer.family = this.customer.family
-    this.editCustomer.subscription = this.customer.subscription
-    this.editCustomer.orders = this.customer.orders
+    this.editCustomer.name = this.getFullData
   },
   props: {
     value: {
       type: Boolean,
       default: false
     },
-    customer: {
-      type: Object
+    customerID: {
+      type: String
     }
   },
   methods: {
     deleteCustomer () {
-      this.$emit('delete-customer', this.customer.id)
+      this.$store.dispatch('deleteCustomer', this.getFullData.id)
       this.$emit('input', false)
     },
-    saveChanges () {
-
-      this.$emit('save-changes', this.editCustomer, this.customer.id)
+    async saveChanges () {
+      let dataCustomer = this.$store.getters.getCustomer(this.getFullData.id)
+      let [day, month, year]  = this.editCustomer.birthday.split("/")
+      let data = {
+        firstName: this.editCustomer.name ? this.editCustomer.name : null,
+        lastName: this.editCustomer.lastName ? this.editCustomer.lastName : null,
+        phoneNumber: this.editCustomer.number ? this.editCustomer.number : null,
+        birthDate: new Date(Date.UTC(+year, month-1, +day)).toJSON(),
+        familyMembersCount: this.editCustomer.family ? Number(this.editCustomer.family) : 0,
+        nationality: dataCustomer.nationality,
+        addressTranslations: [
+          {
+            "culture": "en",
+            "cityName": this.editCustomer.city ? this.editCustomer.city : null,
+            "districtName": dataCustomer.districtName,
+            "street": dataCustomer.street,
+            "building": dataCustomer.building,
+            "apartment": dataCustomer.apartment
+          }
+        ]
+      }
+      await this.$store.dispatch('putCustomer', {data, id: this.getFullData.id})
       this.$emit('input', false)
     }
   }

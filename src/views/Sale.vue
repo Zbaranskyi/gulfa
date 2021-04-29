@@ -77,7 +77,7 @@ export default {
               return {
                 id: order.id,
                 title: order.title,
-                image: '',
+                image: order.imageUri,
                 volume: `${order.volume}LT`,
                 price: `$${order.price*(1-0.01*el.percent)}`
               }

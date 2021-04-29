@@ -47,7 +47,8 @@ export default {
     async addNewBanner () {
       let formdata = new FormData()
       formdata.append('mediafile', this.file)
-      this.$emit('add-banner', formdata)
+      await this.$store.dispatch('postBanner', formdata)
+      this.$emit('input', false)
     }
   }
 }

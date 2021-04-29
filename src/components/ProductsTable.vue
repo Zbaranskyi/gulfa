@@ -15,29 +15,23 @@
     </div>
     <div class="items">
       <product-item
-          @open-modal="modal=true; editItem=item"
+          @open-modal="modal=true; editItemID=item.id"
           v-for="(item, index) of sortedInfo" :key="index" :item="item"
       />
     </div>
     <edit-product
         v-if="modal"
-        :categories="categories"
-        :editItem="editItem"
+        :editItemID="editItemID"
         v-model="modal"
-        @edit-product="$emit('edit-product', $event)"
-        @delete-product="deleteProduct"
     />
     <add-category
         v-if="showAddCategory"
         v-model="showAddCategory"
-        @add-category="$emit('add-category', $event)"
     />
     <edit-category
         v-if="showEditCategory"
-        :category="category"
+        :categoryId="categoryId"
         v-model="showEditCategory"
-        @delete-category="$emit('delete-category', $event)"
-
     />
   </div>
 </template>
@@ -54,13 +48,12 @@ export default {
   components: {EditCategory, AddCategory, EditProduct, ProductItem, BaseButton},
   data() {
     return {
-      createMode: false,
       selectedCategory: 0,
       modal: false,
-      editItem: 'null',
+      editItemID: '',
       showAddCategory: false,
       showEditCategory: false,
-      category: {}
+      categoryId: ''
     }
   },
   props: {
@@ -77,14 +70,15 @@ export default {
   },
   computed: {
     filteredItems() {
-      return this.items.filter(el => el.categoryId === this.categories[this.selectedCategory].id)
+      if(this.items.length) return this.items.filter(el => el.categoryId === this.categories[this.selectedCategory].id)
+      else return []
     },
     sortedInfo() {
       let sort = []
       if (this.value) {
         for (let item of this.filteredItems) {
           for (let prop in item) {
-            if (String(item[prop]).toLowerCase().includes(this.value.toLowerCase())) {
+            if ((prop !== 'id' && prop!== 'categoryId'&& prop !== 'imageUri') && String(item[prop]).toLowerCase().includes(this.value.toLowerCase())) {
               sort.push(item)
               break;
             }
@@ -95,22 +89,10 @@ export default {
     }
   },
   methods: {
-    createNewProduct() {
-      this.createMode = true
-      this.$emit('create-mode')
-    },
-    async closeCreate() {
-      this.createMode = false
-      this.$emit('create-mode')
-      await this.getItems()
-    },
     editCategory (id) {
       this.showEditCategory = true
-      this.category = this.categories.find(el=>el.id === id)
+      this.categoryId = id
     },
-    deleteProduct (id) {
-      this.$emit('delete-product', id)
-    }
   }
 }
 </script>

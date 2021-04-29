@@ -33,7 +33,8 @@
       </div>
     </template>
     <template
-        #button>Save changes</template>
+        #button>Save changes
+    </template>
   </modal-window>
 </template>
 
@@ -45,7 +46,7 @@ import InputWithLabel from "@/components/helpers/InputWithLabel";
 export default {
   name: "AddCategory",
   components: {InputWithLabel, ModalWindow},
-  data () {
+  data() {
     return {
       name: '',
       arName: '',
@@ -60,12 +61,11 @@ export default {
   },
   mixins: [encodeImage],
   methods: {
-    saveChanges () {
+    async saveChanges() {
       let formdata = new FormData()
-      formdata.append('Title', this.name)
       formdata.append('File', this.file)
+      await this.$store.dispatch('postCategory', {formdata, data: {title: this.name}, dataAr: {title: this.arName}})
       this.$emit('input', false)
-      this.$emit('add-category', {formdata, dataAr: {title: this.arName}})
     }
   }
 }
@@ -74,23 +74,26 @@ export default {
 <style scoped lang="scss">
 @import "../../style/variables";
 
-.main-block{
+.main-block {
   display: flex;
   flex-direction: column;
   width: 100%;
   @include fontPoppins(12px, 400, 20px);
-  .image-block{
+
+  .image-block {
     display: flex;
     margin-bottom: 30px;
     justify-content: center;
   }
-  .image{
+
+  .image {
     width: 150px;
     height: 100px;
     border: 1px dashed #E7E6E6;
     border-radius: 10px;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
   }
+
   .image-cropper {
     width: 150px;
     height: 100px;
@@ -105,13 +108,16 @@ export default {
     align-items: center;
     margin: 0 20px;
   }
+
   .info {
     display: flex;
     flex-direction: column;
+
     &-row {
       margin-top: 10px;
       display: flex;
-      &.descriptions{
+
+      &.descriptions {
         //justify-content: space-between;
       }
     }

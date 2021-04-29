@@ -2,7 +2,7 @@
   <div>
     <modal-window
         deleteButton
-        @close="$emit('input', false)"
+        @close="closeModal"
         @btn-click="saveChanges"
         @delete-product="confirmDelete=true"
         :value="value">
@@ -14,7 +14,7 @@
           <div class="select-category">
             <p>Select Category</p>
             <select id="select-category" v-model="category">
-              <option v-for="item of categories" :value="item.id" :key="item.id">{{item.title}}</option>
+              <option v-for="item of getCategories" :value="item.id" :key="item.id">{{ item.title }}</option>
             </select>
           </div>
           <div class="image-block">
@@ -78,7 +78,8 @@
         </div>
       </template>
       <template
-          #button>Save changes</template>
+          #button>Save changes
+      </template>
     </modal-window>
 
     <confirmation-delete
@@ -92,6 +93,7 @@
 <script>
 import ModalWindow from "@/components/ModalWindow";
 import encodeImage from "@/mixins/encodeImage";
+
 import InputWithLabel from "@/components/helpers/InputWithLabel";
 import TextareaWithLabel from "@/components/helpers/TextareaWithLabel";
 import ConfirmationDelete from "../helpers/ConfirmationDelete";
@@ -99,7 +101,7 @@ import ConfirmationDelete from "../helpers/ConfirmationDelete";
 export default {
   name: "EditProduct",
   components: {ConfirmationDelete, TextareaWithLabel, InputWithLabel, ModalWindow},
-  data () {
+  data() {
     return {
       volume: '',
       price: '',
@@ -118,29 +120,40 @@ export default {
       type: Boolean,
       default: false
     },
-    editItem: {
-      type: Object
-    },
-    categories: {
-      type: Array
+    editItemID: {
+      type: String
     }
   },
-  mounted() {
-    this.volume = `${this.editItem.volume}`
-    this.price = `${this.editItem.price}`
-    this.name = this.editItem.title
-    this.arName = this.editItem.titleAr
-    this.arDescript = this.editItem.descriptionAr
-    this.image = this.editItem.imageUri
-    this.descript = this.editItem.description
-    this.category = this.editItem.categoryId
+  async created() {
+    this.$store.commit('setLoading')
+    await this.$store.dispatch('getSelectedProduct', this.editItemID)
+        .then(() => {
+          this.volume = `${this.getSelectedProduct.volume}`
+          this.price = `${this.getSelectedProduct.price}`
+          this.name = this.getSelectedProduct.title
+          this.arName = this.getSelectedProduct.titleAr
+          this.arDescript = this.getSelectedProduct.descriptionAr
+          this.image = this.getSelectedProduct.imageUri
+          this.descript = this.getSelectedProduct.description
+          this.category = this.getSelectedProduct.categoryId
+        })
+    this.$store.commit('unsetLoading')
+
+  },
+  computed: {
+    getSelectedProduct() {
+      return this.$store.getters.getSelectedProduct
+    },
+    getCategories() {
+      return this.$store.state.products.categories
+    }
   },
   mixins: [encodeImage],
   methods: {
-    saveChanges () {
-      let id = this.editItem.id
+    async saveChanges() {
+      let id = this.editItemID
       let formdata = null
-      if(this.file) {
+      if (this.file) {
         formdata = new FormData()
         formdata.append('file', this.file)
       }
@@ -151,11 +164,23 @@ export default {
         title: this.name,
         volume: this.volume
       }
-      this.$emit('edit-product', {data, formdata, id})
+      await this.$store.dispatch('putProduct', {data, formdata, id})
       this.$emit('input', false)
     },
-    deleteProduct () {
-      this.$emit('delete-product', this.editItem.id)
+    closeModal() {
+      this.$store.commit('setSelectedProduct', {})
+      this.$emit('input', false)
+    },
+    async deleteProduct() {
+      this.initLoading()
+      await this.$store.dispatch('deleteProduct', this.editItemID)
+          .then(() => {
+            this.$emit('success-action')
+          })
+          .catch(() => {
+            this.$emit('error-action')
+          })
+      await this.loading.close();
       this.$emit('input', false)
     }
   }
@@ -165,21 +190,23 @@ export default {
 <style scoped lang="scss">
 @import "../../style/variables";
 
-.main-block{
+.main-block {
   display: flex;
   flex-direction: column;
   @include fontPoppins(12px, 400, 20px);
 
-  .select-category{
+  .select-category {
     position: relative;
     margin: 0 0 20px;
+
     select {
       border: 1px solid #E8E8E8;
       border-radius: 10px;
       padding: 10px;
       cursor: pointer;
     }
-    p{
+
+    p {
       //&:after{
       //  position: absolute;
       //  display: block;
@@ -195,17 +222,20 @@ export default {
     }
 
   }
-  .image-block{
+
+  .image-block {
     display: flex;
     margin-bottom: 30px;
   }
-  .image{
+
+  .image {
     width: 150px;
     height: 100px;
     border: 1px dashed #E7E6E6;
     border-radius: 10px;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
   }
+
   .image-cropper {
     width: 150px;
     height: 100px;
@@ -220,12 +250,15 @@ export default {
     align-items: center;
     margin: 0 20px;
   }
+
   .info {
     display: flex;
     flex-direction: column;
+
     &-row {
       display: flex;
-      &.descriptions{
+
+      &.descriptions {
         //justify-content: space-between;
       }
     }

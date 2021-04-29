@@ -10,13 +10,12 @@
       <div class="main-block">
         <div class="select-category">
           <p>Select Category</p>
-          <select id="select-category" v-model="category">
-            <option v-for="item of categories" :value="item.id" :key="item.id">{{item.title}}</option>
+          <select id="select-category" v-model="data.categoryId">
+            <option v-for="item of getCategories" :value="item.id" :key="item.id">{{item.title}}</option>
           </select>
         </div>
         <div class="image-block">
           <img v-if="base64Img" class="image" :src="base64Img" alt="">
-          <img v-else-if="image" class="image" :src="image" alt="">
           <div v-else class="image"></div>
           <label class="image-cropper" for="file">Upload new image</label>
           <input style="display: none" type="file" id="file" @change="onChangeFileUpload"/>
@@ -25,25 +24,25 @@
           <div class="info-row">
             <InputWithLabel
                 title="Name"
-                v-model="name"
+                v-model="data.title"
                 :width="50"
             />
             <InputWithLabel
                 title="Arabic Name"
                 align="right"
-                v-model="arName"
+                v-model="dataAr.title"
                 :width="50"
             />
           </div>
           <div class="info-row descriptions">
             <TextareaWithLabel
                 title="Description"
-                v-model="descript"
+                v-model="data.description"
                 :width="50"
             />
             <TextareaWithLabel
                 title="Arabic Description"
-                v-model="arDescript"
+                v-model="dataAr.description"
                 align="right"
                 :width="50"
             />
@@ -51,14 +50,14 @@
           <div class="info-row">
             <InputWithLabel
                 title="Price"
-                v-model="price"
+                v-model="data.price"
                 inputType="number"
                 :width="25"
                 inputLabel="$"
             />
             <InputWithLabel
                 title="Volume"
-                v-model="volume"
+                v-model="data.volume"
                 inputType="number"
                 :width="40"
                 inputLabel="LT"
@@ -83,46 +82,38 @@ export default {
   components: {TextareaWithLabel, InputWithLabel, ModalWindow},
   data () {
     return {
-      volume: '',
-      price: '',
-      newPrice: '',
-      name: '',
-      arName: '',
-      descript: '',
-      arDescript: '',
-      image: null,
-      category: ''
-    }
-  },
-  created() {
-    this.category = this.categories[0].id
-  },
-  props: {
-    value: {
-      type: Boolean,
-      default: false
-    },
-    categories: {
-      type: Array
-    }
-  },
-  mixins: [encodeImage],
-  methods: {
-    saveChanges () {
-      let data = {
+      data: {
         description: this.descript,
         price: this.price,
         title: this.name,
         volume: this.volume,
         categoryId: this.category
-      }
-      let dataAr = {
+      },
+      dataAr: {
         description: this.arDescript,
         title: this.arName,
-      }
+      },
+      newPrice: '',
+    }
+  },
+  props: {
+    value: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    getCategories() {
+      return this.$store.state.products.categories
+    }
+  },
+  mixins: [encodeImage],
+  methods: {
+    async saveChanges () {
       let formdata = new FormData()
       formdata.append('file', this.file)
-      this.$emit('add-product', data, dataAr, formdata)
+      await this.$store.dispatch('postProduct', {data: this.data, dataAr: this.dataAr, formdata})
+      this.$emit('input', false)
     }
   }
 }
