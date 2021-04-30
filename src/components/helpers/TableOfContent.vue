@@ -12,7 +12,7 @@
       <div class="item" v-for="(row, n) of sortedInfo" :key="n">
         <span
             v-for="(prop, name) in row"
-            :class="{details: orders && (name === `details`), 'd-none': name === 'id'}"
+            :class="{details: orders && (name === `details`), 'd-none': (name === 'id' && !withID)}"
             :style="width"
             @click="actionClick(row.id, name)"
             :key="`${prop+name}`">
@@ -45,6 +45,10 @@ export default {
       default: false
     },
     edit: {
+      type: Boolean,
+      default: false
+    },
+    withID: {
       type: Boolean,
       default: false
     }

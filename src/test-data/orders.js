@@ -47,19 +47,19 @@ export const tableOrders = [
 ]
 export const detailOrders = [
     {
-        id: '#123451',
+        id: '#123451',//
         name: 'Andrey Smith',
         date: '05/03/2021 13:51 PM',
         delivery: '05/03/2021 12:00 - 15:00',
-        address: 'Address details',
+        address: 'Address details',//
         driver: 'Robert Flores',
-        deliveryDate: '05/03/2021 12:00 - 15:00',
+        deliveryDate: '05/03/2021 12:00 - 15:00',//
         orders: [
             {
-                name: 'Buxton Pure Lite',
-                volume: '3 LT',
-                price: '$ 12,99',
-                quantity: 'x2',
+                name: 'Buxton Pure Lite',//
+                volume: '3 LT',//
+                price: '$ 12,99',//
+                quantity: 'x2',//
                 priceAll: '$ 25,98',
                 substription: {
                     date: 'Thursday',
@@ -76,7 +76,7 @@ export const detailOrders = [
             }
         ],
         total: '$99.99',
-        payStatus: 'Paid',
+        payStatus: 'Paid',//
         payMethod: 'Credit Card',
     },
     {
@@ -212,4 +212,35 @@ export const detailOrders = [
         payMethod: 'Credit Card',
     },
 ]
-
+export const modelOrder = [
+    {
+        id: '#123451',//
+        firstName: 'Andrey',
+        lastName: 'Smith',
+        creationDate: '05/03/2021 13:51 PM',
+        address: {
+            "cityName": "cityName",
+            "districtName": "districtName",
+            "street": "street",
+            "building": "building",
+            "apartment": "apartment"
+        },
+        driver: 'Robert Flores',
+        deliveryDate: '05/03/2021 12:00 - 15:00',//
+        orders: [
+            {
+                "title": "string",
+                "volume": 0,
+                "count": 2,
+                "price": 20,
+            },
+            {
+                "title": "string",
+                "volume": 0,
+                "count": 3,
+                "price": 10,
+            }
+        ],
+        status: 'Paid',//
+    }
+]

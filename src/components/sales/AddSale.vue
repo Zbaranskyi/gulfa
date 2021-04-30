@@ -8,20 +8,19 @@
     <template #default>
       <div class="main-block">
         <div class="info">
-          <div class="select-category">
-            <p>Select Type of Sale</p>
-            <select v-model="type">
-              <option v-for="item of typesSales" :value="item.id" :key="item.id">{{item.title}}</option>
-            </select>
-          </div>
-          <div class="info-row" v-if="type === '1'">
+<!--          <div class="select-category">-->
+<!--            <p>Select Type of Sale</p>-->
+<!--            <select v-model="type">-->
+<!--              <option v-for="item of typesSales" :value="item.id" :key="item.id">{{item.title}}</option>-->
+<!--            </select>-->
+<!--          </div>-->
+          <div class="info-row">
             <InputWithLabel
                 title="Select - %"
                 v-model="percent"
                 :width="40"
                 inputType="number"
                 inputLabel="%"
-
             />
           </div>
           <div>
@@ -78,19 +77,8 @@ export default {
   components: {TextareaWithLabel, InputWithLabel, ModalWindow},
   data () {
     return {
-      type:'0',
-      typesSales: [
-        {
-          id: '0',
-          title: 'Sale 5 + 1'
-        },
-        {
-          id: '1',
-          title: 'Sale %'
-        }
-      ],
       title: '',
-      percent: 0,
+      percent: '0',
       descript: '',
       products: products,
       fromDate: '',

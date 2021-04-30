@@ -4,6 +4,7 @@
         @search="searchValue = $event"
     />
     <TableOfContent
+        withID
         :titles="titles"
         :info="data"
         v-model="searchValue"
@@ -40,6 +41,9 @@ export default {
       details: false,
       selectId: '#123451'
     }
+  },
+  async created() {
+    await this.$store.dispatch('getOrders')
   },
   methods: {
     showDetails (id) {
