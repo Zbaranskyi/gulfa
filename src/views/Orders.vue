@@ -6,7 +6,7 @@
     <TableOfContent
         withID
         :titles="titles"
-        :info="data"
+        :info="getOrders"
         v-model="searchValue"
         orders
         @show-details="showDetails"
@@ -39,11 +39,16 @@ export default {
       data: tableOrders,
       searchValue: '',
       details: false,
-      selectId: '#123451'
+      selectId: ''
     }
   },
   async created() {
     await this.$store.dispatch('getOrders')
+  },
+  computed: {
+    getOrders () {
+      return this.$store.getters.getSimpleOrdersInformation
+    }
   },
   methods: {
     showDetails (id) {

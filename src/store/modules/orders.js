@@ -25,11 +25,11 @@ export default {
         getSimpleOrdersInformation (state) {
             return state.data.map(el=>({
                 id: el.id,
-                name: `${el.firstName} ${el.lastName}`,
-                date: el.creationDate,
-                total: el.orders.reduce((acc, order)=>acc+(order.price*order.count), 0),
+                name: el.customerName,
+                date: el.createDate,
+                total: `${el.ordersShopItems.reduce((acc, order)=>acc+(order.price*order.count), 0)} $`,
                 payStatus: el.status,
-                payMethod: '----',
+                payMethod: '??????',
                 details: 'View Details'
             }))
         }

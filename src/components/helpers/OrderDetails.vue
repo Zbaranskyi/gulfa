@@ -4,35 +4,34 @@
       orders
       withoutButton
       :value="value">
-    <template #title>
-      Order {{order.id}}
+    <template #title v-if="order">
+      Order {{ order.id }}
     </template>
     <template #default>
       <div class="all-details">
         <div class="details">
-          <p><span>Customer: </span>{{order.name}}</p>
-          <p><span>Order Date&Time: </span>{{order.date}}</p>
-          <p><span>Delivery: </span>{{order.delivery}}</p>
-          <p><span>Address: </span>{{order.address}}</p>
+          <p><span>Customer: </span>{{order.customerName}}</p>
+          <p><span>Order Date&Time: </span>{{order.createDate}}</p>
+          <p><span>Delivery: </span>{{order.deliveryDate}}</p>
+          <p><span>Address: </span>{{address}}</p>
         </div>
         <div class="details driver">
-          <p><span>Driver: </span>{{order.driver}}</p>
           <p><span>Delivery Date&Time: </span>{{order.deliveryDate}}</p>
         </div>
         <div class="details-orders">
-          <div class="order" v-for="(item, index) of order.orders" :key="index">
-            <p class="order-item-bold">{{index+1}}. {{item.name}}</p>
-            <p class="order-item-bold">{{item.volume}}</p>
-            <p>{{item.price}}</p>
-            <p>{{item.quantity}}</p>
-            <p>{{item.priceAll}}</p>
-            <p v-if="item.substription" class="order-subscription">Subscription <span>{{item.substription.date}} {{item.substription.time}}</span></p>
+          <div class="order" v-for="(item, index) of order.ordersShopItems" :key="index">
+            <p class="order-item-bold">{{index+1}}. {{item.title}}</p>
+            <p class="order-item-bold">{{item.volume}} LT</p>
+            <p>$ {{item.price}}</p>
+            <p>x{{item.count}}</p>
+            <p>$ {{ (item.price*item.count).toFixed(2) }}</p>
+<!--            <p v-if="item.substription" class="order-subscription">Subscription <span>{{item.substription.date}} {{item.substription.time}}</span></p>-->
           </div>
         </div>
         <div class="details-bottom">
-          <p><span>Total Price: </span>{{order.total}}</p>
-          <p><span>Status: </span>{{order.payStatus}}</p>
-          <p><span>Payment Method: </span>{{order.payMethod}}</p>
+          <p><span>Total Price: </span>{{totalPrice}}</p>
+          <p><span>Status: </span>{{order.status}}</p>
+          <p><span>Payment Method: </span>???????</p>
         </div>
       </div>
     </template>
@@ -40,7 +39,6 @@
 </template>
 
 <script>
-import {detailOrders} from "@/test-data/orders";
 import ModalWindow from "@/components/ModalWindow";
 
 export default {
@@ -57,11 +55,18 @@ export default {
   },
   computed: {
     order () {
-      return detailOrders.find(el=>el.id === this.selectId)
+      return this.$store.state.orders.data.find(el=>el.id === this.selectId)
+    },
+    address () {
+      if(this.order) {
+        return `${this.order?.cityName}, ${this.order?.districtName}, ${this.order?.street}, ${this.order?.building}, ${this.order?.apartment}`
+      } else return ''
+    },
+    totalPrice () {
+      if (this.order.ordersShopItems.length) {
+        return this.order.ordersShopItems.reduce((acc, order)=>acc+(order.price*order.count), 0)
+      } else return '0'
     }
-  },
-  mounted() {
-    console.log(this.order)
   }
 }
 </script>
