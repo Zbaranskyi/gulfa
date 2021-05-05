@@ -164,7 +164,12 @@ export default {
         title: this.name,
         volume: this.volume
       }
-      await this.$store.dispatch('putProduct', {data, formdata, id})
+      let dataAr = {
+        ...data,
+        title: this.arName,
+        description: this.arDescript
+      }
+      await this.$store.dispatch('putProduct', {data, formdata, dataAr, id})
       this.$emit('input', false)
     },
     closeModal() {

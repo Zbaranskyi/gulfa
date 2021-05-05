@@ -92,7 +92,7 @@ export default {
   mixins: [encodeImage],
   methods: {
     async saveChanges () {
-      let id = this.editItemID
+      let id = this.categoryId
       let formdata = null
       if (this.file) {
         formdata = new FormData()
@@ -101,7 +101,10 @@ export default {
       let data = {
         title: this.name,
       }
-      await this.$store.dispatch('putCategory', {data, formdata, id})
+      let dataAr = {
+        title: this.arName
+      }
+      await this.$store.dispatch('putCategory', {data, formdata,dataAr, id})
       this.$emit('input', false)
     },
     async deleteCategory () {

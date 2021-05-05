@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     filteredItems() {
-      if(this.items.length) return this.items.filter(el => el.categoryId === this.categories[this.selectedCategory].id)
+      if(this.items.length && this.categories.length) return this.items.filter(el => el.categoryId === this.categories[this.selectedCategory].id)
       else return []
     },
     sortedInfo() {

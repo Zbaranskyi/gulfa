@@ -101,10 +101,11 @@ export default {
                 commit('unsetLoading')
             }
         },
-        async putProduct({dispatch, rootState, commit}, {data, formdata, id}) {
+        async putProduct({dispatch, rootState, commit}, {data, formdata,dataAr, id}) {
             commit('setLoading')
             try {
-                await api.PUT(`/shopitems/${id}`, data, rootState.token)
+                await api.PUT(`/shopitems/${id}/localization?culture=en`, data, rootState.token)
+                await api.PUT(`/shopitems/${id}/localization?culture=ar`, dataAr, rootState.token)
                 if (formdata) {
                     await dispatch('patchPhotoProduct', {id, formdata})
                 }
@@ -116,10 +117,11 @@ export default {
                 commit('unsetLoading')
             }
         },
-        async putCategory({dispatch, rootState, commit}, {data, formdata, id}) {
+        async putCategory({dispatch, rootState, commit}, {data, formdata, dataAr, id}) {
             commit('setLoading')
             try {
                 await api.PUT(`/categories/${id}`, data, rootState.token)
+                await api.PUT(`/categories/${id}?culture=ar`, dataAr, rootState.token)
                 if (formdata) {
                     await dispatch('patchPhotoCategory', {id, formdata})
                 }
