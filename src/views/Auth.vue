@@ -119,6 +119,7 @@ export default {
         .then(res=>{
           let token = res.data.token
           localStorage.setItem('token', token)
+          this.$store.commit('setToken', token)
           this.$router.push('/')
         })
         .catch(e=>{

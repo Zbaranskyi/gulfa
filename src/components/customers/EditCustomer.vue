@@ -33,6 +33,7 @@
               <InputWithLabel
                   title="Birthday"
                   v-model="editCustomer.birthday"
+                  inputType="date"
                   :width="50"
               />
             </div>
@@ -51,6 +52,7 @@
             <div class="info-row">
               <InputWithLabel
                   title="Subscription"
+                  readonly
                   v-model="editCustomer.subscription"
                   :width="50"
               />
@@ -102,7 +104,7 @@ export default {
         name: el.firstName ?? '',
         lastName: el.lastName ?? '',
         number: el.phoneNumber ?? '',
-        birthday: el?.birthDate ? new Intl.DateTimeFormat('en-GB').format(new Date(el.birthDate)) : '',
+        birthday: el?.birthDate ? el.birthDate.substring(0,10) : '',
         city: el.cityName ?? '',
         family: String(el.familyMembersCount),
         lastOrder: el.ordersId?.length ? el.ordersId[0] : '',
@@ -112,7 +114,7 @@ export default {
     }
   },
   created() {
-    this.editCustomer.name = this.getFullData
+    this.editCustomer = this.getFullData
   },
   props: {
     value: {
@@ -130,12 +132,11 @@ export default {
     },
     async saveChanges () {
       let dataCustomer = this.$store.getters.getCustomer(this.getFullData.id)
-      let [day, month, year]  = this.editCustomer.birthday.split("/")
       let data = {
         firstName: this.editCustomer.name ? this.editCustomer.name : null,
         lastName: this.editCustomer.lastName ? this.editCustomer.lastName : null,
         phoneNumber: this.editCustomer.number ? this.editCustomer.number : null,
-        birthDate: new Date(Date.UTC(+year, month-1, +day)).toJSON(),
+        birthDate: this.editCustomer.birthday,
         familyMembersCount: this.editCustomer.family ? Number(this.editCustomer.family) : 0,
         nationality: dataCustomer.nationality,
         addressTranslations: [
@@ -149,6 +150,7 @@ export default {
           }
         ]
       }
+      console.log(data);
       await this.$store.dispatch('putCustomer', {data, id: this.getFullData.id})
       this.$emit('input', false)
     }

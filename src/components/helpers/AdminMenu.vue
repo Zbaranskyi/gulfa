@@ -27,6 +27,7 @@ export default {
     },
     logOut() {
       localStorage.removeItem('token')
+      this.$store.commit('setToken', '')
       this.$router.push('auth')
     }
   }

@@ -29,9 +29,6 @@ export default {
 
 //put customer
 
-//get driver
-//put driver
-//post driver
 //delete driver
 
 //get payment

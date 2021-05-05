@@ -4,6 +4,7 @@
       @search="searchValue = $event"
   />
   <TableOfContent
+      withID
       :titles="titles"
       :info="payments"
       v-model="searchValue"

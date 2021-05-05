@@ -28,8 +28,8 @@ export const customersHeaders = [
 export const driversHeaders = [
     'Name',
     'Last Name',
-    'Phone Number',
     'Email',
+    'Phone Number',
     'Employee ID',
     'edit'
 ]

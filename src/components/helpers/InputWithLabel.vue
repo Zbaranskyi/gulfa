@@ -2,7 +2,7 @@
   <div class="input" :style="`width: ${width}%`">
     <p class="label">{{ title }}</p>
     <div style="display: flex; align-items: center">
-      <input :style="`text-align: ${align}`" :value="value" :type="inputType" @input="$emit('input', $event.target.value)">
+      <input :style="`text-align: ${align}`" :readonly="readonly" :value="value" :type="inputType" @input="$emit('input', $event.target.value)">
       <span class="label">{{inputLabel}}</span>
     </div>
   </div>
@@ -40,6 +40,10 @@ export default {
     inputType: {
       type: String,
       default: 'text'
+    },
+    readonly: {
+      type: Boolean,
+      default: false
     }
   }
 }

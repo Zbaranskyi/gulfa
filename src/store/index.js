@@ -21,6 +21,9 @@ export default new Vuex.Store({
         },
         unsetLoading(state) {
             state.loading.close()
+        },
+        setToken (state, token) {
+            state.token = token
         }
     },
     getters: {},

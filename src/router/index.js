@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from "vue-router";
-let token = localStorage.getItem('token')
 
 Vue.use(VueRouter)
 
@@ -21,7 +20,7 @@ const routes = [
     {name: 'auth',path: '/auth/:mode', meta: {layout: 'auth'}, component: Auth},
     {name: 'deliveries',path: '/deliveries', meta: {layout: 'main'}, component: Deliveries,
         beforeEnter(to, from, next) {
-            if (token) {
+            if (localStorage.getItem('token')) {
                 next();
             } else {
                 next({path: '/auth/signin'});
@@ -29,7 +28,7 @@ const routes = [
         }},
     {name: 'drivers',path: '/drivers', meta: {layout: 'main'}, component: Drivers,
         beforeEnter(to, from, next) {
-            if (token) {
+            if (localStorage.getItem('token')) {
                 next();
             } else {
                 next({path: '/auth/signin'});
@@ -37,7 +36,7 @@ const routes = [
         }},
     {name: 'orders',path: '/orders', meta: {layout: 'main'}, component: Orders,
         beforeEnter(to, from, next) {
-            if (token) {
+            if (localStorage.getItem('token')) {
                 next();
             } else {
                 next({path: '/auth/signin'});
@@ -45,7 +44,7 @@ const routes = [
         }},
     {name: 'notifications',path: '/notifications', meta: {layout: 'main'}, component: Notifications,
         beforeEnter(to, from, next) {
-            if (token) {
+            if (localStorage.getItem('token')) {
                 next();
             } else {
                 next({path: '/auth/signin'});
@@ -53,7 +52,7 @@ const routes = [
         }},
     {name: 'payments',path: '/payments', meta: {layout: 'main'}, component: Payments,
         beforeEnter(to, from, next) {
-            if (token) {
+            if (localStorage.getItem('token')) {
                 next();
             } else {
                 next({path: '/auth/signin'});
@@ -61,7 +60,7 @@ const routes = [
         }},
     {name: 'products',path: '/products', meta: {layout: 'main'}, component: Products,
         beforeEnter(to, from, next) {
-            if (token) {
+            if (localStorage.getItem('token')) {
                 next();
             } else {
                 next({path: '/auth/signin'});
@@ -69,7 +68,7 @@ const routes = [
         }},
     {name: 'sale',path: '/sale', meta: {layout: 'main'}, component: Sale,
         beforeEnter(to, from, next) {
-            if (token) {
+            if (localStorage.getItem('token')) {
                 next();
             } else {
                 next({path: '/auth/signin'});
@@ -77,7 +76,7 @@ const routes = [
         }},
     {name: 'customers',path: '/customers', meta: {layout: 'main'}, component: Users,
         beforeEnter(to, from, next) {
-            if (token) {
+            if (localStorage.getItem('token')) {
                 next();
             } else {
                 next({path: '/auth/signin'});
@@ -85,7 +84,7 @@ const routes = [
         }},
     {name: 'banners', path: '/banners', meta: {layout: 'main'}, component: Banners,
         beforeEnter(to, from, next) {
-            if (token) {
+            if (localStorage.getItem('token')) {
                 next();
             } else {
                 next({path: '/auth/signin'});
