@@ -1,5 +1,6 @@
 <template>
   <modal-window
+      @btn-click="postNewDriver"
       @close="$emit('input', false)"
       :value="value">
     <template #title>
@@ -11,24 +12,31 @@
           <div class="info-row">
             <InputWithLabel
                 title="First Name"
-                v-model="name"
+                v-model="driver.firstName"
                 :width="50"
             />
             <InputWithLabel
                 title="Last Name"
-                v-model="lastName"
+                v-model="driver.lastName"
                 :width="50"
             />
           </div>
           <div class="info-row">
             <InputWithLabel
                 title="Phone Number"
-                v-model="number"
+                v-model="driver.phoneNumber"
                 :width="50"
             />
             <InputWithLabel
                 title="Email"
-                v-model="email"
+                v-model="driver.email"
+                :width="50"
+            />
+          </div>
+          <div class="info-row">
+            <InputWithLabel
+                title="Password"
+                v-model="driver.password"
                 :width="50"
             />
           </div>
@@ -49,16 +57,25 @@ export default {
   components: {InputWithLabel, ModalWindow},
   data () {
     return {
-      name: '',
-      lastName: '',
-      number: '',
-      email: ''
+      driver: {
+        "password": "",
+        "firstName": "",
+        "lastName": "",
+        "email": "",
+        "phoneNumber": ""
+      }
     }
   },
   props: {
     value: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    async postNewDriver () {
+      await this.$store.dispatch('postDriver', this.driver)
+      this.$emit('input', false)
     }
   }
 }

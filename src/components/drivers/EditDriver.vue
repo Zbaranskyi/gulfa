@@ -2,6 +2,7 @@
   <div>
     <modal-window
         deleteButton
+        @btn-click="putDriver"
         @close="$emit('input', false)"
         @delete-product="confirmDelete=true"
         :value="value">
@@ -14,24 +15,24 @@
             <div class="info-row">
               <InputWithLabel
                   title="First Name"
-                  v-model="name"
+                  v-model="driver.firstName"
                   :width="50"
               />
               <InputWithLabel
                   title="Last Name"
-                  v-model="lastName"
+                  v-model="driver.lastName"
                   :width="50"
               />
             </div>
             <div class="info-row">
               <InputWithLabel
                   title="Phone Number"
-                  v-model="number"
+                  v-model="driver.phoneNumber"
                   :width="50"
               />
               <InputWithLabel
                   title="Email"
-                  v-model="email"
+                  v-model="driver.email"
                   :width="50"
               />
             </div>
@@ -44,6 +45,7 @@
     <confirmation-delete
         v-if="confirmDelete"
         v-model="confirmDelete"
+        @delete-product="deleteDriver"
     />
   </div>
 </template>
@@ -58,28 +60,41 @@ export default {
   components: {ConfirmationDelete, InputWithLabel, ModalWindow},
   data () {
     return {
-      name: '',
-      lastName: '',
-      number: '',
-      email: '',
-      confirmDelete: false
+      driver: {
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        email: '',
+      },
+      confirmDelete: false,
     }
   },
   created() {
-    this.name = this.driver.name
-    this.lastName = this.driver.lastName
-    this.number = this.driver.number
-    this.email = this.driver.email
+    let driver = this.$store.getters.getDriver(this.driverId)
+    this.driver.firstName = driver.firstName
+    this.driver.lastName = driver.lastName
+    this.driver.phoneNumber = driver.phoneNumber
+    this.driver.email = driver.email
   },
   props: {
     value: {
       type: Boolean,
       default: false
     },
-    driver: {
-      type: Object
+    driverId: {
+      type: String
     }
   },
+  methods: {
+    async putDriver() {
+      await this.$store.dispatch('putDriver', {data: this.driver, id: this.driverId})
+      this.$emit('input', false)
+    },
+    async deleteDriver() {
+      await this.$store.dispatch('deleteDriver', this.driverId)
+      this.$emit('input', false)
+    },
+  }
 }
 </script>
 

@@ -1,29 +1,29 @@
 export const drivers = [
     {
-        name: 'Andrey',
+        firstName: 'Andrey',
         lastName: 'Smith',
-        number: '+ 123 456 7890',
+        phoneNumber: '+ 123 456 7890',
         email: 'email@gmail.com',
         id: '#123451'
     },
     {
-        name: 'John',
+        firstName: 'John',
         lastName: 'Smith',
-        number: '+ 123 456 7890',
+        phoneNumber: '+ 123 456 7890',
         email: 'email@gmail.com',
         id: '#123452'
     },
     {
-        name: 'Tom',
+        firstName: 'Tom',
         lastName: 'Smith',
-        number: '+ 123 456 7890',
+        phoneNumber: '+ 123 456 7890',
         email: 'email@gmail.com',
         id: '#123453'
     },
     {
-        name: 'Alex',
+        firstName: 'Alex',
         lastName: 'Smith',
-        number: '+ 123 456 7890',
+        phoneNumber: '+ 123 456 7890',
         email: 'email@gmail.com',
         id: '#123454'
     },
