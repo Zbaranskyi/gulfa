@@ -3,8 +3,8 @@
     <button class="item-edit" @click="$emit('edit-item', item.id)"></button>
     <p><span>Title: </span>{{ item.title[lang] }}</p>
     <div class="item-flex">
-      <p><span>Type: </span>{{ item.typeValue }} %</p>
-      <p><span>Validity: </span>{{ item.fromDate }} - {{item.toDate}}</p>
+      <p><span>Discount: </span>{{ item.percent }} %</p>
+      <p><span>Validity: </span>{{ item.startDate }} - {{item.endDate}}</p>
     </div>
     <p><span>Description: </span>{{ item.description[lang] }}</p>
     <p><span>Products:</span></p>
@@ -13,7 +13,7 @@
            v-for="(product, index) of item.products"
            :key="index"
       >
-        <span class="close">+</span>
+<!--        <span class="close">+</span>-->
         <img :src="product.image" alt="">
         <p><span>{{product.title}}</span></p>
         <p>{{product.volume}}</p>
@@ -66,6 +66,7 @@ export default {
   }
   p{
     padding: 10px 0;
+
   }
   .item-flex {
     display: grid;
@@ -98,9 +99,13 @@ export default {
     }
     p {
       padding: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     span {
       padding-right: 0;
+
     }
   }
 }

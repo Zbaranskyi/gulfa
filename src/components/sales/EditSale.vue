@@ -2,8 +2,9 @@
   <div>
     <modal-window
         deleteButton
+        @btn-click="putSale"
         @close="$emit('input', false)"
-        @delete-product="confirmDelete = true"
+        @delete-product="confirmDelete=true"
         :value="value">
       <template #title>
         Edit Sale
@@ -11,20 +12,19 @@
       <template #default>
         <div class="main-block">
           <div class="info">
-            <div class="select-category">
-              <p>Select Type of Sale</p>
-              <select v-model="type">
-                <option v-for="item of typesSales" :value="item.id" :key="item.id">{{item.title}}</option>
-              </select>
-            </div>
-            <div class="info-row" v-if="type === '1'">
+            <!--            <div class="select-category">-->
+            <!--              <p>Select Type of Sale</p>-->
+            <!--              <select v-model="type">-->
+            <!--                <option v-for="item of typesSales" :value="item.id" :key="item.id">{{item.title}}</option>-->
+            <!--              </select>-->
+            <!--            </div>-->
+            <div class="info-row">
               <InputWithLabel
                   title="Select - %"
-                  v-model="percent"
+                  v-model="sale.percent"
                   :width="40"
                   inputType="number"
                   inputLabel="%"
-
               />
             </div>
             <div>
@@ -32,46 +32,62 @@
               <div class="info-row">
                 <InputWithLabel
                     title="From"
-                    v-model="fromDate"
+                    v-model="sale.startDate"
                     :width="50"
+                    inputType="date"
                 />
                 <InputWithLabel
                     title="To"
-                    v-model="toDate"
+                    v-model="sale.endDate"
                     :width="50"
+                    inputType="date"
                 />
               </div>
             </div>
             <div class="info-row">
               <InputWithLabel
                   title="Title"
-                  v-model="title"
-                  :width="100"
+                  v-model="sale.title.en"
+                  :width="50"
+              />
+              <InputWithLabel
+                  title="Title"
+                  v-model="sale.title.ar"
+                  align="right"
+                  :width="50"
               />
             </div>
             <div class="info-row descriptions">
               <TextareaWithLabel
                   title="Description"
-                  v-model="descript"
-                  :width="100"
+                  v-model="sale.description.en"
+                  :width="50"
+              />
+              <TextareaWithLabel
+                  title="Description"
+                  v-model="sale.description.ar"
+                  align="right"
+                  :width="50"
               />
             </div>
             <div class="select-category">
               <p>Select Type of Sale</p>
-              <select >
-                <option v-for="item of products" :value="item.id" :key="item.id">{{item.title}}</option>
+              <select multiple v-model="sale.shopItemsId">
+                <option v-for="item of getProducts" :value="item.id" :key="item.id">{{ item.title }}</option>
               </select>
             </div>
           </div>
         </div>
       </template>
       <template
-          #button>Save changes</template>
+          #button>Save changes
+      </template>
     </modal-window>
-<confirmation-delete
-    v-if="confirmDelete"
-    v-model="confirmDelete"
-/>
+    <confirmation-delete
+        v-if="confirmDelete"
+        v-model="confirmDelete"
+        @delete-product="deleteSale"
+    />
   </div>
 </template>
 
@@ -79,31 +95,27 @@
 import ModalWindow from "@/components/ModalWindow";
 import InputWithLabel from "@/components/helpers/InputWithLabel";
 import TextareaWithLabel from "@/components/helpers/TextareaWithLabel";
-import {products} from "../../test-data/products";
 import ConfirmationDelete from "../helpers/ConfirmationDelete";
 
 export default {
   name: "EditSale",
   components: {ConfirmationDelete, TextareaWithLabel, InputWithLabel, ModalWindow},
-  data () {
+  data() {
     return {
-      type:'0',
-      typesSales: [
-        {
-          id: '0',
-          title: 'Sale 5 + 1'
+      sale: {
+        "percent": '0',
+        "startDate": "",
+        "endDate": "",
+        "shopItemsId": [],
+        "title": {
+          en: '',
+          ar: ''
         },
-        {
-          id: '1',
-          title: 'Sale %'
+        "description": {
+          en: '',
+          ar: ''
         }
-      ],
-      title: '',
-      percent: 0,
-      descript: '',
-      products: products,
-      fromDate: '',
-      toDate: '',
+      },
       confirmDelete: false
     }
   },
@@ -112,17 +124,30 @@ export default {
       type: Boolean,
       default: false
     },
-    sale: {
-      type: Object
+    saleId: {
+      type: String
+    }
+  },
+  computed: {
+    getProducts() {
+      return this.$store.state.products.data
     }
   },
   created() {
-    this.title = this.sale.title.en
-    this.fromDate = this.sale.fromDate
-    this.toDate = this.sale.toDate
-    this.descript = this.sale.description.en
-    this.type = this.sale.type
-    this.percent = this.sale.typeValue
+    this.sale = this.$store.getters.getSalesForEdit.find(el => el.id === this.saleId)
+  },
+  methods: {
+    async putSale() {
+      let data = {...this.sale, title: this.sale.title.en, description: this.sale.description.en}
+      delete data.id
+      let dataAr = {...data, title: this.sale.title.ar, description: this.sale.description.ar}
+      await this.$store.dispatch('putSale', {data, dataAr, id: this.sale.id})
+      this.$emit('input', false)
+    },
+    async deleteSale() {
+      await this.$store.dispatch('deleteSale', this.saleId)
+      this.$emit('input', false)
+    }
   }
 }
 </script>
@@ -130,12 +155,13 @@ export default {
 <style scoped lang="scss">
 @import "../../style/variables";
 
-.main-block{
+.main-block {
   display: flex;
   flex-direction: column;
   width: 100%;
   @include fontPoppins(12px, 400, 20px);
-  .select-category{
+
+  .select-category {
     position: relative;
     margin: 10px 0 20px;
     padding-right: 20px;
@@ -147,7 +173,8 @@ export default {
       width: 100%;
       cursor: pointer;
     }
-    p{
+
+    p {
       //&:after{
       //  position: absolute;
       //  display: block;
@@ -163,17 +190,20 @@ export default {
     }
 
   }
-  .image-block{
+
+  .image-block {
     display: flex;
     margin-bottom: 30px;
   }
-  .image{
+
+  .image {
     width: 150px;
     height: 100px;
     border: 1px dashed #E7E6E6;
     border-radius: 10px;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
   }
+
   .image-cropper {
     width: 150px;
     height: 100px;
@@ -188,13 +218,16 @@ export default {
     align-items: center;
     margin: 0 20px;
   }
+
   .info {
     display: flex;
     flex-direction: column;
+
     &-row {
       margin-top: 10px;
       display: flex;
-      &.descriptions{
+
+      &.descriptions {
         //justify-content: space-between;
       }
     }

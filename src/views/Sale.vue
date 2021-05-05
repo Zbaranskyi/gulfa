@@ -3,12 +3,13 @@
   <TopRow
       btnSwitch
       :btn-background="'#ED1C24'"
-      :btn-text="btnText"
+      btn-text="Create New Sale"
       v-model="lang"
+      @search="searchValue = $event"
       @btn-click="showAddSale = true"
   />
   <sale-item
-      v-for="(item,index) of  trueSales"
+      v-for="(item,index) of getReformatSales"
       :key="index"
       :item="item"
       :lang="lang"
@@ -20,7 +21,7 @@
   />
   <edit-sale
       v-if="showEditSale"
-      :sale="sale"
+      :saleId="saleId"
       v-model="showEditSale"
   />
 </div>
@@ -28,80 +29,50 @@
 
 <script>
 import TopRow from "@/components/helpers/TopRow";
-import {sale} from "@/test-data/sale";
 import SaleItem from "@/components/helpers/SaleItem";
 import AddSale from "../components/sales/AddSale";
 import EditSale from "../components/sales/EditSale";
-import api from "../service/api";
 
 export default {
   name: "Sale",
   components: {EditSale, AddSale, SaleItem, TopRow},
   data () {
     return {
-      btnText: 'Create New Sale',
-      sales: sale,
       lang: 'en',
       showAddSale: false,
-      sale: {},
+      saleId: '',
       showEditSale: false,
-      trueSales: []
-    }
-  },
-  computed: {
-    getToken() {
-      return localStorage.getItem('token')
+      searchValue: ''
     }
   },
   async created () {
-    await this.getSales()
+    await this.$store.dispatch('getSales')
+    await this.$store.dispatch('getProducts')
+  },
+  computed: {
+    getReformatSales () {
+      return this.$store.getters.getReformatSales
+    },
+    // TODO it
+    // sortedInfo () {
+    //   let sort = []
+    //   if(this.searchValue) {
+    //     for(let item of this.getReformatSales) {
+    //       for(let prop in item) {
+    //         if(String(item[prop]).toLowerCase().includes(this.value.toLowerCase())) {
+    //           sort.push(item)
+    //           break;
+    //         }
+    //       }
+    //     }
+    //   } else return this.getReformatSales
+    //   return sort
+    // }
   },
   methods: {
     editSale (id) {
-      this.sale = this.trueSales.find(el=>el.id === id)
+      this.saleId = id
       this.showEditSale = true
-    },
-    async getSales () {
-      await api.GET('/sale', this.getToken)
-      .then(this.isReformater)
-      .catch(console.dir )
-    },
-    isReformater({data}) {
-      let res = []
-      console.log(data)
-      if (data.length) {
-        res = data.map(el=>{
-          let orders = []
-          if(el.shopItems.length) {
-            orders = el.shopItems.map(order=>{
-              return {
-                id: order.id,
-                title: order.title,
-                image: order.imageUri,
-                volume: `${order.volume}LT`,
-                price: `$${order.price*(1-0.01*el.percent)}`
-              }
-            })
-          }
-          return {
-            id: el.id,
-            title: {
-              en: el?.title ?? '',
-              ar: el?.titleAr ?? ''
-            },
-            type: '1',
-            typeValue: String(el.percent),
-            fromDate: new Date(el.startDate),
-            toDate: new Date(el.endDate),
-            description: {
-              en: el?.description ?? '',
-              ar: el?.descriptionAr ?? ''
-            },
-            products: orders
-          }
-        })
-      }
-      this.trueSales = res
     }
   }
 }

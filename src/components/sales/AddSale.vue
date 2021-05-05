@@ -1,5 +1,6 @@
 <template>
   <modal-window
+      @btn-click="postSale"
       @close="$emit('input', false)"
       :value="value">
     <template #title>
@@ -8,16 +9,16 @@
     <template #default>
       <div class="main-block">
         <div class="info">
-<!--          <div class="select-category">-->
-<!--            <p>Select Type of Sale</p>-->
-<!--            <select v-model="type">-->
-<!--              <option v-for="item of typesSales" :value="item.id" :key="item.id">{{item.title}}</option>-->
-<!--            </select>-->
-<!--          </div>-->
+          <!--          <div class="select-category">-->
+          <!--            <p>Select Type of Sale</p>-->
+          <!--            <select v-model="type">-->
+          <!--              <option v-for="item of typesSales" :value="item.id" :key="item.id">{{item.title}}</option>-->
+          <!--            </select>-->
+          <!--          </div>-->
           <div class="info-row">
             <InputWithLabel
                 title="Select - %"
-                v-model="percent"
+                v-model="sale.percent"
                 :width="40"
                 inputType="number"
                 inputLabel="%"
@@ -28,41 +29,56 @@
             <div class="info-row">
               <InputWithLabel
                   title="From"
-                  v-model="fromDate"
+                  v-model="sale.startDate"
                   :width="50"
+                  inputType="date"
               />
               <InputWithLabel
                   title="To"
-                  v-model="toDate"
+                  v-model="sale.endDate"
                   :width="50"
+                  inputType="date"
               />
             </div>
           </div>
           <div class="info-row">
             <InputWithLabel
                 title="Title"
-                v-model="title"
-                :width="100"
+                v-model="sale.title"
+                :width="50"
+            />
+            <InputWithLabel
+                title="Title (Arabic)"
+                v-model="saleAr.title"
+                align="right"
+                :width="50"
             />
           </div>
           <div class="info-row descriptions">
             <TextareaWithLabel
                 title="Description"
-                v-model="descript"
-                :width="100"
+                v-model="sale.description"
+                :width="50"
+            />
+            <TextareaWithLabel
+                title="Description (Arabic)"
+                v-model="saleAr.description"
+                align="right"
+                :width="50"
             />
           </div>
           <div class="select-category">
             <p>Select Type of Sale</p>
-            <select >
-              <option v-for="item of products" :value="item.id" :key="item.id">{{item.title}}</option>
+            <select multiple v-model="sale.shopItemsId">
+              <option v-for="item of getProducts" :value="item.id" :key="item.id">{{ item.title }}</option>
             </select>
           </div>
         </div>
       </div>
     </template>
     <template
-        #button>Save changes</template>
+        #button>Save changes
+    </template>
   </modal-window>
 </template>
 
@@ -70,20 +86,30 @@
 import ModalWindow from "@/components/ModalWindow";
 import InputWithLabel from "@/components/helpers/InputWithLabel";
 import TextareaWithLabel from "@/components/helpers/TextareaWithLabel";
-import {products} from "../../test-data/products";
 
 export default {
   name: "AddSale",
   components: {TextareaWithLabel, InputWithLabel, ModalWindow},
-  data () {
+  data() {
     return {
-      title: '',
-      percent: '0',
-      descript: '',
-      products: products,
-      fromDate: '',
-      toDate: ''
+      sale: {
+        "percent": '0',
+        "startDate": "",
+        "endDate": "",
+        "shopItemsId": [],
+        "title": "",
+        "description": ""
+      },
+      saleAr: {
+        "title": "",
+        "description": ""
+      },
     }
+  },
+  computed: {
+    getProducts() {
+      return this.$store.state.products.data
+    },
   },
   props: {
     value: {
@@ -91,18 +117,25 @@ export default {
       default: false
     }
   },
+  methods: {
+    async postSale() {
+      await this.$store.dispatch('postSale', {data: this.sale, dataAr: this.saleAr})
+      this.$emit('input', false)
+    }
+  }
 }
 </script>
 
 <style scoped lang="scss">
 @import "../../style/variables";
 
-.main-block{
+.main-block {
   display: flex;
   flex-direction: column;
   width: 100%;
   @include fontPoppins(12px, 400, 20px);
-  .select-category{
+
+  .select-category {
     position: relative;
     margin: 10px 0 20px;
     padding-right: 20px;
@@ -114,7 +147,8 @@ export default {
       width: 100%;
       cursor: pointer;
     }
-    p{
+
+    p {
       //&:after{
       //  position: absolute;
       //  display: block;
@@ -130,17 +164,20 @@ export default {
     }
 
   }
-  .image-block{
+
+  .image-block {
     display: flex;
     margin-bottom: 30px;
   }
-  .image{
+
+  .image {
     width: 150px;
     height: 100px;
     border: 1px dashed #E7E6E6;
     border-radius: 10px;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
   }
+
   .image-cropper {
     width: 150px;
     height: 100px;
@@ -155,13 +192,16 @@ export default {
     align-items: center;
     margin: 0 20px;
   }
+
   .info {
     display: flex;
     flex-direction: column;
+
     &-row {
       margin-top: 10px;
       display: flex;
-      &.descriptions{
+
+      &.descriptions {
         //justify-content: space-between;
       }
     }
