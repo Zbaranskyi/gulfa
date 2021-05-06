@@ -4,9 +4,14 @@
   font-weight: $weight;
   line-height: $line-height;
 }
+
 input, button {
   outline: none;
   border: none;
 }
 
 $color-background-blue: #005CB9;
+
+.invalid {
+  border: 1px solid #be2a56 !important;
+}

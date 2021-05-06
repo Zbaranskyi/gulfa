@@ -13,11 +13,11 @@ export default {
         }
     },
     actions: {
-        async getOrders ({commit, rootState}) {
+        async getOrders ({commit}) {
             // await api.GET('/orders', rootState.token)
             //     .then(({data}) => commit('setOrders', data))
             //     .catch(err => console.log(err))
-            console.log(rootState.token)
+            // console.log(rootState.token)
             commit('setOrders', modelOrder)
         },
     },

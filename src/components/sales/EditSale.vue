@@ -25,6 +25,7 @@
                   :width="40"
                   inputType="number"
                   inputLabel="%"
+                  :error="$v.sale.percent.$error"
               />
             </div>
             <div>
@@ -32,47 +33,53 @@
               <div class="info-row">
                 <InputWithLabel
                     title="From"
+                    inputType="date"
                     v-model="sale.startDate"
                     :width="50"
-                    inputType="date"
+                    :error="$v.sale.startDate.$error"
                 />
                 <InputWithLabel
                     title="To"
+                    inputType="date"
                     v-model="sale.endDate"
                     :width="50"
-                    inputType="date"
+                    :error="$v.sale.endDate.$error"
                 />
               </div>
             </div>
             <div class="info-row">
               <InputWithLabel
-                  title="Title"
+                  title="Title (English)"
                   v-model="sale.title.en"
                   :width="50"
+                  :error="$v.sale.title.en.$error"
               />
               <InputWithLabel
-                  title="Title"
+                  title="Title (Arabic)"
                   v-model="sale.title.ar"
                   align="right"
                   :width="50"
+                  :error="$v.sale.title.ar.$error"
               />
             </div>
             <div class="info-row descriptions">
               <TextareaWithLabel
-                  title="Description"
+                  title="Description (English)"
                   v-model="sale.description.en"
                   :width="50"
+                  :error="$v.sale.description.en.$error"
               />
               <TextareaWithLabel
-                  title="Description"
+                  title="Description (Arabic)"
                   v-model="sale.description.ar"
                   align="right"
                   :width="50"
+                  :error="$v.sale.description.ar.$error"
               />
             </div>
             <div class="select-category">
               <p>Select Type of Sale</p>
-              <select multiple v-model="sale.shopItemsId">
+              <select multiple v-model="sale.shopItemsId" :class="{invalid: $v.sale.shopItemsId.$error}">
                 <option v-for="item of getProducts" :value="item.id" :key="item.id">{{ item.title }}</option>
               </select>
             </div>
@@ -96,6 +103,8 @@ import ModalWindow from "@/components/ModalWindow";
 import InputWithLabel from "@/components/helpers/InputWithLabel";
 import TextareaWithLabel from "@/components/helpers/TextareaWithLabel";
 import ConfirmationDelete from "../helpers/ConfirmationDelete";
+import {required, numeric, between} from 'vuelidate/lib/validators'
+import {minLengthOfArray} from "../../helpers/validate";
 
 export default {
   name: "EditSale",
@@ -128,6 +137,22 @@ export default {
       type: String
     }
   },
+  validations: {
+    sale: {
+      "percent": {required, numeric, between: between(1, 99)},
+      "startDate": {required},
+      "endDate": {required},
+      "shopItemsId": {minLengthOfArray},
+      "title": {
+        en: {required},
+        ar: {required}
+      },
+      "description": {
+        en: {required},
+        ar: {required}
+      }
+    }
+  },
   computed: {
     getProducts() {
       return this.$store.state.products.data
@@ -138,11 +163,14 @@ export default {
   },
   methods: {
     async putSale() {
-      let data = {...this.sale, title: this.sale.title.en, description: this.sale.description.en}
-      delete data.id
-      let dataAr = {...data, title: this.sale.title.ar, description: this.sale.description.ar}
-      await this.$store.dispatch('putSale', {data, dataAr, id: this.sale.id})
-      this.$emit('input', false)
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        let data = {...this.sale, title: this.sale.title.en, description: this.sale.description.en}
+        delete data.id
+        let dataAr = {...data, title: this.sale.title.ar, description: this.sale.description.ar}
+        await this.$store.dispatch('putSale', {data, dataAr, id: this.sale.id})
+        this.$emit('input', false)
+      }
     },
     async deleteSale() {
       await this.$store.dispatch('deleteSale', this.saleId)

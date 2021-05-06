@@ -14,11 +14,13 @@
                 title="First Name"
                 v-model="driver.firstName"
                 :width="50"
+                :error="$v.driver.firstName.$error"
             />
             <InputWithLabel
                 title="Last Name"
                 v-model="driver.lastName"
                 :width="50"
+                :error="$v.driver.lastName.$error"
             />
           </div>
           <div class="info-row">
@@ -26,18 +28,22 @@
                 title="Phone Number"
                 v-model="driver.phoneNumber"
                 :width="50"
+                :error="$v.driver.phoneNumber.$error"
             />
             <InputWithLabel
                 title="Email"
                 v-model="driver.email"
                 :width="50"
+                :error="$v.driver.email.$error"
             />
           </div>
           <div class="info-row">
             <InputWithLabel
                 title="Password"
+                inputType="password"
                 v-model="driver.password"
                 :width="50"
+                :error="$v.driver.password.$error"
             />
           </div>
         </div>
@@ -51,6 +57,8 @@
 <script>
 import ModalWindow from "@/components/ModalWindow";
 import InputWithLabel from "@/components/helpers/InputWithLabel";
+import {required, numeric, email} from 'vuelidate/lib/validators'
+import {hardPassword} from "../../helpers/validate";
 
 export default {
   name: "AddDriver",
@@ -72,10 +80,22 @@ export default {
       default: false
     }
   },
+  validations: {
+    driver: {
+      "password": {required, hardPassword},
+      "firstName": {required},
+      "lastName": {required},
+      "email": {required, email},
+      "phoneNumber": {required, numeric}
+    }
+  },
   methods: {
     async postNewDriver () {
-      await this.$store.dispatch('postDriver', this.driver)
-      this.$emit('input', false)
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        await this.$store.dispatch('postDriver', this.driver)
+        this.$emit('input', false)
+      }
     }
   }
 }

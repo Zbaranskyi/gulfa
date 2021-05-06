@@ -2,7 +2,12 @@
   <div class="input" :style="`width: ${width}%`">
     <p class="label">{{ title }}</p>
     <div style="display: flex; align-items: center">
-      <input :style="`text-align: ${align}`" :readonly="readonly" :value="value" :type="inputType" @input="$emit('input', $event.target.value)">
+      <input :style="`text-align: ${align}`"
+             :readonly="readonly"
+             :value="value"
+             :type="inputType"
+             :class="{invalid: error}"
+             @input="$emit('input', $event.target.value)">
       <span class="label">{{inputLabel}}</span>
     </div>
   </div>
@@ -42,6 +47,14 @@ export default {
       default: 'text'
     },
     readonly: {
+      type: Boolean,
+      default: false
+    },
+    error: {
+      type: Boolean,
+      default: false
+    },
+    minMaxValidate: {
       type: Boolean,
       default: false
     }

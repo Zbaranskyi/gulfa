@@ -1,141 +1,93 @@
 <template>
   <div id="auth">
     <Logo/>
-    <p class="title">{{ modes[mode].title }}</p>
-    <div class="fields">
-      <div class="item" v-for="(item, index) of modes[mode].fields" :key="index">
-        <p class="item-name">{{ item.name }}</p>
-        <input class="item-input" :type="item.type" v-model="item.value">
+    <p class="title">{{ formTitle }}</p>
+    <div class="fields" v-if="mode === 'signin'">
+      <div class="item" >
+        <p class="item-name">Email</p>
+        <input class="item-input" type="text" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }">
+      </div>
+      <div class="item" >
+        <p class="item-name">Password</p>
+        <input class="item-input" type="password" v-model="$v.password.$model" :class="{invalid: $v.password.$error }">
       </div>
       <div class="item">
-        <base-button @btn-click="isAuthAction" :background="'#005CB9'">{{ modes[mode].button }}</base-button>
+        <base-button @btn-click="logIn" :background="bgButton">Log In</base-button>
+      </div>
+    </div>
+    <div class="fields" v-else-if="mode === 'forgot'">
+      <div class="item" >
+        <p class="item-name">Email</p>
+        <input class="item-input" type="text" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }">
+      </div>
+      <div class="item">
+        <base-button @btn-click="forgotPassword" :background="bgButton">Reset password</base-button>
       </div>
     </div>
     <div class="links">
-      <router-link to="/auth/forgot">Forgot your password?</router-link>
-      <p v-show="mode==='forgot' || mode==='signup'">Back to <router-link  to="/auth/signin">log in page</router-link></p>
+      <router-link to="/auth/forgot" v-show="mode==='signin'">Forgot your password?</router-link>
+      <p v-show="mode==='forgot'">Back to
+        <router-link to="/auth/signin">log in page</router-link>
+      </p>
     </div>
   </div>
 </template>
 
 <script>
-// import BaseButton from "@/components/helpers/BaseButton";
 import api from "@/service/api";
+import {required, email, minLength} from 'vuelidate/lib/validators'
+import {hardPassword} from "../helpers/validate";
 
 const Logo = () => import('@/components/helpers/Logo')
 const BaseButton = () => import('@/components/helpers/BaseButton')
-// import axios from "axios";
 
 export default {
   name: "Auth",
   components: {BaseButton, Logo},
   data() {
     return {
-      modes: {
-        signin: {
-          title: 'Log In',
-          fields: {
-            email: {
-              name: 'Email',
-              type: 'text',
-              value: 'gulfa.admin@mail.com'
-            },
-            password: {
-              name: 'Password',
-              type: 'password',
-              value: 'Kk123456@'
-            }
-          },
-          button: 'Log In'
-        },
-        signup: {
-          title: 'Sign Up',
-          fields: {
-            email: {
-              name: 'Email',
-              type: 'text',
-              value: ''
-            },
-            password: {
-              name: 'Password',
-              type: 'password',
-              value: ''
-            },
-            confirm: {
-              name: 'Confirm Password',
-              type: 'password',
-              value: ''
-            }
-          },
-          button: 'Sign Up'
-        },
-        forgot: {
-          title: 'Forgot password',
-          fields: {
-            email: {
-              name: 'Email',
-              type: 'text',
-              value: ''
-            },
-          },
-          button: 'Reset password'
-        }
-      }
+      email: 'gulfa.admin@mail.com',
+      password: 'Kk123456@',
+      bgButton: '#005CB9'
     }
+  },
+  validations: {
+    email: {required, email},
+    password:{required, minLength: minLength(6), hardPassword}
   },
   computed: {
     mode() {
       return this.$route.params.mode
     },
-    checkEmailAndPassword () {
-      return !!(this.modes[this.mode].fields.email.value && this.modes[this.mode].fields.password.value)
+    formTitle () {
+      return this.mode === 'signin' ? 'Log In' : 'Forgot password'
     }
   },
   methods: {
-    isAuthAction() {
-      let data = {}
-      switch (this.mode) {
-        case 'signin':
-          data.email = this.modes[this.mode].fields.email.value
-          data.password = this.modes[this.mode].fields.password.value
-            this.logIn(data)
-              break;
-        case 'signup':
-          data.email = this.modes[this.mode].fields.email.value
-          data.password = this.modes[this.mode].fields.password.value
-          break;
-        case 'forgot':
-          data.email = this.modes[this.mode].fields.email.value
+    async logIn() {
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        await api.POST('/admin/login', {email: this.email, password: this.password})
+            .then(res => {
+              let token = res.data.token
+              localStorage.setItem('token', token)
+              this.$store.commit('setToken', token)
+              this.$router.push('/')
+            })
+            .catch(e => {
+              this.$message({
+                message: e?.response?.data?.title || 'Error with authorization',
+                type: 'error',
+                center: true
+              });
+            })
       }
-      // console.log(data)
-      // this.$router.push('/')
-      // axios.post(this.$mainRoute + `/${this.mode}`, data)
-      // .then(res=>console.log(res))
-      // .catch(err=>console.log(err))
     },
-    async logIn (data) {
-      if(this.checkEmailAndPassword) {
-        await api.POST('/admin/login', data)
-        .then(res=>{
-          let token = res.data.token
-          localStorage.setItem('token', token)
-          this.$store.commit('setToken', token)
-          this.$router.push('/')
-        })
-        .catch(e=>{
-          console.log(e.response)
-          this.$message({
-            message: e?.response?.data?.title || 'Error with authorization',
-            type: 'error',
-            center: true
-          });
-        })
-      } else {
-        this.$message({
-          message: 'Error with credentials',
-          type: 'error',
-          center: true
-        });
+    async forgotPassword () {
+      this.$v.email.$touch()
+      if(!this.$v.email.$invalid) {
+        // TODO it
+        console.log('ok')
       }
     }
   }

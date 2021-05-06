@@ -10,9 +10,8 @@
       <div class="main-block">
         <div class="image-block">
           <img v-if="base64Img" class="image" :src="base64Img" alt="">
-          <img v-else-if="image" class="image" :src="image" alt="">
           <div v-else class="image"></div>
-          <label class="image-cropper" for="file">Upload new image</label>
+          <label class="image-cropper" for="file" :class="{invalid: $v.file.$error}">Upload new image</label>
           <input style="display: none" type="file" id="file" @change="onChangeFileUpload"/>
         </div>
       </div>
@@ -25,30 +24,30 @@
 <script>
 import ModalWindow from "@/components/ModalWindow";
 import encodeImage from "@/mixins/encodeImage";
+import {required} from 'vuelidate/lib/validators'
 
 export default {
   name: "AddBanner",
   components: { ModalWindow},
-  data () {
-    return {
-      name: '',
-      arName: '',
-      image: null,
-    }
-  },
   props: {
     value: {
       type: Boolean,
       default: false
     }
   },
+  validations: {
+    file: {required},
+  },
   mixins: [encodeImage],
   methods: {
     async addNewBanner () {
-      let formdata = new FormData()
-      formdata.append('mediafile', this.file)
-      await this.$store.dispatch('postBanner', formdata)
-      this.$emit('input', false)
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        let formdata = new FormData()
+        formdata.append('mediafile', this.file)
+        await this.$store.dispatch('postBanner', formdata)
+        this.$emit('input', false)
+      }
     }
   }
 }

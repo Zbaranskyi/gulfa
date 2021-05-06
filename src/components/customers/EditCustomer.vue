@@ -17,11 +17,13 @@
                   title="First Name"
                   v-model="editCustomer.name"
                   :width="50"
+                  :error="$v.editCustomer.name.$error"
               />
               <InputWithLabel
                   title="Last Name"
                   v-model="editCustomer.lastName"
                   :width="50"
+                  :error="$v.editCustomer.lastName.$error"
               />
             </div>
             <div class="info-row">
@@ -29,12 +31,14 @@
                   title="Phone Number"
                   v-model="editCustomer.number"
                   :width="50"
+                  :error="$v.editCustomer.number.$error"
               />
               <InputWithLabel
                   title="Birthday"
                   v-model="editCustomer.birthday"
                   inputType="date"
                   :width="50"
+                  :error="$v.editCustomer.birthday.$error"
               />
             </div>
             <div class="info-row">
@@ -42,11 +46,13 @@
                   title="City"
                   v-model="editCustomer.city"
                   :width="50"
+                  :error="$v.editCustomer.city.$error"
               />
               <InputWithLabel
                   title="Family Members"
                   v-model="editCustomer.family"
                   :width="50"
+                  :error="$v.editCustomer.family.$error"
               />
             </div>
             <div class="info-row">
@@ -77,6 +83,7 @@
 import ModalWindow from "@/components/ModalWindow";
 import InputWithLabel from "@/components/helpers/InputWithLabel";
 import ConfirmationDelete from "../helpers/ConfirmationDelete";
+import {required, numeric} from 'vuelidate/lib/validators'
 
 export default {
   name: "EditCustomer",
@@ -125,34 +132,46 @@ export default {
       type: String
     }
   },
+  validations: {
+    editCustomer: {
+      name: {required},
+      lastName: {required},
+      number: {required, numeric},
+      birthday: {required},
+      family: {required, numeric},
+      city: {required}
+    }
+  },
   methods: {
     deleteCustomer () {
       this.$store.dispatch('deleteCustomer', this.getFullData.id)
       this.$emit('input', false)
     },
     async saveChanges () {
-      let dataCustomer = this.$store.getters.getCustomer(this.getFullData.id)
-      let data = {
-        firstName: this.editCustomer.name ? this.editCustomer.name : null,
-        lastName: this.editCustomer.lastName ? this.editCustomer.lastName : null,
-        phoneNumber: this.editCustomer.number ? this.editCustomer.number : null,
-        birthDate: this.editCustomer.birthday,
-        familyMembersCount: this.editCustomer.family ? Number(this.editCustomer.family) : 0,
-        nationality: dataCustomer.nationality,
-        addressTranslations: [
-          {
-            "culture": "en",
-            "cityName": this.editCustomer.city ? this.editCustomer.city : null,
-            "districtName": dataCustomer.districtName,
-            "street": dataCustomer.street,
-            "building": dataCustomer.building,
-            "apartment": dataCustomer.apartment
-          }
-        ]
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        let dataCustomer = this.$store.getters.getCustomer(this.getFullData.id)
+        let data = {
+          firstName: this.editCustomer.name,
+          lastName: this.editCustomer.lastName,
+          phoneNumber: this.editCustomer.number,
+          birthDate: this.editCustomer.birthday,
+          familyMembersCount: Number(this.editCustomer.family),
+          nationality: dataCustomer.nationality,
+          addressTranslations: [
+            {
+              "culture": "en",
+              "cityName": this.editCustomer.city,
+              "districtName": dataCustomer.districtName,
+              "street": dataCustomer.street,
+              "building": dataCustomer.building,
+              "apartment": dataCustomer.apartment
+            }
+          ]
+        }
+        await this.$store.dispatch('putCustomer', {data, id: this.getFullData.id})
+        this.$emit('input', false)
       }
-      console.log(data);
-      await this.$store.dispatch('putCustomer', {data, id: this.getFullData.id})
-      this.$emit('input', false)
     }
   }
 }

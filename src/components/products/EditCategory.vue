@@ -24,12 +24,14 @@
                   title="Name"
                   v-model="name"
                   :width="50"
+                  :error="$v.name.$error"
               />
               <InputWithLabel
                   title="Arabic Name"
                   align="right"
                   v-model="arName"
                   :width="50"
+                  :error="$v.arName.$error"
               />
             </div>
           </div>
@@ -52,6 +54,7 @@ import ModalWindow from "@/components/ModalWindow";
 import encodeImage from "@/mixins/encodeImage";
 import InputWithLabel from "@/components/helpers/InputWithLabel";
 import ConfirmationDelete from "../helpers/ConfirmationDelete";
+import {required} from 'vuelidate/lib/validators'
 
 export default {
   name: "EditCategory",
@@ -73,6 +76,10 @@ export default {
       type: String
     }
   },
+  validations: {
+    name: {required},
+    arName: {required}
+  },
   async created() {
     this.$store.commit('setLoading')
 
@@ -92,20 +99,23 @@ export default {
   mixins: [encodeImage],
   methods: {
     async saveChanges () {
-      let id = this.categoryId
-      let formdata = null
-      if (this.file) {
-        formdata = new FormData()
-        formdata.append('File', this.file)
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        let id = this.categoryId
+        let formdata = null
+        if (this.file) {
+          formdata = new FormData()
+          formdata.append('File', this.file)
+        }
+        let data = {
+          title: this.name,
+        }
+        let dataAr = {
+          title: this.arName
+        }
+        await this.$store.dispatch('putCategory', {data, formdata,dataAr, id})
+        this.$emit('input', false)
       }
-      let data = {
-        title: this.name,
-      }
-      let dataAr = {
-        title: this.arName
-      }
-      await this.$store.dispatch('putCategory', {data, formdata,dataAr, id})
-      this.$emit('input', false)
     },
     async deleteCategory () {
       await this.$store.dispatch('deleteCategory', this.categoryId)

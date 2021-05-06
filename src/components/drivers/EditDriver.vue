@@ -17,11 +17,13 @@
                   title="First Name"
                   v-model="driver.firstName"
                   :width="50"
+                  :error="$v.driver.firstName.$error"
               />
               <InputWithLabel
                   title="Last Name"
                   v-model="driver.lastName"
                   :width="50"
+                  :error="$v.driver.lastName.$error"
               />
             </div>
             <div class="info-row">
@@ -29,11 +31,13 @@
                   title="Phone Number"
                   v-model="driver.phoneNumber"
                   :width="50"
+                  :error="$v.driver.phoneNumber.$error"
               />
               <InputWithLabel
                   title="Email"
                   v-model="driver.email"
                   :width="50"
+                  :error="$v.driver.email.$error"
               />
             </div>
           </div>
@@ -54,6 +58,7 @@
 import ModalWindow from "@/components/ModalWindow";
 import InputWithLabel from "@/components/helpers/InputWithLabel";
 import ConfirmationDelete from "../helpers/ConfirmationDelete";
+import {required, email, numeric} from 'vuelidate/lib/validators'
 
 export default {
   name: "EditDriver",
@@ -85,10 +90,21 @@ export default {
       type: String
     }
   },
+  validations: {
+    driver: {
+      firstName: {required},
+      lastName: {required},
+      phoneNumber: {required, numeric},
+      email: {required, email},
+    },
+  },
   methods: {
     async putDriver() {
-      await this.$store.dispatch('putDriver', {data: this.driver, id: this.driverId})
-      this.$emit('input', false)
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        await this.$store.dispatch('putDriver', {data: this.driver, id: this.driverId})
+        this.$emit('input', false)
+      }
     },
     async deleteDriver() {
       await this.$store.dispatch('deleteDriver', this.driverId)
@@ -114,20 +130,6 @@ export default {
       border-radius: 10px;
       padding: 10px;
       cursor: pointer;
-    }
-    p{
-      //&:after{
-      //  position: absolute;
-      //  display: block;
-      //  content: '';
-      //  width: 17px;
-      //  height: 17px;
-      //  background: #005CB9 url('../../assets/icons/arrow.svg') no-repeat center;
-      //  top: 30px;
-      //  left: 279px;
-      //  border-radius: 5px;
-      //  cursor: pointer;
-      //}
     }
 
   }

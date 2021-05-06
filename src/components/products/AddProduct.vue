@@ -10,14 +10,14 @@
       <div class="main-block">
         <div class="select-category">
           <p>Select Category</p>
-          <select id="select-category" v-model="data.categoryId">
+          <select id="select-category" v-model="data.categoryId" :class="{invalid: $v.data.categoryId.$error}">
             <option v-for="item of getCategories" :value="item.id" :key="item.id">{{item.title}}</option>
           </select>
         </div>
         <div class="image-block">
           <img v-if="base64Img" class="image" :src="base64Img" alt="">
           <div v-else class="image"></div>
-          <label class="image-cropper" for="file">Upload new image</label>
+          <label class="image-cropper" for="file" :class="{invalid: $v.file.$error}">Upload new image</label>
           <input style="display: none" type="file" id="file" @change="onChangeFileUpload"/>
         </div>
         <div class="info">
@@ -26,12 +26,14 @@
                 title="Name"
                 v-model="data.title"
                 :width="50"
+                :error="$v.data.title.$error"
             />
             <InputWithLabel
                 title="Arabic Name"
                 align="right"
                 v-model="dataAr.title"
                 :width="50"
+                :error="$v.dataAr.title.$error"
             />
           </div>
           <div class="info-row descriptions">
@@ -39,28 +41,32 @@
                 title="Description"
                 v-model="data.description"
                 :width="50"
+                :error="$v.data.description.$error"
             />
             <TextareaWithLabel
                 title="Arabic Description"
                 v-model="dataAr.description"
                 align="right"
                 :width="50"
+                :error="$v.dataAr.description.$error"
             />
           </div>
           <div class="info-row">
             <InputWithLabel
                 title="Price"
+                inputLabel="$"
                 v-model="data.price"
                 inputType="number"
                 :width="25"
-                inputLabel="$"
+                :error="$v.data.price.$error"
             />
             <InputWithLabel
                 title="Volume"
+                inputLabel="LT"
                 v-model="data.volume"
                 inputType="number"
                 :width="40"
-                inputLabel="LT"
+                :error="$v.data.volume.$error"
             />
           </div>
         </div>
@@ -76,6 +82,7 @@ import ModalWindow from "@/components/ModalWindow";
 import encodeImage from "@/mixins/encodeImage";
 import InputWithLabel from "@/components/helpers/InputWithLabel";
 import TextareaWithLabel from "@/components/helpers/TextareaWithLabel";
+import {required} from 'vuelidate/lib/validators'
 
 export default {
   name: "AddProduct",
@@ -83,17 +90,16 @@ export default {
   data () {
     return {
       data: {
-        description: this.descript,
-        price: this.price,
-        title: this.name,
-        volume: this.volume,
-        categoryId: this.category
+        description: '',
+        price: '',
+        title: '',
+        volume: '',
+        categoryId: ''
       },
       dataAr: {
-        description: this.arDescript,
-        title: this.arName,
+        description: '',
+        title: '',
       },
-      newPrice: '',
     }
   },
   props: {
@@ -101,6 +107,20 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  validations: {
+    data: {
+      description: {required},
+      price: {required},
+      title: {required},
+      volume: {required},
+      categoryId: {required}
+    },
+    dataAr: {
+      description: {required},
+      title: {required},
+    },
+    file: {required}
   },
   computed: {
     getCategories() {
@@ -110,10 +130,13 @@ export default {
   mixins: [encodeImage],
   methods: {
     async saveChanges () {
-      let formdata = new FormData()
-      formdata.append('file', this.file)
-      await this.$store.dispatch('postProduct', {data: this.data, dataAr: this.dataAr, formdata})
-      this.$emit('input', false)
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        let formdata = new FormData()
+        formdata.append('file', this.file)
+        await this.$store.dispatch('postProduct', {data: this.data, dataAr: this.dataAr, formdata})
+        this.$emit('input', false)
+      }
     }
   }
 }

@@ -10,9 +10,8 @@
       <div class="main-block">
         <div class="image-block">
           <img v-if="base64Img" class="image" :src="base64Img" alt="">
-          <img v-else-if="image" class="image" :src="image" alt="">
           <div v-else class="image"></div>
-          <label class="image-cropper" for="file">Upload new image</label>
+          <label class="image-cropper" for="file" :class="{invalid: $v.file.$error }">Upload new image</label>
           <input style="display: none" type="file" id="file" @change="onChangeFileUpload"/>
         </div>
         <div class="info">
@@ -21,12 +20,14 @@
                 title="Name"
                 v-model="name"
                 :width="50"
+                :error="$v.name.$error"
             />
             <InputWithLabel
                 title="Arabic Name"
                 align="right"
                 v-model="arName"
                 :width="50"
+                :error="$v.arName.$error"
             />
           </div>
         </div>
@@ -42,6 +43,7 @@
 import ModalWindow from "@/components/ModalWindow";
 import encodeImage from "@/mixins/encodeImage";
 import InputWithLabel from "@/components/helpers/InputWithLabel";
+import {required} from 'vuelidate/lib/validators'
 
 export default {
   name: "AddCategory",
@@ -50,7 +52,6 @@ export default {
     return {
       name: '',
       arName: '',
-      image: null,
     }
   },
   props: {
@@ -59,13 +60,21 @@ export default {
       default: false
     }
   },
+  validations: {
+    name: {required},
+    arName: {required},
+    file: {required}
+  },
   mixins: [encodeImage],
   methods: {
     async saveChanges() {
-      let formdata = new FormData()
-      formdata.append('File', this.file)
-      await this.$store.dispatch('postCategory', {formdata, data: {title: this.name}, dataAr: {title: this.arName}})
-      this.$emit('input', false)
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        let formdata = new FormData()
+        formdata.append('File', this.file)
+        await this.$store.dispatch('postCategory', {formdata, data: {title: this.name}, dataAr: {title: this.arName}})
+        this.$emit('input', false)
+      }
     }
   }
 }

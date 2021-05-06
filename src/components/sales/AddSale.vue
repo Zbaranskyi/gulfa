@@ -18,10 +18,11 @@
           <div class="info-row">
             <InputWithLabel
                 title="Select - %"
-                v-model="sale.percent"
-                :width="40"
                 inputType="number"
                 inputLabel="%"
+                v-model="sale.percent"
+                :width="40"
+                :error="$v.sale.percent.$error"
             />
           </div>
           <div>
@@ -29,15 +30,17 @@
             <div class="info-row">
               <InputWithLabel
                   title="From"
+                  inputType="date"
                   v-model="sale.startDate"
                   :width="50"
-                  inputType="date"
+                  :error="$v.sale.startDate.$error"
               />
               <InputWithLabel
                   title="To"
+                  inputType="date"
                   v-model="sale.endDate"
                   :width="50"
-                  inputType="date"
+                  :error="$v.sale.endDate.$error"
               />
             </div>
           </div>
@@ -46,12 +49,14 @@
                 title="Title"
                 v-model="sale.title"
                 :width="50"
+                :error="$v.sale.title.$error"
             />
             <InputWithLabel
                 title="Title (Arabic)"
                 v-model="saleAr.title"
                 align="right"
                 :width="50"
+                :error="$v.saleAr.title.$error"
             />
           </div>
           <div class="info-row descriptions">
@@ -59,17 +64,19 @@
                 title="Description"
                 v-model="sale.description"
                 :width="50"
+                :error="$v.sale.description.$error"
             />
             <TextareaWithLabel
                 title="Description (Arabic)"
                 v-model="saleAr.description"
                 align="right"
                 :width="50"
+                :error="$v.saleAr.description.$error"
             />
           </div>
           <div class="select-category">
             <p>Select Type of Sale</p>
-            <select multiple v-model="sale.shopItemsId">
+            <select multiple v-model="sale.shopItemsId" :class="{invalid: $v.sale.shopItemsId.$error}">
               <option v-for="item of getProducts" :value="item.id" :key="item.id">{{ item.title }}</option>
             </select>
           </div>
@@ -86,6 +93,8 @@
 import ModalWindow from "@/components/ModalWindow";
 import InputWithLabel from "@/components/helpers/InputWithLabel";
 import TextareaWithLabel from "@/components/helpers/TextareaWithLabel";
+import {required, numeric, between} from 'vuelidate/lib/validators'
+import {minLengthOfArray} from "../../helpers/validate";
 
 export default {
   name: "AddSale",
@@ -93,7 +102,7 @@ export default {
   data() {
     return {
       sale: {
-        "percent": '0',
+        "percent": '',
         "startDate": "",
         "endDate": "",
         "shopItemsId": [],
@@ -117,10 +126,27 @@ export default {
       default: false
     }
   },
+  validations: {
+    sale: {
+      "percent": {required, numeric, between: between(1, 99)},
+      "startDate": {required},
+      "endDate": {required},
+      "shopItemsId": {minLengthOfArray},
+      "title": {required},
+      "description": {required}
+    },
+    saleAr: {
+      "title": {required},
+      "description": {required}
+    },
+  },
   methods: {
     async postSale() {
-      await this.$store.dispatch('postSale', {data: this.sale, dataAr: this.saleAr})
-      this.$emit('input', false)
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        await this.$store.dispatch('postSale', {data: this.sale, dataAr: this.saleAr})
+        this.$emit('input', false)
+      }
     }
   }
 }

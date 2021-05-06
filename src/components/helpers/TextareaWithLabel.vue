@@ -1,7 +1,10 @@
 <template>
   <div class="input" :style="`width: ${width}%`">
     <p class="label">{{ title }}</p>
-    <textarea :style="`text-align: ${align}`" :value="value" @input="$emit('input', $event.target.value)"></textarea>
+    <textarea :style="`text-align: ${align}`"
+              :value="value"
+              :class="{invalid: error}"
+              @input="$emit('input', $event.target.value)"></textarea>
   </div>
 </template>
 
@@ -24,6 +27,10 @@ export default {
     align: {
       type: String,
       default: 'left'
+    },
+    error: {
+      type: Boolean,
+      default: false
     }
   }
 }

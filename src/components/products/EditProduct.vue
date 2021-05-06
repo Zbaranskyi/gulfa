@@ -28,37 +28,41 @@
             <div class="info-row">
               <InputWithLabel
                   title="Volume"
+                  inputLabel="LT"
                   v-model="volume"
                   inputType="number"
                   :width="40"
-                  inputLabel="LT"
+                  :error="$v.volume.$error"
               />
               <InputWithLabel
                   title="Price"
+                  inputLabel="$"
                   v-model="price"
                   inputType="number"
                   :width="25"
-                  inputLabel="$"
+                  :error="$v.price.$error"
               />
-              <InputWithLabel
-                  title="New Price"
-                  v-model="newPrice"
-                  inputType="number"
-                  :width="25"
-                  inputLabel="$"
-              />
+<!--              <InputWithLabel-->
+<!--                  title="New Price"-->
+<!--                  v-model="newPrice"-->
+<!--                  inputType="number"-->
+<!--                  :width="25"-->
+<!--                  inputLabel="$"-->
+<!--              />-->
             </div>
             <div class="info-row">
               <InputWithLabel
                   title="Name"
                   v-model="name"
                   :width="50"
+                  :error="$v.name.$error"
               />
               <InputWithLabel
                   title="Arabic Name"
                   align="right"
                   v-model="arName"
                   :width="50"
+                  :error="$v.arName.$error"
               />
             </div>
             <div class="info-row descriptions">
@@ -66,12 +70,14 @@
                   title="Description"
                   v-model="descript"
                   :width="50"
+                  :error="$v.descript.$error"
               />
               <TextareaWithLabel
                   title="Arabic Description"
                   v-model="arDescript"
                   align="right"
                   :width="50"
+                  :error="$v.arDescript.$error"
               />
             </div>
           </div>
@@ -97,6 +103,7 @@ import encodeImage from "@/mixins/encodeImage";
 import InputWithLabel from "@/components/helpers/InputWithLabel";
 import TextareaWithLabel from "@/components/helpers/TextareaWithLabel";
 import ConfirmationDelete from "../helpers/ConfirmationDelete";
+import {required} from 'vuelidate/lib/validators'
 
 export default {
   name: "EditProduct",
@@ -105,7 +112,6 @@ export default {
     return {
       volume: '',
       price: '',
-      newPrice: '',
       name: '',
       arName: '',
       descript: '',
@@ -123,6 +129,14 @@ export default {
     editItemID: {
       type: String
     }
+  },
+  validations: {
+    descript: {required},
+    price: {required},
+    name: {required},
+    volume: {required},
+    arName: {required},
+    arDescript: {required}
   },
   async created() {
     this.$store.commit('setLoading')
@@ -151,26 +165,30 @@ export default {
   mixins: [encodeImage],
   methods: {
     async saveChanges() {
-      let id = this.editItemID
-      let formdata = null
-      if (this.file) {
-        formdata = new FormData()
-        formdata.append('file', this.file)
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        let id = this.editItemID
+        let formdata = null
+        if (this.file) {
+          formdata = new FormData()
+          formdata.append('file', this.file)
+        }
+        let data = {
+          categoryId: this.category,
+          description: this.descript,
+          price: this.price,
+          title: this.name,
+          volume: this.volume
+        }
+        let dataAr = {
+          ...data,
+          title: this.arName,
+          description: this.arDescript
+        }
+        await this.$store.dispatch('putProduct', {data, formdata, dataAr, id})
+        this.$emit('input', false)
       }
-      let data = {
-        categoryId: this.category,
-        description: this.descript,
-        price: this.price,
-        title: this.name,
-        volume: this.volume
-      }
-      let dataAr = {
-        ...data,
-        title: this.arName,
-        description: this.arDescript
-      }
-      await this.$store.dispatch('putProduct', {data, formdata, dataAr, id})
-      this.$emit('input', false)
+
     },
     closeModal() {
       this.$store.commit('setSelectedProduct', {})
@@ -199,6 +217,7 @@ export default {
   display: flex;
   flex-direction: column;
   @include fontPoppins(12px, 400, 20px);
+  width: 100%;
 
   .select-category {
     position: relative;
