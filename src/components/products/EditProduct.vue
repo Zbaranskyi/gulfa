@@ -195,7 +195,8 @@ export default {
       this.$emit('input', false)
     },
     async deleteProduct() {
-      this.initLoading()
+      this.$store.commit('setLoading')
+
       await this.$store.dispatch('deleteProduct', this.editItemID)
           .then(() => {
             this.$emit('success-action')
@@ -203,7 +204,8 @@ export default {
           .catch(() => {
             this.$emit('error-action')
           })
-      await this.loading.close();
+      this.$store.commit('unsetLoading')
+
       this.$emit('input', false)
     }
   }
