@@ -10,24 +10,18 @@
         :lang="value"
         @change-lang="$emit('input', $event)"
     />
-    <base-button
-        v-if="btnBackground && btnText"
-        :background="btnBackground"
-        :width="btnWidth"
-        @btn-click="$emit('btn-click')"
-    >{{btnText}}</base-button>
+    <el-button v-if="btnBackground && btnText" @click="$emit('btn-click')" class="button-top-row" type="info">{{btnText}}</el-button>
   </div>
 </template>
 
 <script>
 import TitleOfPage from "@/components/helpers/TitleOfPage";
 import SearchRow from "@/components/helpers/SearchRow";
-import BaseButton from "@/components/helpers/BaseButton";
 import SwitchLanguage from "@/components/helpers/SwitchLanguage";
 
 export default {
   name: "TopRow",
-  components: {SwitchLanguage, BaseButton, SearchRow, TitleOfPage},
+  components: {SwitchLanguage, SearchRow, TitleOfPage},
   props: {
     btnBackground: {
       type: String,
@@ -57,12 +51,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "../../style/variables";
+
 .top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #E8E8E8;
   padding-bottom: 10px;
+  .button-top-row{
+    width: 20%;
+    border-radius: 10px;
+    @include fontPoppins(12px, 600, 18px);
+  }
 }
 </style>

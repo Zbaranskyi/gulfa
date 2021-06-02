@@ -5,23 +5,25 @@
     <div class="fields" v-if="mode === 'signin'">
       <div class="item" >
         <p class="item-name">Email</p>
-        <input class="item-input" type="text" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }">
+        <el-input class="item-input" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }"></el-input>
       </div>
       <div class="item" >
         <p class="item-name">Password</p>
-        <input class="item-input" type="password" v-model="$v.password.$model" :class="{invalid: $v.password.$error }">
+        <el-input class="item-input" v-model="$v.password.$model" :class="{invalid: $v.password.$error }" show-password></el-input>
+
       </div>
       <div class="item">
-        <base-button @btn-click="logIn" :background="bgButton">Log In</base-button>
+        <el-button @click="logIn" :loading="loading" class="button-auth" type="primary">Log In</el-button>
       </div>
     </div>
     <div class="fields" v-else-if="mode === 'forgot'">
       <div class="item" >
         <p class="item-name">Email</p>
-        <input class="item-input" type="text" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }">
+        <el-input class="item-input" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }"></el-input>
+
       </div>
       <div class="item">
-        <base-button @btn-click="forgotPassword" :background="bgButton">Reset password</base-button>
+        <el-button @click="forgotPassword" :loading="loadingForgot" class="button-auth" type="primary">Reset password</el-button>
       </div>
     </div>
     <div class="links">
@@ -39,16 +41,17 @@ import {required, email, minLength} from 'vuelidate/lib/validators'
 import {hardPassword} from "../helpers/validate";
 
 const Logo = () => import('@/components/helpers/Logo')
-const BaseButton = () => import('@/components/helpers/BaseButton')
 
 export default {
   name: "Auth",
-  components: {BaseButton, Logo},
+  components: {Logo},
   data() {
     return {
       email: 'gulfa.admin@mail.com',
       password: 'Kk123456@',
-      bgButton: '#005CB9'
+      bgButton: '#005CB9',
+      loading: false,
+      loadingForgot: false
     }
   },
   validations: {
@@ -67,6 +70,7 @@ export default {
     async logIn() {
       this.$v.$touch()
       if (!this.$v.$invalid) {
+        this.loading = true
         await api.POST('/admin/login', {email: this.email, password: this.password})
             .then(res => {
               let token = res.data.token
@@ -81,13 +85,15 @@ export default {
                 center: true
               });
             })
+        this.loading = false
       }
     },
     async forgotPassword () {
       this.$v.email.$touch()
       if(!this.$v.email.$invalid) {
+        this.loadingForgot = true
         // TODO it
-        console.log('ok')
+        this.loadingForgot = false
       }
     }
   }
@@ -131,15 +137,18 @@ export default {
       width: 40%;
       margin: 10px;
 
+      .button-auth{
+        width: 100%;
+        @include fontPoppins(12px, 600, 18px);
+        border-radius: 10px;
+        padding: 10px;
+      }
+
       &-name {
         margin: 10px;
       }
 
       &-input {
-        width: 100%;
-        border: 1px solid #E8E8E8;
-        border-radius: 5px;
-        padding: 10px;
         @include fontPoppins(12px, 500, 20px);
       }
     }

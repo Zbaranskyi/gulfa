@@ -11,7 +11,8 @@
           <span @click="editCategory(category.id)" class="edit-category"></span>
         </button>
       </div>
-      <base-button :background="'#ED1C24'" :width="15" @btn-click="showAddCategory = true">+ Add New Category</base-button>
+
+      <el-button @click="showAddCategory = true" class="button-add-new-category" type="info">+ Add New Category</el-button>
     </div>
     <div class="items">
       <product-item
@@ -37,7 +38,6 @@
 </template>
 
 <script>
-import BaseButton from "@/components/helpers/BaseButton";
 import ProductItem from "@/components/helpers/ProductItem";
 import EditProduct from "@/components/products/EditProduct";
 import AddCategory from "./products/AddCategory";
@@ -45,7 +45,7 @@ import EditCategory from "./products/EditCategory";
 
 export default {
   name: "ProductsTable",
-  components: {EditCategory, AddCategory, EditProduct, ProductItem, BaseButton},
+  components: {EditCategory, AddCategory, EditProduct, ProductItem},
   data() {
     return {
       selectedCategory: 0,
@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     filteredItems() {
-      if(this.items.length && this.categories.length) return this.items.filter(el => el.categoryId === this.categories[this.selectedCategory].id)
+      if (this.items.length && this.categories.length) return this.items.filter(el => el.categoryId === this.categories[this.selectedCategory].id)
       else return []
     },
     sortedInfo() {
@@ -78,7 +78,7 @@ export default {
       if (this.value) {
         for (let item of this.filteredItems) {
           for (let prop in item) {
-            if ((prop !== 'id' && prop!== 'categoryId'&& prop !== 'imageUri') && String(item[prop]).toLowerCase().includes(this.value.toLowerCase())) {
+            if ((prop !== 'id' && prop !== 'categoryId' && prop !== 'imageUri') && String(item[prop]).toLowerCase().includes(this.value.toLowerCase())) {
               sort.push(item)
               break;
             }
@@ -89,7 +89,7 @@ export default {
     }
   },
   methods: {
-    editCategory (id) {
+    editCategory(id) {
       this.showEditCategory = true
       this.categoryId = id
     },
@@ -105,7 +105,7 @@ export default {
   flex-direction: column;
   align-items: center;
 
-  button {
+  .button-category {
     border: none;
     border-radius: 10px;
     cursor: auto;
@@ -113,9 +113,16 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     span {
       cursor: pointer;
     }
+  }
+
+  .button-add-new-category {
+    width: 15%;
+    border-radius: 10px;
+    @include fontPoppins(12px, 600, 18px);
   }
 
   .edit-category {
@@ -133,10 +140,12 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+
     .categories {
       display: flex;
       flex-wrap: wrap;
     }
+
     &-title {
       @include fontPoppins(22px, 500, 20px);
     }
@@ -157,6 +166,7 @@ export default {
       &.selected {
         color: #FFFFFF;
         background: $color-background-blue;
+
         .edit-category {
           background: url('../assets/icons/edit-white.svg') no-repeat center;
         }

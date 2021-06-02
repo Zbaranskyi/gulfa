@@ -4,41 +4,32 @@
       <span class="close" @click="$emit('close')"><img src="../assets/icons/close.svg" alt=""></span>
       <h2 class="title"><slot name="title"></slot></h2>
       <slot></slot>
-      <div style="display: flex; width: 100%; justify-content: space-around">
-        <base-button
+      <div style="display: flex; width: 100%; justify-content: space-between">
+        <el-button
             v-show="!withoutButton"
-            @btn-click="$emit('btn-click')"
-            class="button"
-            background="#005CB9"
-            :width="40"
-        ><slot name="button"></slot></base-button>
-        <base-button
+            @click="$emit('btn-click')"
+            class="button-modal-save"
+            type="primary"
+        ><slot name="button"></slot></el-button>
+        <el-button
             v-show="deleteButton"
-            @btn-click="$emit('delete-product')"
-            class="button"
-            background="#ED1C24"
-            :width="40"
-        >Delete</base-button>
-        <base-button
+            @click="$emit('delete-product')"
+            class="button-modal-delete"
+            type="info"
+        >Delete</el-button>
+        <el-button
             v-show="cancelButton"
-            @btn-click="$emit('cancel-action')"
-            class="button"
-            background="white"
-            :width="40"
-            textColor="black"
-        >Cancel</base-button>
+            @click="$emit('cancel-action')"
+            class="button-modal-cancel"
+        >Cancel</el-button>
       </div>
-
-<!--      <div style="background: yellow; width: 100%; height: 100%"></div>-->
     </div>
   </div>
 </template>
 
 <script>
-import BaseButton from "@/components/helpers/BaseButton";
 export default {
   name: "ModalWindow",
-  components: {BaseButton},
   props: {
     value: {
       type: Boolean,
@@ -106,8 +97,25 @@ export default {
       @include fontPoppins(20px, 500, 20px);
       padding-bottom: 30px;
     }
-    .button{
-      margin-top: 30px;
+    .button-modal-delete{
+      width: 40%;
+      border-radius: 10px;
+      @include fontPoppins(12px, 600, 18px);
+      margin: 20px 0;
+      margin-right: 20px;
+    }
+    .button-modal-save{
+      width: 40%;
+      border-radius: 10px;
+      @include fontPoppins(12px, 600, 18px);
+      margin: 20px 0;
+    }
+    .button-modal-cancel{
+      width: 40%;
+      border-radius: 10px;
+      @include fontPoppins(12px, 600, 18px);
+      margin: 20px 0;
+      color: black;
     }
   }
 
