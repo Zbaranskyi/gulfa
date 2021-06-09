@@ -8,6 +8,7 @@ import './style/element-variables.scss'
 Vue.use(ElementUI);
 
 import Vuelidate from 'vuelidate'
+
 Vue.use(Vuelidate)
 
 import router from './router'
@@ -18,7 +19,7 @@ import store from './store'
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  store,
-  render: h => h(App),
+    router,
+    store,
+    render: h => h(App),
 }).$mount('#app')
