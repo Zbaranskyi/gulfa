@@ -27,11 +27,11 @@ export default {
                 })
             commit('unsetLoading')
         },
-        postBanner({rootState, dispatch, commit}, formdata) {
+        async postBanner({rootState, dispatch, commit}, formdata) {
             commit('setLoading')
-            api.POST(`/banners?Linq=http://www.syject.com/`, formdata, rootState.token, true)
-                    .then(() => {
-                        dispatch('getBanners')
+            await api.POST(`/banners?Linq=http://www.syject.com/`, formdata, rootState.token, true)
+                    .then(async () => {
+                        await dispatch('getBanners')
                         dispatch('setSuccessMessage')
                     })
                 .catch(() => {

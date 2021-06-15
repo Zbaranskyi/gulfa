@@ -18,8 +18,8 @@
 
 <script>
 import TopRow from "@/components/helpers/TopRow";
-import AddBanner from "@/components/products/AddBanner";
 import BannersGalery from "@/components/BannersGalery";
+import AddBanner from "@/components/banners/AddBanner";
 
 export default {
   name: "Banners",

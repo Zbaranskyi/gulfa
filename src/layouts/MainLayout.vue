@@ -7,7 +7,7 @@
     <Logo/>
     <ul>
       <li v-for="(page, index) of pages" :key="index">
-        <router-link class="link" :to="`/${page.name.toLowerCase()}`">
+        <router-link class="link" :to="`/${page.name.toLowerCase()}`" :style="{color: page.check}">
           <span
               :class="[page.name.toLowerCase(), {active: route === page.name.toLowerCase()}]"
               class="link-logo"
@@ -31,28 +31,40 @@ export default {
     return {
       pages: [
         {
-          name: 'Products'
+          name: 'Products',
+          check: 'green'
         },
         {
-          name: 'Orders'
+          name: 'Orders',
+          check: 'black'
         },
         {
-          name: 'Customers'
+          name: 'Customers',
+          check: 'yellow'
         },
         {
-          name: 'Drivers'
+          name: 'Drivers',
+          check: 'green'
         },
         {
-          name: 'Payments'
+          name: 'Payments',
+          check: 'black'
         },
         {
-          name: 'Sale'
+          name: 'Sale',
+          check: 'black'
         },
         {
-          name: 'Notifications'
+          name: 'Notifications',
+          check: 'yellow'
         },
         {
-          name: 'Banners'
+          name: 'Banners',
+          check: 'green'
+        },
+        {
+          name: 'Cities',
+          check: 'black'
         }
       ],
       menu: false

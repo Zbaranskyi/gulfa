@@ -35,9 +35,9 @@ export default new Vuex.Store({
                 center: true
             })
         },
-        setErrorMessage () {
+        setErrorMessage (context, message = null) {
             Message({
-                message: 'Error',
+                message: message ?? 'Error',
                 type: 'error',
                 center: true
             })

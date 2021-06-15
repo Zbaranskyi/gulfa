@@ -1,9 +1,6 @@
 <template>
   <div class="banners-galery">
-    <div class="banners-galery_item"
-         v-for="banner of banners"
-         :key="banner.id"
-    >
+    <div class="banners-galery_item" v-for="banner of banners" :key="banner.id">
       <span class="delete" @click="openDeleteBannerWindow(banner.id)"></span>
       <img :src="banner.photo" alt="">
     </div>
@@ -19,7 +16,9 @@
 import ConfirmationDelete from "@/components/helpers/ConfirmationDelete";
 export default {
   name: "BannersGalery",
-  components: {ConfirmationDelete},
+  components: {
+    ConfirmationDelete
+  },
   props: {
     banners: {
       type: Array

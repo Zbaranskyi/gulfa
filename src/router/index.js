@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from "vue-router";
+import Cities from "@/views/Cities";
 
 Vue.use(VueRouter)
 
@@ -83,6 +84,14 @@ const routes = [
             }
         }},
     {name: 'banners', path: '/banners', meta: {layout: 'main'}, component: Banners,
+        beforeEnter(to, from, next) {
+            if (localStorage.getItem('token')) {
+                next();
+            } else {
+                next({path: '/auth/signin'});
+            }
+        }},
+    {name: 'cities', path: '/cities', meta: {layout: 'main'}, component: Cities,
         beforeEnter(to, from, next) {
             if (localStorage.getItem('token')) {
                 next();
