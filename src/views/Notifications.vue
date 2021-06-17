@@ -6,18 +6,34 @@
       btn-text="Create New Notification"
       @btn-click="showAddNotification = true"
   />
-  <TableOfContent
-      :titles="titles"
-      :info="getNotifications"
-      v-model="searchValue"
-  />
+<!--  <TableOfContent-->
+<!--      :titles="titles"-->
+<!--      :info="getNotifications"-->
+<!--      v-model="searchValue"-->
+<!--  />-->
+  <el-table
+      :data="getNotifications"
+      style="width: 100%"
+      header-cell-class-name="header-cell"
+      header-row-class-name="header-row"
+      cell-class-name="table-cell"
+  >
+    <el-table-column
+        prop="postedTime"
+        label="Date&Time">
+    </el-table-column>
+    <el-table-column
+        prop="body"
+        label="Description">
+    </el-table-column>
+  </el-table>
   <add-notification v-if="showAddNotification" v-model="showAddNotification"/>
 </div>
 </template>
 
 <script>
 import AddNotification from "../components/notifications/AddNotification";
-const TableOfContent = () => import('@/components/helpers/TableOfContent');
+// const TableOfContent = () => import('@/components/helpers/TableOfContent');
 
 import TopRow from "@/components/helpers/TopRow";
 
@@ -26,7 +42,7 @@ export default {
   components: {
     AddNotification,
     TopRow,
-    TableOfContent
+    // TableOfContent
   },
   data() {
     return {

@@ -4,11 +4,15 @@ import api from "@/service/api";
 
 export default {
     state: () => ({
-        data: []
+        data: [],
+        currentDriver: null
     }),
     mutations: {
         setDrivers(state, data) {
             state.data = data
+        },
+        setCurrentDriver(state, data) {
+            state.currentDriver = data
         }
     },
     actions: {
@@ -17,7 +21,12 @@ export default {
                 .then(({data}) => commit('setDrivers', data))
                 .catch(err => console.log(err))
         },
-        async putDriver({dispatch, rootState, commit}, {data, id}) {
+        setCurrentDriver({commit, state}, id = null) {
+            if (id === null) commit('setCurrentDriver', null)
+            else commit('setCurrentDriver', state.data.find(el => el.id === id))
+        },
+        async putDriver({dispatch, rootState, commit, state}, data) {
+            let id = state.currentDriver.id
             commit('setLoading')
             try {
                 await api.PUT(`/admin/driver/${id}`, data, rootState.token)
@@ -41,7 +50,8 @@ export default {
                 commit('unsetLoading')
             }
         },
-        async deleteDriver({rootState, dispatch, commit}, id) {
+        async deleteDriver({rootState, dispatch, commit, state}) {
+            let id = state.currentDriver.id
             commit('setLoading')
             try {
                 await api.DELETE(`/admin/driver/${id}`, rootState.token)
@@ -55,6 +65,9 @@ export default {
         },
     },
     getters: {
-        getDriver: state => id => state.data.find(el=>el.id===id)
+        getDriver: state => {
+            let {firstName, lastName, phoneNumber, email} = state.currentDriver
+            return {firstName, lastName, phoneNumber, email}
+        }
     }
 }

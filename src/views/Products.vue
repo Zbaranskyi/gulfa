@@ -11,7 +11,7 @@
         :items="getProducts"
         v-model="searchValue"
     />
-    <add-product
+    <add-product-n
         v-if="addProduct"
         v-model="addProduct"
     />
@@ -21,11 +21,11 @@
 <script>
 import TopRow from "@/components/helpers/TopRow";
 import ProductsTable from "@/components/ProductsTable";
-import AddProduct from "@/components/products/AddProduct";
+import AddProductN from "@/components/products/AddProductN";
 
 export default {
   name: "Products",
-  components: {AddProduct, ProductsTable, TopRow},
+  components: {AddProductN, ProductsTable, TopRow},
   data() {
     return {
       searchValue: '',

@@ -101,7 +101,8 @@ export default {
                 commit('unsetLoading')
             }
         },
-        async putProduct({dispatch, rootState, commit}, {data, formdata,dataAr, id}) {
+        async putProduct({dispatch, rootState, commit, state}, {data, formdata,dataAr}) {
+            let id = state.selectedProduct.id
             commit('setLoading')
             try {
                 await api.PUT(`/shopitems/${id}/localization?culture=en`, data, rootState.token)
@@ -117,7 +118,8 @@ export default {
                 commit('unsetLoading')
             }
         },
-        async putCategory({dispatch, rootState, commit}, {data, formdata, dataAr, id}) {
+        async putCategory({dispatch, rootState, commit, state}, {data, formdata, dataAr}) {
+            let id = state.selectedCategory.id
             commit('setLoading')
             try {
                 await api.PUT(`/categories/${id}`, data, rootState.token)
@@ -139,7 +141,8 @@ export default {
         async patchPhotoCategory({rootState}, {formdata, id}) {
             return api.PATCH(`/categories/${id}/Icon`, formdata, rootState.token, true)
         },
-        async deleteCategory({rootState, dispatch, commit}, id) {
+        async deleteCategory({rootState, dispatch, commit, state}) {
+            let id = state.selectedCategory.id
             commit('setLoading')
             try {
                 await api.DELETE(`/categories/${id}`, rootState.token)
@@ -151,11 +154,13 @@ export default {
                 commit('unsetLoading')
             }
         },
-        async deleteProduct({rootState, dispatch, commit}, id) {
+        async deleteProduct({rootState, dispatch, commit, state}) {
+            let id = state.selectedProduct.id
             commit('setLoading')
             try {
                 await api.DELETE(`/ShopItems/${id}`, rootState.token)
                 await dispatch('getProducts')
+                commit('setSelectedProduct', null)
                 dispatch('setSuccessMessage')
             } catch {
                 dispatch('setErrorMessage')

@@ -55,6 +55,7 @@ export default {
   img {
     width: 100px;
     height: 200px;
+    object-fit: contain;
     //height: 100px;
   }
 

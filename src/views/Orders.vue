@@ -3,35 +3,79 @@
     <TopRow
         @search="searchValue = $event"
     />
-    <TableOfContent
-        withID
-        :titles="titles"
-        :info="getOrders"
-        v-model="searchValue"
-        orders
-        @show-details="showDetails"
-    />
+<!--    <TableOfContent-->
+<!--        withID-->
+<!--        :titles="titles"-->
+<!--        :info="getOrders"-->
+<!--        v-model="searchValue"-->
+<!--        orders-->
+<!--        @show-details="showDetails"-->
+<!--    />-->
+    <el-table
+        :data="getOrders"
+        style="width: 100%"
+        header-cell-class-name="header-cell"
+        header-row-class-name="header-row"
+        cell-class-name="table-cell"
+    >
+      <el-table-column
+          prop="id"
+          label="Order ID">
+      </el-table-column>
+      <el-table-column
+          prop="name"
+          label="Customer Name">
+      </el-table-column>
+      <el-table-column
+          prop="date"
+          label="Date">
+      </el-table-column>
+      <el-table-column
+          prop="total"
+          label="Total">
+      </el-table-column>
+      <el-table-column
+          prop="payStatus"
+          label="Payment Status">
+      </el-table-column>
+      <el-table-column
+          prop="payMethod"
+          label="Payment Method">
+      </el-table-column>
+      <el-table-column
+          label="View Details">
+        <template slot-scope="scope">
+          <span @click="showDetails(scope.row.id)" style="cursor: pointer; text-decoration: underline">View Details</span>
+        </template>
+      </el-table-column>
+    </el-table>
     <order-details
-        v-if="details"
+        v-if="false"
         :selectId="selectId"
+        v-model="details"
+    />
+    <order-details-n
+        v-if="details"
         v-model="details"
     />
   </div>
 </template>
 
 <script>
-const TableOfContent = () => import('@/components/helpers/TableOfContent')
+// const TableOfContent = () => import('@/components/helpers/TableOfContent')
 import TopRow from "@/components/helpers/TopRow";
 import {tableOrders} from "@/test-data/orders";
 import {orders} from "@/test-data/headers";
 import OrderDetails from "@/components/helpers/OrderDetails";
+import OrderDetailsN from "@/components/orders/OrderDetailsN";
 
 export default {
   name: "Orders",
   components: {
+    OrderDetailsN,
     OrderDetails,
     TopRow,
-    TableOfContent
+    // TableOfContent
   },
   data() {
     return {

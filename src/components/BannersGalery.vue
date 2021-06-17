@@ -4,20 +4,30 @@
       <span class="delete" @click="openDeleteBannerWindow(banner.id)"></span>
       <img :src="banner.photo" alt="">
     </div>
-    <confirmation-delete
-        v-if="confirmDelete"
-        v-model="confirmDelete"
-        @delete-product="deleteBanner"
+<!--    <confirmation-delete-->
+<!--        v-if="confirmDelete"-->
+<!--        v-model="confirmDelete"-->
+<!--        @delete-product="deleteBanner"-->
+<!--    />-->
+    <confirmation-window
+        v-if="dialogVisible"
+        dialogText="delete current banner"
+        :dialogVisible="dialogVisible"
+        @close-confirm="closeConfirmWindow"
+        @accept-confirm="deleteBanner"
     />
   </div>
 </template>
 
 <script>
-import ConfirmationDelete from "@/components/helpers/ConfirmationDelete";
+// import ConfirmationDelete from "@/components/helpers/ConfirmationDelete";
+import ConfirmationWindow from "@/components/ConfirmationWindow";
+import confirmation from "@/mixins/confirmation";
 export default {
   name: "BannersGalery",
   components: {
-    ConfirmationDelete
+    ConfirmationWindow,
+    // ConfirmationDelete
   },
   props: {
     banners: {
@@ -26,18 +36,18 @@ export default {
   },
   data () {
     return {
-      confirmDelete: false,
       deletedBannerId: ''
     }
   },
+  mixins: [confirmation],
   methods: {
     openDeleteBannerWindow (id) {
       this.deletedBannerId = id
-      this.confirmDelete = true
+      this.dialogVisible = true
     },
-    deleteBanner () {
-      this.confirmDelete = false
-      this.$store.dispatch('deleteBanner', this.deletedBannerId)
+    async deleteBanner () {
+      await this.$store.dispatch('deleteBanner', this.deletedBannerId)
+      this.closeConfirmWindow()
       this.deletedBannerId = ''
     }
   }

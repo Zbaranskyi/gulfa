@@ -16,6 +16,7 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   color: $color-background-blue;
   @include fontPoppins(12px, 600, 18px);
   text-align: center!important;
+  border: none;
 }
 .table-cell{
   text-align: center!important;
@@ -30,10 +31,21 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 //  border-radius: 10px;
 //  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
 //}
+.el-scrollbar__view.el-select-dropdown__list .el-select-dropdown__item span, .el-dialog, .el-message, .el-textarea{
+  @include fontPoppins(14px, 400, 20px);
+}
 .el-dialog{
   @include fontPoppins(14px, 400, 20px);
   border-radius: 10px;
 }
 .el-textarea__inner{
   @include fontPoppins(14px, 400, 20px);
+}
+.dialog-footer {
+  display: flex;
+  justify-content: center;
+
+  button {
+    width: 300px;
+  }
 }

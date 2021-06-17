@@ -6,45 +6,70 @@
       @search="searchValue = $event"
       @btn-click="showAddDriver = true"
   />
-  <TableOfContent
-      withID
-      edit
-      :titles="titles"
-      :info="getDrivers"
-      v-model="searchValue"
-      @edit-action="editDriver"
-  />
-  <add-driver
+  <el-table
+      :data="getDrivers"
+      style="width: 100%"
+      header-cell-class-name="header-cell"
+      header-row-class-name="header-row"
+      cell-class-name="table-cell"
+  >
+    <el-table-column
+        prop="firstName"
+        label="Name">
+    </el-table-column>
+    <el-table-column
+        prop="lastName"
+        label="Last Name">
+    </el-table-column>
+    <el-table-column
+        prop="email"
+        label="Email">
+    </el-table-column>
+    <el-table-column
+        prop="phoneNumber"
+        label="Phone Number">
+    </el-table-column>
+    <el-table-column
+        prop="id"
+        label="Employee ID">
+    </el-table-column>
+    <el-table-column>
+      <template slot-scope="scope">
+        <el-button
+            type="warning"
+            @click="editDriver(scope.row.id)"
+        ><img src="../assets/icons/edit.svg" alt="edit"></el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+  <add-driver-n
       v-if="showAddDriver"
       v-model="showAddDriver"
   />
-  <edit-driver
+  <edit-driver-n
       v-if="showEditDriver"
       v-model="showEditDriver"
-      :driverId="driverId"
   />
 </div>
 </template>
 
 <script>
-import AddDriver from "../components/drivers/AddDriver";
-const TableOfContent = () => import('@/components/helpers/TableOfContent')
-import {driversHeaders} from "@/test-data/headers";
-import {drivers} from "@/test-data/drivers";
 import TopRow from "@/components/helpers/TopRow";
-import EditDriver from "../components/drivers/EditDriver";
+import EditDriverN from "@/components/drivers/EditDriverN";
+import AddDriverN from "@/components/drivers/AddDriverN";
 
 export default {
   name: "Drivers",
-  components: {EditDriver, AddDriver, TopRow, TableOfContent},
+  components: {
+    AddDriverN,
+    EditDriverN,
+    TopRow,
+  },
   data() {
     return {
-      titles: driversHeaders,
-      drivers: drivers,
       searchValue: '',
       showAddDriver: false,
       showEditDriver: false,
-      driverId: ''
     }
   },
   computed: {
@@ -56,8 +81,8 @@ export default {
     await this.$store.dispatch('getDrivers')
   },
   methods: {
-    editDriver ({id}) {
-      this.driverId = id
+    async editDriver (id) {
+      await this.$store.dispatch('setCurrentDriver', id)
       this.showEditDriver = true
     }
   }

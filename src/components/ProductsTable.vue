@@ -16,22 +16,20 @@
     </div>
     <div class="items">
       <product-item
-          @open-modal="modal=true; editItemID=item.id"
+          @open-modal="editProduct(item.id)"
           v-for="(item, index) of sortedInfo" :key="index" :item="item"
       />
     </div>
-    <edit-product
+    <edit-product-n
         v-if="modal"
-        :editItemID="editItemID"
         v-model="modal"
     />
-    <add-category
+    <add-category-n
         v-if="showAddCategory"
         v-model="showAddCategory"
     />
-    <edit-category
+    <edit-category-n
         v-if="showEditCategory"
-        :categoryId="categoryId"
         v-model="showEditCategory"
     />
   </div>
@@ -39,13 +37,15 @@
 
 <script>
 import ProductItem from "@/components/helpers/ProductItem";
-import EditProduct from "@/components/products/EditProduct";
-import AddCategory from "./products/AddCategory";
-import EditCategory from "./products/EditCategory";
+import AddCategoryN from "@/components/products/AddCategoryN";
+import EditCategoryN from "@/components/products/EditCategoryN";
+import EditProductN from "@/components/products/EditProductN";
 
 export default {
   name: "ProductsTable",
-  components: {EditCategory, AddCategory, EditProduct, ProductItem},
+  components: {
+    EditProductN,
+    EditCategoryN, AddCategoryN, ProductItem},
   data() {
     return {
       selectedCategory: 0,
@@ -89,10 +89,18 @@ export default {
     }
   },
   methods: {
-    editCategory(id) {
+    async editCategory(id) {
+      this.$store.commit('setLoading')
+      await this.$store.dispatch('getSelectedCategory', id)
+      this.$store.commit('unsetLoading')
       this.showEditCategory = true
-      this.categoryId = id
     },
+    async editProduct(id) {
+      this.$store.commit('setLoading')
+      await this.$store.dispatch('getSelectedProduct', id)
+      this.$store.commit('unsetLoading')
+      this.modal = true
+    }
   }
 }
 </script>

@@ -60,6 +60,7 @@ export default {
   justify-content: space-between;
   border-bottom: 1px solid #E8E8E8;
   padding-bottom: 10px;
+  margin-bottom: 20px;
   .button-top-row{
     width: 20%;
     border-radius: 10px;

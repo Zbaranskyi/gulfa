@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="Create New Notification" :visible.sync="value" :before-close="closeModalWindow">
+  <el-dialog title="Add New Banner" :visible.sync="value" :before-close="closeModalWindow">
     <div class="image-block">
       <img v-if="base64Img" class="image" :src="base64Img" alt="">
       <div v-else class="image"></div>
@@ -53,40 +53,5 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-@import "../../style/variables";
-.image-block{
-  display: flex;
-  margin-bottom: 30px;
-  justify-content: center;
-  .image{
-    width: 300px;
-    height: 200px;
-    border: 1px dashed #E7E6E6;
-    border-radius: 10px;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
-  }
-  .image-cropper {
-    width: 300px;
-    height: 200px;
-    //background: yellow;
-    border: 1px dashed #E7E6E6;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 500;
-    color: #2F3741;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 20px;
-  }
-}
-.dialog-footer {
-  display: flex;
-  justify-content: center;
-
-  button {
-    width: 300px;
-  }
-}
+<style scoped>
 </style>
