@@ -41,7 +41,7 @@ export default new Vuex.Store({
                 type: 'error',
                 center: true
             })
-        }
+        },
     },
     modules
 })

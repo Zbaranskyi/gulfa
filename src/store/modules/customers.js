@@ -18,7 +18,7 @@ export default {
         async getCustomers({commit, rootState}) {
             await api.GET('/admin/customers', rootState.token)
                 .then(({data}) => commit('setCustomers', data))
-                .catch(err => console.log(err))
+                .catch(console.dir)
         },
         async deleteCustomer({rootState, dispatch, commit, state}) {
             let id = state.currentCustomer.id

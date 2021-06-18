@@ -2,7 +2,7 @@
   <div
       class="profile"
   >
-    <div class="base" @click="openClose">
+    <div class="base" v-click-outside="openClose" @click="openClose">
       <div class="logo"></div>
       <p class="title">Admin John</p>
     </div>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import ClickOutside from 'vue-click-outside'
 export default {
   name: "AdminMenu",
   props: ['value'],
@@ -30,6 +31,9 @@ export default {
       this.$store.commit('setToken', '')
       this.$router.push('auth')
     }
+  },
+  directives: {
+    ClickOutside
   }
 }
 </script>
