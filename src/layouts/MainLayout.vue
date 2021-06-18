@@ -174,6 +174,13 @@ export default {
                 background-image: url('../assets/icons/menu/banners-select.svg');
               }
             }
+            &.cities{
+              background-image: url('../assets/icons/menu/cities.svg');
+              &.active {
+                background-color: #005CB9;
+                background-image: url('../assets/icons/menu/cities-select.svg');
+              }
+            }
           }
         }
 

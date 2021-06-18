@@ -1,8 +1,6 @@
 <template>
-  <div
-      class="profile"
-  >
-    <div class="base" v-click-outside="openClose" @click="openClose">
+  <div class="profile">
+    <div class="base" v-click-outside="hide" @click="openClose">
       <div class="logo"></div>
       <p class="title">Admin John</p>
     </div>
@@ -25,6 +23,10 @@ export default {
     openClose () {
       this.menu = !this.menu
       this.$emit('input', this.menu)
+    },
+    hide(){
+      this.menu = false
+      this.$emit('input', false)
     },
     logOut() {
       localStorage.removeItem('token')
