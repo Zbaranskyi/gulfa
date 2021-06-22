@@ -5,7 +5,8 @@ import api from "@/service/api";
 export default {
     state: () => ({
         data: [],
-        dataAr: []
+        dataAr: [],
+        currentSale: null
     }),
     mutations: {
         setSales(state, {data, lang}) {
@@ -14,6 +15,9 @@ export default {
             } else if (lang === 'ar') {
                 state.dataAr = data
             }
+        },
+        setCurrentSale(state, data) {
+            state.currentSale = data
         }
     },
     actions: {
@@ -52,18 +56,41 @@ export default {
                 commit('unsetLoading')
             }
         },
-        async deleteSale({rootState, dispatch, commit}, id) {
+        async deleteSale({rootState, dispatch, commit, state}) {
+            let id = state.currentSale.id
             commit('setLoading')
             try {
-                await api.DELETE(`/sale/${id}`, rootState.token)
-                await dispatch('getSales')
+                await api.DELETE(`/admin/driver/${id}`, rootState.token)
+                await dispatch('getDrivers')
                 dispatch('setSuccessMessage')
             } catch {
                 dispatch('setErrorMessage')
             } finally {
                 commit('unsetLoading')
             }
-        }
+        },
+        setCurrentSale({commit, state}, id = null) {
+            if (id === null) commit('setCurrentSale', null)
+            else {
+                let el = state.data.find(el => el.id === id)
+                let index = state.data.findIndex(el => el.id === id)
+                let orders = []
+                if (el.shopItems.length) {
+                    orders = el.shopItems.map(order => order.id)
+                }
+                let data = {
+                    title: el?.title ?? '',
+                    arTitle: state.dataAr[index]?.title ?? '',
+                    percent: String(el.percent),
+                    startDate: el.startDate.substring(0,10),
+                    endDate: el.endDate.substring(0,10),
+                    description: el?.description ?? '',
+                    arDescription: state.dataAr[index]?.description ?? '',
+                    shopItemsId: orders
+                }
+                commit('setCurrentSale', data)
+            }
+        },
     },
     getters: {
         getReformatSales(state) {
@@ -97,28 +124,10 @@ export default {
                 }
             })
         },
-        getSalesForEdit(state) {
-            return state.data.map((el, index) => {
-                let orders = []
-                if (el.shopItems.length) {
-                    orders = el.shopItems.map(order => order.id)
-                }
-                return {
-                    id: el.id,
-                    title: {
-                        en: el?.title ?? '',
-                        ar: state.dataAr[index]?.title ?? ''
-                    },
-                    percent: String(el.percent),
-                    startDate: el.startDate.substring(0,10),
-                    endDate: el.endDate.substring(0,10),
-                    description: {
-                        en: el?.description ?? '',
-                        ar: state.dataAr[index]?.description ?? ''
-                    },
-                    shopItemsId: orders
-                }
-            })
-        },
+        getCurrentSale(state) {
+            // eslint-disable-next-line no-unused-vars
+            let {id, ...data} = state.currentSale
+            return data
+        }
     }
 }

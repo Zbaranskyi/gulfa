@@ -44,8 +44,9 @@ export default {
                 await api.POST(`/admin/driver`, data, rootState.token)
                 await dispatch('getDrivers')
                 dispatch('setSuccessMessage')
-            } catch {
-                dispatch('setErrorMessage')
+            } catch (e) {
+                let errorMessage = e?.response?.data
+                dispatch('setErrorMessage', errorMessage)
             } finally {
                 commit('unsetLoading')
             }

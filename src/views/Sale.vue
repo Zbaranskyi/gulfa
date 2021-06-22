@@ -16,12 +16,20 @@
       @edit-item="editSale"
   />
   <add-sale
+      v-if="false"
+      v-model="showAddSale"
+  />
+  <add-sale-n
       v-if="showAddSale"
       v-model="showAddSale"
   />
   <edit-sale
-      v-if="showEditSale"
+      v-if="false"
       :saleId="saleId"
+      v-model="showEditSale"
+  />
+  <edit-sale-n
+      v-if="showEditSale"
       v-model="showEditSale"
   />
 </div>
@@ -32,10 +40,12 @@ import TopRow from "@/components/helpers/TopRow";
 import SaleItem from "@/components/helpers/SaleItem";
 import AddSale from "../components/sales/AddSale";
 import EditSale from "../components/sales/EditSale";
+import AddSaleN from "@/components/sales/AddSaleN";
+import EditSaleN from "@/components/sales/EditSaleN";
 
 export default {
   name: "Sale",
-  components: {EditSale, AddSale, SaleItem, TopRow},
+  components: {EditSaleN, AddSaleN, EditSale, AddSale, SaleItem, TopRow},
   data () {
     return {
       lang: 'en',
@@ -53,25 +63,10 @@ export default {
     getReformatSales () {
       return this.$store.getters.getReformatSales
     },
-    // TODO it
-    // sortedInfo () {
-    //   let sort = []
-    //   if(this.searchValue) {
-    //     for(let item of this.getReformatSales) {
-    //       for(let prop in item) {
-    //         if(String(item[prop]).toLowerCase().includes(this.value.toLowerCase())) {
-    //           sort.push(item)
-    //           break;
-    //         }
-    //       }
-    //     }
-    //   } else return this.getReformatSales
-    //   return sort
-    // }
   },
   methods: {
-    editSale (id) {
-      this.saleId = id
+    async editSale (id) {
+      await this.$store.dispatch('setCurrentSale', id)
       this.showEditSale = true
     }
   }

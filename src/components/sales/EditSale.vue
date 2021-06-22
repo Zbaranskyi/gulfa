@@ -159,7 +159,7 @@ export default {
     }
   },
   created() {
-    this.sale = this.$store.getters.getSalesForEdit.find(el => el.id === this.saleId)
+    this.sale = {...this.$store.state.sales.currentSale}
   },
   methods: {
     async putSale() {

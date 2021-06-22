@@ -40,7 +40,7 @@ export default {
         },
         {
           name: 'Customers',
-          check: 'yellow'
+          check: 'green'
         },
         {
           name: 'Drivers',

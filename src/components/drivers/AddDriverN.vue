@@ -41,6 +41,16 @@ export default {
     }
   },
   data() {
+    let testPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@.,#\$%\^&\*])(?=.{8,})/; //eslint-disable-line
+    let validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please input a password'));
+      } else if (!testPass.test(String(value))) {
+        callback(new Error('password must be contain digits, letters, symbols (min 8 characters)'))
+      } else {
+        callback();
+      }
+    };
     return {
       rules: {
         firstName: [
@@ -74,7 +84,7 @@ export default {
         password: [
           {
             required: true,
-            message: 'Please input a password',
+            validator: validatePass,
             trigger: 'blur'
           }
         ],

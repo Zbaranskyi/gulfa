@@ -80,6 +80,7 @@ export default {
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     width: 140px;
     padding: 10px;
     margin-right: 20px;
@@ -95,7 +96,9 @@ export default {
     }
     img {
       width: 100px;
+      height: 70px;
       align-self: center;
+      object-fit: contain;
     }
     p {
       padding: 0;
