@@ -74,7 +74,7 @@
     <confirmation-delete
         v-if="confirmDelete"
         v-model="confirmDelete"
-        @delete-product="deleteCustomer"
+        @delete-product="deleteCurrentCustomer"
     />
   </div>
 </template>
@@ -84,6 +84,7 @@ import ModalWindow from "@/components/ModalWindow";
 import InputWithLabel from "@/components/helpers/InputWithLabel";
 import ConfirmationDelete from "../helpers/ConfirmationDelete";
 import {required, numeric} from 'vuelidate/lib/validators'
+import {mapActions} from 'vuex'
 
 export default {
   name: "EditCustomer",
@@ -143,8 +144,9 @@ export default {
     }
   },
   methods: {
-    deleteCustomer () {
-      this.$store.dispatch('deleteCustomer', this.getFullData.id)
+    ...mapActions(['deleteCustomer', 'putCustomer']),
+    async deleteCurrentCustomer () {
+      await this.deleteCustomer()
       this.$emit('input', false)
     },
     async saveChanges () {
@@ -169,7 +171,7 @@ export default {
             }
           ]
         }
-        await this.$store.dispatch('putCustomer', {data, id: this.getFullData.id})
+        await this.putCustomer({data, id: this.getFullData.id})
         this.$emit('input', false)
       }
     }

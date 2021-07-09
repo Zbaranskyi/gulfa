@@ -48,7 +48,7 @@
         dialogText="delete current customer"
         :dialogVisible="dialogVisible"
         @close-confirm="closeConfirmWindow"
-        @accept-confirm="deleteCustomer"
+        @accept-confirm="deleteCurrentCustomer"
     />
   </el-dialog>
 </template>
@@ -56,6 +56,7 @@
 <script>
 import ConfirmationWindow from "@/components/ConfirmationWindow";
 import confirmation from "@/mixins/confirmation";
+import {mapActions} from 'vuex'
 
 export default {
   name: "EditCustomerN",
@@ -136,6 +137,7 @@ export default {
     this.form.subscriptionIsActive = this.form.subscriptionIsActive ? 'true' : 'false'
   },
   methods: {
+    ...mapActions(['putCustomer', 'setErrorMessage', 'setCurrentCustomer', 'deleteCustomer']),
     submitForm() {
       let vm = this
       this.$refs['validation-customer-form'].validate(async (valid) => {
@@ -148,20 +150,20 @@ export default {
             let [day, month, year] = birthDate.split('/')
             birthDate = `${year}-${month}-${day}T00:00:00`
           }
-          await this.$store.dispatch('putCustomer', {...this.form, birthDate})
+          await this.putCustomer({...this.form, birthDate})
           this.closeModalWindow()
         } else {
-          await vm.$store.dispatch('setErrorMessage', 'Error with validation')
+          await vm.setErrorMessage('Error with validation')
           return false;
         }
       });
     },
     closeModalWindow() {
       this.$emit('input', false)
-      this.$store.dispatch('setCurrentCustomer')
+      this.setCurrentCustomer()
     },
-    async deleteCustomer() {
-      await this.$store.dispatch('deleteCustomer')
+    async deleteCurrentCustomer() {
+      await this.deleteCustomer()
       this.closeConfirmWindow()
       this.closeModalWindow()
     }

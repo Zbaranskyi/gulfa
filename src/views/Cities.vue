@@ -96,7 +96,7 @@ export default {
     editCity(id) {
       console.log(id)
     },
-    deleteCity(id){
+    deleteCity(id) {
       console.log(id)
     }
   }

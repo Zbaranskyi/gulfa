@@ -19,6 +19,7 @@
 
 <script>
 import encodeImage from "@/mixins/encodeImage";
+import {mapActions} from 'vuex'
 
 export default {
   name: "AddBanner",
@@ -35,16 +36,17 @@ export default {
   },
   mixins: [encodeImage],
   methods: {
+    ...mapActions(['postBanner', 'setErrorMessage']),
     async postBanner() {
-        if (this.base64Img) {
-          let formdata = new FormData()
-          formdata.append('mediafile', this.file)
-          await this.$store.dispatch('postBanner', formdata)
-          this.closeModalWindow()
-        } else {
-          await this.$store.dispatch('setErrorMessage', 'Image not found')
-          return false;
-        }
+      if (this.base64Img) {
+        let formdata = new FormData()
+        formdata.append('mediafile', this.file)
+        await this.postBanner(formdata)
+        this.closeModalWindow()
+      } else {
+        await this.setErrorMessage('Image not found')
+        return false;
+      }
     },
     closeModalWindow() {
       this.$emit('input', false)

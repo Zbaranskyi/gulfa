@@ -1,14 +1,14 @@
 <template>
-<div id="deliveries">
-  <TopRow
-      @search="searchValue = $event"
-  />
-  <TableOfContent
-      :titles="titles"
-      :info="deliveries"
-      v-model="searchValue"
-  />
-</div>
+  <div id="deliveries">
+    <TopRow
+        @search="searchValue = $event"
+    />
+    <TableOfContent
+        :titles="titles"
+        :info="deliveries"
+        v-model="searchValue"
+    />
+  </div>
 </template>
 
 <script>
@@ -18,7 +18,7 @@ import TopRow from "@/components/helpers/TopRow";
 export default {
   name: "Deliveries",
   components: {TopRow, TableOfContent},
-  data () {
+  data() {
     return {
       titles: [
         'ID',
@@ -27,10 +27,10 @@ export default {
         'Delivery Address ',
         'Delivery Date&Time',
         'Price',
-          'Payment Method',
-          'Driver'
+        'Payment Method',
+        'Driver'
       ],
-      deliveries:  [
+      deliveries: [
         {
           id: '#1245',
           date: '01/03/2021 13:51 PM',
@@ -73,7 +73,6 @@ export default {
         }
       ],
       searchValue: ''
-
     }
   }
 }

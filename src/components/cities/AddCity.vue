@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   name: "AddCity",
   props: {
@@ -76,14 +77,15 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['setErrorMessage']),
     submitForm() {
       let vm = this
       this.$refs['validation-city-form'].validate(async (valid) => {
         if (valid) {
-          await this.$store.dispatch('postNewCity', this.form)
+          //await this.$store.dispatch('postNewCity', this.form)//it still is not created
           this.closeModalWindow()
         } else {
-          await vm.$store.dispatch('setErrorMessage', 'Error with validation')
+          await vm.setErrorMessage('Error with validation')
           return false;
         }
       });

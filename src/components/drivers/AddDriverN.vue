@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   name: "AddDriverN",
   props: {
@@ -100,14 +101,15 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['postDriver', 'setErrorMessage']),
     submitForm() {
       let vm = this
       this.$refs['validation-driver-form'].validate(async (valid) => {
         if (valid) {
-          await this.$store.dispatch('postDriver', this.form)
+          await this.postDriver(this.form)
           this.closeModalWindow()
         } else {
-          await vm.$store.dispatch('setErrorMessage', 'Error with validation')
+          await vm.setErrorMessage('Error with validation')
           return false;
         }
       });

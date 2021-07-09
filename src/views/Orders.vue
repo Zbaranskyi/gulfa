@@ -3,14 +3,14 @@
     <TopRow
         @search="searchValue = $event"
     />
-<!--    <TableOfContent-->
-<!--        withID-->
-<!--        :titles="titles"-->
-<!--        :info="getOrders"-->
-<!--        v-model="searchValue"-->
-<!--        orders-->
-<!--        @show-details="showDetails"-->
-<!--    />-->
+    <!--    <TableOfContent-->
+    <!--        withID-->
+    <!--        :titles="titles"-->
+    <!--        :info="getOrders"-->
+    <!--        v-model="searchValue"-->
+    <!--        orders-->
+    <!--        @show-details="showDetails"-->
+    <!--    />-->
     <el-table
         :data="getOrders"
         style="width: 100%"
@@ -45,7 +45,8 @@
       <el-table-column
           label="View Details">
         <template slot-scope="scope">
-          <span @click="showDetails(scope.row.id)" style="cursor: pointer; text-decoration: underline">View Details</span>
+          <span @click="showDetails(scope.row.id)"
+                style="cursor: pointer; text-decoration: underline">View Details</span>
         </template>
       </el-table-column>
     </el-table>
@@ -62,7 +63,6 @@
 </template>
 
 <script>
-// const TableOfContent = () => import('@/components/helpers/TableOfContent')
 import TopRow from "@/components/helpers/TopRow";
 import {tableOrders} from "@/test-data/orders";
 import {orders} from "@/test-data/headers";
@@ -90,12 +90,12 @@ export default {
     await this.$store.dispatch('getOrders')
   },
   computed: {
-    getOrders () {
+    getOrders() {
       return this.$store.getters.getSimpleOrdersInformation
     }
   },
   methods: {
-    showDetails (id) {
+    showDetails(id) {
       this.selectId = id
       this.details = true
     }

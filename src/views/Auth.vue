@@ -3,13 +3,14 @@
     <Logo/>
     <p class="title">{{ formTitle }}</p>
     <div class="fields" v-if="mode === 'signin'">
-      <div class="item" >
+      <div class="item">
         <p class="item-name">Email</p>
         <el-input class="item-input" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }"></el-input>
       </div>
-      <div class="item" >
+      <div class="item">
         <p class="item-name">Password</p>
-        <el-input class="item-input" v-model="$v.password.$model" :class="{invalid: $v.password.$error }" show-password></el-input>
+        <el-input class="item-input" v-model="$v.password.$model" :class="{invalid: $v.password.$error }"
+                  show-password></el-input>
 
       </div>
       <div class="item">
@@ -17,13 +18,14 @@
       </div>
     </div>
     <div class="fields" v-else-if="mode === 'forgot'">
-      <div class="item" >
+      <div class="item">
         <p class="item-name">Email</p>
         <el-input class="item-input" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }"></el-input>
 
       </div>
       <div class="item">
-        <el-button @click="forgotPassword" :loading="loadingForgot" class="button-auth" type="primary">Reset password</el-button>
+        <el-button @click="forgotPassword" :loading="loadingForgot" class="button-auth" type="primary">Reset password
+        </el-button>
       </div>
     </div>
     <div class="links">
@@ -56,13 +58,13 @@ export default {
   },
   validations: {
     email: {required, email},
-    password:{required, minLength: minLength(6), hardPassword}
+    password: {required, minLength: minLength(6), hardPassword}
   },
   computed: {
     mode() {
       return this.$route.params.mode
     },
-    formTitle () {
+    formTitle() {
       return this.mode === 'signin' ? 'Log In' : 'Forgot password'
     }
   },
@@ -71,26 +73,24 @@ export default {
       this.$v.$touch()
       if (!this.$v.$invalid) {
         this.loading = true
-        await api.POST('/admin/login', {email: this.email, password: this.password})
-            .then(res => {
-              let token = res.data.token
-              localStorage.setItem('token', token)
-              this.$store.commit('setToken', token)
-              this.$router.push('/')
-            })
-            .catch(e => {
-              this.$message({
-                message: e?.response?.data?.title || 'Error with authorization',
-                type: 'error',
-                center: true
-              });
-            })
+        try {
+          let {data: {token}} = await api.POST('/admin/login', {email: this.email, password: this.password})
+          localStorage.setItem('token', token)
+          this.$store.commit('setToken', token)
+          this.$router.push('/')
+        } catch (e) {
+          this.$message({
+            message: e?.response?.data?.title || 'Error with authorization',
+            type: 'error',
+            center: true
+          });
+        }
         this.loading = false
       }
     },
-    async forgotPassword () {
+    async forgotPassword() {
       this.$v.email.$touch()
-      if(!this.$v.email.$invalid) {
+      if (!this.$v.email.$invalid) {
         this.loadingForgot = true
         // TODO it
         this.loadingForgot = false
@@ -137,7 +137,7 @@ export default {
       width: 40%;
       margin: 10px;
 
-      .button-auth{
+      .button-auth {
         width: 100%;
         @include fontPoppins(12px, 600, 18px);
         border-radius: 10px;

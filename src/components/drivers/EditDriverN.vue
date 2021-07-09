@@ -40,6 +40,7 @@
 <script>
 import ConfirmationWindow from "@/components/ConfirmationWindow";
 import confirmation from "@/mixins/confirmation";
+import {mapActions} from 'vuex'
 
 export default {
   name: "EditDriverN",
@@ -96,25 +97,26 @@ export default {
     this.form = {...this.$store.getters.getDriver}
   },
   methods: {
+    ...mapActions(['putDriver', 'setCurrentDriver', 'setErrorMessage', 'deleteDriver']),
     submitForm() {
       let vm = this
       this.$refs['validation-driver-form'].validate(async (valid) => {
         if (valid) {
-          await this.$store.dispatch('putDriver', this.form)
-          await this.$store.dispatch('setCurrentDriver')
+          await this.putDriver(this.form)
+          await this.setCurrentDriver()
           this.closeModalWindow()
         } else {
-          await vm.$store.dispatch('setErrorMessage', 'Error with validation')
+          await vm.setErrorMessage('Error with validation')
           return false;
         }
       });
     },
     closeModalWindow() {
       this.$emit('input', false)
-      this.$store.dispatch('setCurrentDriver')
+      this.setCurrentDriver()
     },
     async deleteDriver() {
-      await this.$store.dispatch('deleteDriver')
+      await this.deleteDriver()
       this.closeConfirmWindow()
       this.closeModalWindow()
     }

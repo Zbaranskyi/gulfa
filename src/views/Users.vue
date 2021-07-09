@@ -3,13 +3,13 @@
     <TopRow
         @search="searchValue = $event"
     />
-<!--    <TableOfContent-->
-<!--        edit-->
-<!--        :titles="titles"-->
-<!--        :info="getFilteredData"-->
-<!--        v-model="searchValue"-->
-<!--        @edit-action="editCustomer"-->
-<!--    />-->
+    <!--    <TableOfContent-->
+    <!--        edit-->
+    <!--        :titles="titles"-->
+    <!--        :info="getFilteredData"-->
+    <!--        v-model="searchValue"-->
+    <!--        @edit-action="editCustomer"-->
+    <!--    />-->
     <el-table
         :data="getFilteredData"
         style="width: 100%"
@@ -48,7 +48,7 @@
       <el-table-column
           label="Subscription">
         <template slot-scope="scope">
-          <span>{{scope.row.subscription}}</span>
+          <span>{{ scope.row.subscription }}</span>
         </template>
       </el-table-column>
       <el-table-column>
@@ -101,7 +101,7 @@ export default {
     await this.$store.dispatch('getCustomers')
   },
   methods: {
-    async editCustomer (id) {
+    async editCustomer(id) {
       await this.$store.dispatch('setCurrentCustomer', id)
       this.showEditCustomer = true
     },

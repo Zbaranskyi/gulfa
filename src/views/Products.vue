@@ -7,8 +7,8 @@
         @btn-click="addProduct = true"
     />
     <ProductsTable
-        :categories="getCategories"
-        :items="getProducts"
+        :categories="getCategoriesS"
+        :items="getProductsS"
         v-model="searchValue"
     />
     <add-product-n
@@ -22,6 +22,7 @@
 import TopRow from "@/components/helpers/TopRow";
 import ProductsTable from "@/components/ProductsTable";
 import AddProductN from "@/components/products/AddProductN";
+import {mapActions} from 'vuex'
 
 export default {
   name: "Products",
@@ -33,17 +34,18 @@ export default {
     }
   },
   computed: {
-    getProducts() {
+    getProductsS() {
       return this.$store.state.products.data
     },
-    getCategories() {
+    getCategoriesS() {
       return this.$store.state.products.categories
     }
   },
   async created() {
-    await this.$store.dispatch('getCategories')
-    await this.$store.dispatch('getProducts')
-  }
+    await this.getCategories()
+    await this.getProducts()
+  },
+  methods: mapActions(['getCategories', 'getProducts'])
 }
 
 </script>
