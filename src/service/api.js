@@ -4,7 +4,8 @@ const mainRoute = 'https://gulfaweb.azurewebsites.net'
 
 async function makeRequest ({type, endpoint, data, params, token, formdata}) {
     return axios({
-        url: mainRoute + endpoint,
+        baseURL: mainRoute,
+        url: endpoint,
         method: type,
         params: params ? params : '',
         data: data ? data : '',

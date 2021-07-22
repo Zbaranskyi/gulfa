@@ -44,11 +44,9 @@
       <el-button type="info" @click="openConfirmWindow" round :loading="loadingDelete">Delete</el-button>
     </span>
     <confirmation-window
-        v-if="dialogVisible"
         dialogText="delete current customer"
         :dialogVisible="dialogVisible"
-        @close-confirm="closeConfirmWindow"
-        @accept-confirm="deleteCurrentCustomer"
+        :handlers="{cancel: closeConfirmWindow, confirm: deleteCurrentCustomer}"
     />
   </el-dialog>
 </template>

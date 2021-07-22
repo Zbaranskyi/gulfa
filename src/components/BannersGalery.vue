@@ -5,11 +5,9 @@
       <img :src="banner.photo" alt="">
     </div>
     <confirmation-window
-        v-if="dialogVisible"
         dialogText="delete current banner"
         :dialogVisible="dialogVisible"
-        @close-confirm="closeConfirmWindow"
-        @accept-confirm="deleteBanner"
+        :handlers="{cancel: closeConfirmWindow, confirm: deleteBanner}"
     />
   </div>
 </template>

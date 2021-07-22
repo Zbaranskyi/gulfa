@@ -3,27 +3,27 @@
     <Logo/>
     <p class="title">{{ formTitle }}</p>
     <div class="fields" v-if="mode === 'signin'">
-      <div class="item">
-        <p class="item-name">Email</p>
-        <el-input class="item-input" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }"></el-input>
+      <div class="auth-item">
+        <p class="auth-item-name">Email</p>
+        <el-input class="auth-item-input" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }"></el-input>
       </div>
-      <div class="item">
-        <p class="item-name">Password</p>
-        <el-input class="item-input" v-model="$v.password.$model" :class="{invalid: $v.password.$error }"
+      <div class="auth-item">
+        <p class="auth-item-name">Password</p>
+        <el-input class="auth-item-input" v-model="$v.password.$model" :class="{invalid: $v.password.$error }"
                   show-password></el-input>
 
       </div>
-      <div class="item">
+      <div class="auth-item">
         <el-button @click="logIn" :loading="loading" class="button-auth" type="primary">Log In</el-button>
       </div>
     </div>
     <div class="fields" v-else-if="mode === 'forgot'">
-      <div class="item">
-        <p class="item-name">Email</p>
-        <el-input class="item-input" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }"></el-input>
+      <div class="auth-item">
+        <p class="auth-item-name">Email</p>
+        <el-input class="auth-item-input" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }"></el-input>
 
       </div>
-      <div class="item">
+      <div class="auth-item">
         <el-button @click="forgotPassword" :loading="loadingForgot" class="button-auth" type="primary">Reset password
         </el-button>
       </div>

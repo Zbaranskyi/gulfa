@@ -7,8 +7,8 @@
       :before-close="()=>$emit('close-confirm')">
     <span>Do you want to {{ dialogText }} ?</span>
     <span slot="footer" class="dialog-footer">
-    <el-button @click="()=>$emit('close-confirm')">Cancel</el-button>
-    <el-button type="primary" @click="()=>$emit('accept-confirm')">Confirm</el-button>
+    <el-button @click="handlers.cancel">Cancel</el-button>
+    <el-button type="primary" @click="handlers.confirm">Confirm</el-button>
   </span>
   </el-dialog>
 </template>
@@ -24,6 +24,10 @@ export default {
     dialogText: {
       type: String,
       default: ''
+    },
+    handlers: {
+      type: Object,
+      default: () => ({})
     }
   }
 }

@@ -1,5 +1,3 @@
-// import api from "@/service/api";
-
 import api from "@/service/api";
 
 export default {

@@ -26,11 +26,9 @@
       <el-button type="info" @click="openConfirmWindow" round :loading="loadingDelete">Delete</el-button>
     </span>
     <confirmation-window
-        v-if="dialogVisible"
         dialogText="delete current category"
         :dialogVisible="dialogVisible"
-        @close-confirm="closeConfirmWindow"
-        @accept-confirm="deleteCategory"
+        :handlers="{cancel: closeConfirmWindow, confirm: deleteCategory}"
     />
   </el-dialog>
 </template>

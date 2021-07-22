@@ -1,6 +1,6 @@
 .banners-galery {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   &_item {
     margin: 20px auto;
     position: relative;

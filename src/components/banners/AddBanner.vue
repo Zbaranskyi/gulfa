@@ -9,7 +9,7 @@
     <span slot="footer" class="dialog-footer">
     <el-button
         type="primary"
-        @click="postBanner"
+        @click="saveChanges"
         round
         :loading="loadingSaveChanges"
     >Save Changes</el-button>
@@ -37,7 +37,7 @@ export default {
   mixins: [encodeImage],
   methods: {
     ...mapActions(['postBanner', 'setErrorMessage']),
-    async postBanner() {
+    async saveChanges() {
       if (this.base64Img) {
         let formdata = new FormData()
         formdata.append('mediafile', this.file)

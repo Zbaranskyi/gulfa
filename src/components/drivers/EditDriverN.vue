@@ -28,11 +28,9 @@
       <el-button type="info" @click="openConfirmWindow" round :loading="loadingDelete">Delete</el-button>
     </span>
     <confirmation-window
-        v-if="dialogVisible"
         dialogText="delete current driver"
         :dialogVisible="dialogVisible"
-        @close-confirm="closeConfirmWindow"
-        @accept-confirm="deleteDriver"
+        :handlers="{cancel: closeConfirmWindow, confirm: deleteDriver}"
     />
   </el-dialog>
 </template>

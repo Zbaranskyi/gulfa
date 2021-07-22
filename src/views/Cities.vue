@@ -7,24 +7,24 @@
         @btn-click="showAddNotification = true"
     />
     <el-table
-        :data="table"
+        :data="cities"
         style="width: 100%"
         header-cell-class-name="header-cell"
         header-row-class-name="header-row"
         cell-class-name="table-cell"
     >
       <el-table-column
-          prop="name"
+          prop="cityName"
           label="City">
       </el-table-column>
       <el-table-column
-          prop="district"
+          prop="districtName"
           label="District">
       </el-table-column>
-      <el-table-column
-          prop="address"
-          label="Address">
-      </el-table-column>
+<!--      <el-table-column-->
+<!--          prop="address"-->
+<!--          label="Address">-->
+<!--      </el-table-column>-->
       <el-table-column width="100">
         <template slot-scope="scope">
           <el-button
@@ -37,67 +37,63 @@
         <template slot-scope="scope">
           <el-button
               type="warning"
-              @click="deleteCity(scope.row.id)"
+              @click="openDeleteBannerWindow(scope.row.id)"
           ><img src="../assets/icons/trash-can.svg" alt="edit"></el-button>
         </template>
       </el-table-column>
     </el-table>
     <add-city v-if="showAddNotification" v-model="showAddNotification"/>
+    <confirmation-window
+        dialogText="delete current city"
+        :dialogVisible="dialogVisible"
+        :handlers="{cancel: closeConfirmWindow, confirm: deleteCity}"
+    />
   </div>
 </template>
 
 <script>
 import AddCity from "@/components/cities/AddCity";
 import TopRow from "@/components/helpers/TopRow";
+import {mapActions} from 'vuex'
+import ConfirmationWindow from "@/components/ConfirmationWindow";
+import confirmation from "@/mixins/confirmation";
 
 export default {
   name: "Cities",
   components: {
+    ConfirmationWindow,
     AddCity,
     TopRow,
   },
   data() {
     return {
-      titles: [
-        'Date&Time',
-        'Description'
-      ],
-      table: [
-        {
-          id: 0,
-          name: 'City 1',
-          district: 'District 1',
-          address: 'Address'
-        },
-        {
-          id: 1,
-          name: 'City 2',
-          district: 'District 2',
-          address: 'Address'
-        },
-        {
-          id: 2,
-          name: 'City 3',
-          district: 'District 3',
-          address: 'Address'
-        },
-        {
-          id: 3,
-          name: 'City 4',
-          district: 'District 4',
-          address: 'Address'
-        }
-      ],
       searchValue: '',
-      showAddNotification: false
+      showAddNotification: false,
+      deleteCityId: ''
     }
   },
+  async created() {
+    await this.getCities()
+  },
+  computed: {
+    cities(){
+      return this.$store.state.cities.cities
+    }
+  },
+  mixins: [confirmation],
   methods: {
+    ...mapActions(['getCities']),
     editCity(id) {
       console.log(id)
     },
-    deleteCity(id) {
-      console.log(id)
+    openDeleteBannerWindow (id) {
+      this.deleteCityId = id
+      this.dialogVisible = true
+    },
+    async deleteCity () {
+      await this.$store.dispatch('deleteCity', this.deleteCityId)
+      this.closeConfirmWindow()
+      this.deleteCityId = ''
     }
   }
 }

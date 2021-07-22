@@ -63,11 +63,9 @@
 
     </span>
     <confirmation-window
-        v-if="dialogVisible"
         dialogText="delete current product"
         :dialogVisible="dialogVisible"
-        @close-confirm="closeConfirmWindow"
-        @accept-confirm="deleteProduct"
+        :handlers="{cancel: closeConfirmWindow, confirm: deleteProduct}"
     />
   </el-dialog>
 </template>
