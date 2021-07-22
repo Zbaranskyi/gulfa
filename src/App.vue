@@ -22,7 +22,7 @@ export default {
   computed: {
     layout () {
       return `${this.$route.meta.layout || 'auth'}-layout`
-    },
+    }
   },
   methods: {
     successMessage () {
@@ -43,16 +43,5 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "./style/reset.css";
-
-//.dark{
-//  position: fixed;
-//  top: 0;
-//  left: 0;
-//  width: 100vw;
-//  height: 100vh;
-//  background: #00000099;
-//  z-index: 10;
-//}
+<style>
 </style>

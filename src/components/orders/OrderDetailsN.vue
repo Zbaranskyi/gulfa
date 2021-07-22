@@ -92,13 +92,6 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-.order-info{
- & > div {
-   display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-   justify-content: space-between;
+<style>
 
- }
-}
 </style>

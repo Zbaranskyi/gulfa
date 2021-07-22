@@ -1,6 +1,10 @@
 <template>
-  <el-dialog title="Create New Notification" :visible.sync="value" :before-close="closeModalWindow">
-    <div class="create-notification">
+  <el-dialog
+      class="create-notification"
+      title="Create New Notification"
+      :visible.sync="value"
+      :before-close="closeModalWindow">
+    <div>
       <el-form
           :model="form"
           :rules="rules"
@@ -89,15 +93,6 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-@import "../../style/variables";
+<style>
 
-.dialog-footer {
-  display: flex;
-  justify-content: center;
-
-  button {
-    width: 300px;
-  }
-}
 </style>

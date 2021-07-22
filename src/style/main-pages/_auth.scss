@@ -1,0 +1,57 @@
+#auth {
+  //min-width: 350px;
+  width: 80%;
+  max-width: 800px;
+  //height: 80vh;
+  background: white;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @include fontPoppins(12px, 500, 20px);
+  color: #2F3741;
+
+  .title {
+    font-size: 22px;
+    margin: 10px;
+  }
+
+  .fields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 30px;
+
+    .item {
+      min-width: 200px;
+      width: 40%;
+      margin: 10px;
+
+      .button-auth {
+        width: 100%;
+        @include fontPoppins(12px, 600, 18px);
+        border-radius: 10px;
+        padding: 10px;
+      }
+
+      &-name {
+        margin: 10px;
+      }
+
+      &-input {
+        @include fontPoppins(12px, 500, 20px);
+      }
+    }
+  }
+
+  .links {
+    text-align: center;
+    color: #92ABBA;
+    margin: 30px;
+  }
+}

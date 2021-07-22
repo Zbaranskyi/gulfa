@@ -2,7 +2,7 @@
   <input
       type="text"
       placeholder="Search..."
-      class="search"
+      class="search-row"
       @input="$emit('search', $event.target.value)"
   >
 </template>
@@ -13,19 +13,5 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-@import "../../style/variables";
-
-.search {
-  min-width: 200px;
-  border: 1px solid #E8E8E8;
-  border-radius: 10px;
-  @include fontPoppins(12px, 400, 18px);
-  color: #2F3741;
-  padding: 10px 20px;
-  &::placeholder{
-    @include fontPoppins(12px, 400, 18px);
-    color: #CBCBCB;
-  }
-}
+<style>
 </style>

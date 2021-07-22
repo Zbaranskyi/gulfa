@@ -1,0 +1,112 @@
+.profile {
+  position: absolute;
+  top: 10px;
+  right: 80px;
+  display: flex;
+  cursor: pointer;
+  background: #F3F3F3;
+  flex-direction: column;
+  border-radius: 10px;
+  width: 200px;
+  .title {
+    @include fontPoppins(12px, 600, 18px);
+    color: $color-background-blue;
+    padding: 10px 0;
+  }
+
+  .base {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    .logo {
+      background: url(../assets/icons/menu/users.svg) no-repeat center, white;
+      border-radius: 50%;
+      height: 40px;
+      width: 40px;
+      margin: 0 15px;
+    }
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .slide-fade-enter-active {
+    transition: all .2s ease-in;
+  }
+
+  .slide-fade-leave-active {
+    transition: all .2s ease-out;
+  }
+
+  .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active до версии 2.1.8 */
+  {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+.main-logo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  img{
+    margin: 10px 0;
+  }
+}
+.search-row {
+  min-width: 200px;
+  border: 1px solid #E8E8E8!important;
+  border-radius: 10px;
+  @include fontPoppins(12px, 400, 18px);
+  color: #2F3741;
+  padding: 10px 20px;
+  &::placeholder{
+    @include fontPoppins(12px, 400, 18px);
+    color: #CBCBCB;
+  }
+}
+.switch {
+  border-radius: 10px;
+  border: 1px solid #E8E8E8;
+  display: flex;
+  @include fontPoppins(12px, 400, 18px);
+  overflow: hidden;
+  p {
+    width: 50%;
+    padding: 10px 30px;
+    cursor: pointer;
+    &.active {
+      background: #D2F4FF;
+      color: #005CB9;
+      font-weight: 600;
+    }
+  }
+}
+.title-page{
+  @include fontPoppins(22px, 500, 20px);
+  color: #2F3741;
+  //margin: 0 20px;
+}
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #E8E8E8;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  .button-top-row{
+    width: 20%;
+    border-radius: 10px;
+    @include fontPoppins(12px, 600, 18px);
+  }
+}

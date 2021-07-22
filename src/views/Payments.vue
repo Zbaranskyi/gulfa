@@ -54,8 +54,5 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "../style/variables";
-
-
+<style>
 </style>

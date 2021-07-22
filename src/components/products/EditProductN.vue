@@ -220,28 +220,5 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-.form {
-  &-price {
-    padding-right: 20px;
-    box-sizing: border-box;
-
-    &:after {
-      content: '$';
-      position: absolute;
-      right: 0;
-    }
-  }
-
-  &-volume {
-    padding-right: 20px;
-    box-sizing: border-box;
-
-    &:after {
-      content: 'L';
-      position: absolute;
-      right: 0;
-    }
-  }
-}
+<style>
 </style>

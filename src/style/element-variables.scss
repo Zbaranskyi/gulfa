@@ -5,11 +5,6 @@ $--color-primary: #005CB9;
 $--color-warning: rgba(28, 200, 255, 0.2);
 //required
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
-//.el-form--label-top .el-form-item__label{
-//  line-height: 14px;
-//  //font-weight: 600;
-//  color: #242024;
-//}
 @import "~element-ui/packages/theme-chalk/src/index.scss";
 .header-cell{
   background-color: #D2F4FF!important;
@@ -26,11 +21,6 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 .el-table__header-wrapper{
   border-radius: 10px;
 }
-//.el-table--enable-row-hover .el-table__body tr:hover{
-//  border: 1px solid #E8E8E8;
-//  border-radius: 10px;
-//  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
-//}
 .el-scrollbar__view.el-select-dropdown__list .el-select-dropdown__item span, .el-dialog, .el-message, .el-textarea{
   @include fontPoppins(14px, 400, 20px);
 }
