@@ -3,14 +3,6 @@
     <TopRow
         @search="searchValue = $event"
     />
-    <!--    <TableOfContent-->
-    <!--        withID-->
-    <!--        :titles="titles"-->
-    <!--        :info="getOrders"-->
-    <!--        v-model="searchValue"-->
-    <!--        orders-->
-    <!--        @show-details="showDetails"-->
-    <!--    />-->
     <el-table
         :data="getOrders"
         style="width: 100%"
@@ -50,11 +42,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <order-details
-        v-if="false"
-        :selectId="selectId"
-        v-model="details"
-    />
     <order-details-n
         v-if="details"
         v-model="details"
@@ -66,16 +53,13 @@
 import TopRow from "@/components/helpers/TopRow";
 import {tableOrders} from "@/test-data/orders";
 import {orders} from "@/test-data/headers";
-import OrderDetails from "@/components/helpers/OrderDetails";
 import OrderDetailsN from "@/components/orders/OrderDetailsN";
 
 export default {
   name: "Orders",
   components: {
     OrderDetailsN,
-    OrderDetails,
     TopRow,
-    // TableOfContent
   },
   data() {
     return {

@@ -5,7 +5,6 @@ import Cities from "@/views/Cities";
 Vue.use(VueRouter)
 
 const Auth = () => import('../views/Auth')
-const Deliveries = () => import('../views/Deliveries')
 const Orders = () => import('../views/Orders')
 const Drivers = () => import('../views/Drivers')
 const Notifications = () => import('../views/Notifications')
@@ -19,14 +18,6 @@ const routes = [
     {path: '/', redirect: '/products'},
     {path: '/auth', meta: {layout: 'auth'}, redirect: '/auth/signin'},
     {name: 'auth',path: '/auth/:mode', meta: {layout: 'auth'}, component: Auth},
-    {name: 'deliveries',path: '/deliveries', meta: {layout: 'main'}, component: Deliveries,
-        beforeEnter(to, from, next) {
-            if (localStorage.getItem('token')) {
-                next();
-            } else {
-                next({path: '/auth/signin'});
-            }
-        }},
     {name: 'drivers',path: '/drivers', meta: {layout: 'main'}, component: Drivers,
         beforeEnter(to, from, next) {
             if (localStorage.getItem('token')) {

@@ -107,7 +107,6 @@ export default {
 
 <style scoped lang="scss">
 @import "../style/variables";
-
 .products {
   display: flex;
   flex-direction: column;

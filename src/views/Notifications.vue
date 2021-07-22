@@ -6,11 +6,6 @@
         btn-text="Create New Notification"
         @btn-click="showAddNotification = true"
     />
-    <!--  <TableOfContent-->
-    <!--      :titles="titles"-->
-    <!--      :info="getNotifications"-->
-    <!--      v-model="searchValue"-->
-    <!--  />-->
     <el-table
         :data="getNotifications"
         style="width: 100%"
@@ -41,7 +36,6 @@ export default {
   components: {
     AddNotification,
     TopRow,
-    // TableOfContent
   },
   data() {
     return {

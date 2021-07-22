@@ -4,11 +4,6 @@
       <span class="delete" @click="openDeleteBannerWindow(banner.id)"></span>
       <img :src="banner.photo" alt="">
     </div>
-<!--    <confirmation-delete-->
-<!--        v-if="confirmDelete"-->
-<!--        v-model="confirmDelete"-->
-<!--        @delete-product="deleteBanner"-->
-<!--    />-->
     <confirmation-window
         v-if="dialogVisible"
         dialogText="delete current banner"
@@ -20,14 +15,12 @@
 </template>
 
 <script>
-// import ConfirmationDelete from "@/components/helpers/ConfirmationDelete";
 import ConfirmationWindow from "@/components/ConfirmationWindow";
 import confirmation from "@/mixins/confirmation";
 export default {
   name: "BannersGalery",
   components: {
     ConfirmationWindow,
-    // ConfirmationDelete
   },
   props: {
     banners: {

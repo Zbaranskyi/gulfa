@@ -3,12 +3,6 @@
     <TopRow
         @search="searchValue = $event"
     />
-    <!--  <TableOfContent-->
-    <!--      withID-->
-    <!--      :titles="titles"-->
-    <!--      :info="payments"-->
-    <!--      v-model="searchValue"-->
-    <!--  />-->
     <el-table
         :data="payments"
         style="width: 100%"
@@ -41,7 +35,6 @@
 </template>
 
 <script>
-// const TableOfContent = () => import('@/components/helpers/TableOfContent')
 import {payments} from "@/test-data/payments";
 import {paymentsHeaders} from "@/test-data/headers";
 import TopRow from "@/components/helpers/TopRow";
@@ -49,7 +42,6 @@ import TopRow from "@/components/helpers/TopRow";
 export default {
   name: "Payments",
   components: {
-    // TableOfContent,
     TopRow
   },
   data() {

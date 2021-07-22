@@ -3,13 +3,6 @@
     <TopRow
         @search="searchValue = $event"
     />
-    <!--    <TableOfContent-->
-    <!--        edit-->
-    <!--        :titles="titles"-->
-    <!--        :info="getFilteredData"-->
-    <!--        v-model="searchValue"-->
-    <!--        @edit-action="editCustomer"-->
-    <!--    />-->
     <el-table
         :data="getFilteredData"
         style="width: 100%"
@@ -60,11 +53,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <edit-customer
-        v-if="false"
-        :customerID="customerID"
-        v-model="showEditCustomer"
-    />
     <edit-customer-n
         v-if="showEditCustomer"
         v-model="showEditCustomer"
@@ -74,7 +62,6 @@
 
 <script>
 import {customersHeaders} from "@/test-data/headers";
-import EditCustomer from "../components/customers/EditCustomer";
 import {mapGetters} from 'vuex'
 import EditCustomerN from "@/components/customers/EditCustomerN";
 
@@ -82,9 +69,7 @@ export default {
   name: "Users",
   components: {
     EditCustomerN,
-    EditCustomer,
     TopRow: () => import('../components/helpers/TopRow'),
-    // TableOfContent: () => import('../components/helpers/TableOfContent')
   },
   data() {
     return {

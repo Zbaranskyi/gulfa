@@ -15,18 +15,9 @@
         :lang="lang"
         @edit-item="editSale"
     />
-    <add-sale
-        v-if="false"
-        v-model="showAddSale"
-    />
     <add-sale-n
         v-if="showAddSale"
         v-model="showAddSale"
-    />
-    <edit-sale
-        v-if="false"
-        :saleId="saleId"
-        v-model="showEditSale"
     />
     <edit-sale-n
         v-if="showEditSale"
@@ -38,15 +29,13 @@
 <script>
 import TopRow from "@/components/helpers/TopRow";
 import SaleItem from "@/components/helpers/SaleItem";
-import AddSale from "../components/sales/AddSale";
-import EditSale from "../components/sales/EditSale";
 import AddSaleN from "@/components/sales/AddSaleN";
 import EditSaleN from "@/components/sales/EditSaleN";
 import {mapActions} from 'vuex'
 
 export default {
   name: "Sale",
-  components: {EditSaleN, AddSaleN, EditSale, AddSale, SaleItem, TopRow},
+  components: {EditSaleN, AddSaleN, SaleItem, TopRow},
   data() {
     return {
       lang: 'en',
