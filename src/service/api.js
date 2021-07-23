@@ -2,7 +2,7 @@ import axios from "axios";
 const mainRoute = 'https://gulfaweb.azurewebsites.net'
 
 
-async function makeRequest ({type, endpoint, data, params, token, formdata}) {
+async function makeRequest({type, endpoint, data, params, token, formdata}) {
     return axios({
         baseURL: mainRoute,
         url: endpoint,
@@ -15,33 +15,17 @@ async function makeRequest ({type, endpoint, data, params, token, formdata}) {
         } : ''
     });
 }
+
 export default {
     GET: async (endpoint, token) => await makeRequest({type: 'GET', endpoint, token}),
     POST: async (endpoint, data, token, formdata) => await makeRequest({type: 'POST', endpoint, data, token, formdata}),
     PUT: async (endpoint, data, token, params) => await makeRequest({type: 'PUT', endpoint, data, params, token}),
     DELETE: async (endpoint, token) => await makeRequest({type: 'DELETE', endpoint, token}),
-    PATCH: async (endpoint, data, token, formdata) => await makeRequest({type: 'PATCH', endpoint, data, token, formdata}),
+    PATCH: async (endpoint, data, token, formdata) => await makeRequest({
+        type: 'PATCH',
+        endpoint,
+        data,
+        token,
+        formdata
+    }),
 }
-//put category
-//delete category
-
-//get order
-//get order/{id}
-
-//put customer
-
-//delete driver
-
-//get payment
-
-//get sale
-//get sale/{id}
-//put sale
-//post sale
-//delete sale
-
-//get notification
-//post notification
-
-//post login
-//post forgotPassword
