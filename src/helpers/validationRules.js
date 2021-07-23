@@ -8,6 +8,16 @@ let validatePass = (rule, value, callback) => {
         callback();
     }
 };
+let testEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;//eslint-disable-line
+let validateEmail = (rule, value, callback) => {
+    if (value === '') {
+        callback(new Error('Please input an e-mail'));
+    } else if (!testEmail.test(String(value))) {
+        callback(new Error('The email address is incorrect'))
+    } else {
+        callback();
+    }
+}
 export default {
     firstName: [
         {
@@ -33,7 +43,7 @@ export default {
     email: [
         {
             required: true,
-            message: 'Please input an email',
+            validator: validateEmail,
             trigger: 'blur'
         }
     ],

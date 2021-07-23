@@ -2,29 +2,26 @@
   <div id="auth">
     <Logo/>
     <p class="title">{{ formTitle }}</p>
-    <div class="fields" v-if="mode === 'signin'">
+    <div class="fields">
+      <el-form
+          :model="form"
+          :rules="rules"
+          ref="validation-auth"
+          label-position="top"
+          class="auth-item"
+      >
+        <el-form-item label="Email" label-width="120px" prop="email">
+          <el-input v-model="form.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-if="mode === 'signin'" label="Password" label-width="120px" prop="password">
+          <el-input v-model="form.password" autocomplete="off" show-password></el-input>
+        </el-form-item>
+      </el-form>
       <div class="auth-item">
-        <p class="auth-item-name">Email</p>
-        <el-input class="auth-item-input" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }"></el-input>
-      </div>
-      <div class="auth-item">
-        <p class="auth-item-name">Password</p>
-        <el-input class="auth-item-input" v-model="$v.password.$model" :class="{invalid: $v.password.$error }"
-                  show-password></el-input>
-
-      </div>
-      <div class="auth-item">
-        <el-button @click="logIn" :loading="loading" class="button-auth" type="primary">Log In</el-button>
-      </div>
-    </div>
-    <div class="fields" v-else-if="mode === 'forgot'">
-      <div class="auth-item">
-        <p class="auth-item-name">Email</p>
-        <el-input class="auth-item-input" v-model.trim="$v.email.$model" :class="{invalid: $v.email.$error }"></el-input>
-
-      </div>
-      <div class="auth-item">
-        <el-button @click="forgotPassword" :loading="loadingForgot" class="button-auth" type="primary">Reset password
+        <el-button @click="validateFunc('validation-auth', mode === 'signin' ? logIn : forgotPassword)"
+                   :loading="loading"
+                   class="button-auth"
+                   type="primary">{{ buttonName }}
         </el-button>
       </div>
     </div>
@@ -39,8 +36,8 @@
 
 <script>
 import api from "@/service/api";
-import {required, email, minLength} from 'vuelidate/lib/validators'
-import {hardPassword} from "@/helpers/validate";
+import rules from "@/helpers/validationRules";
+import {mapActions} from 'vuex'
 
 const Logo = () => import('@/components/helpers/Logo')
 
@@ -49,16 +46,15 @@ export default {
   components: {Logo},
   data() {
     return {
-      email: 'gulfa.admin@mail.com',
-      password: 'Kk123456@',
+      rules,
       bgButton: '#005CB9',
       loading: false,
-      loadingForgot: false
+      loadingForgot: false,
+      form: {
+        email: 'gulfa.admin@mail.com',
+        password: 'Kk123456@'
+      }
     }
-  },
-  validations: {
-    email: {required, email},
-    password: {required, minLength: minLength(6), hardPassword}
   },
   computed: {
     mode() {
@@ -66,35 +62,41 @@ export default {
     },
     formTitle() {
       return this.mode === 'signin' ? 'Log In' : 'Forgot password'
+    },
+    buttonName() {
+      return this.mode === 'signin' ? 'Log In' : 'Reset password'
     }
   },
   methods: {
-    async logIn() {
-      this.$v.$touch()
-      if (!this.$v.$invalid) {
-        this.loading = true
-        try {
-          let {data: {token}} = await api.POST('/admin/login', {email: this.email, password: this.password})
-          localStorage.setItem('token', token)
-          this.$store.commit('setToken', token)
-          this.$router.push('/')
-        } catch (e) {
-          this.$message({
-            message: e?.response?.data?.title || 'Error with authorization',
-            type: 'error',
-            center: true
-          });
+    ...mapActions(['setErrorMessage']),
+    validateFunc(ref, func) {
+      let vm = this
+      this.$refs[ref].validate(async (valid) => {
+        if (valid) {
+          await func()
+        } else {
+          await vm.setErrorMessage('Error with validation')
+          return false;
         }
+      });
+    },
+    async logIn() {
+      try {
+        this.loading = true
+        let {data: {token}} = await api.POST('/admin/login', this.form)
+        localStorage.setItem('token', token)
+        this.$store.commit('setToken', token)
+        this.$router.push('/')
+      } catch (e) {
+        await this.setErrorMessage(e?.response?.data?.title || 'Error with authorization')
+      } finally {
         this.loading = false
       }
     },
     async forgotPassword() {
-      this.$v.email.$touch()
-      if (!this.$v.email.$invalid) {
-        this.loadingForgot = true
-        // TODO it
-        this.loadingForgot = false
-      }
+      this.loadingForgot = true
+      // TODO it
+      this.loadingForgot = false
     }
   }
 }
