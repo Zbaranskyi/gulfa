@@ -51,7 +51,6 @@
 
 <script>
 import TopRow from "@/components/helpers/TopRow";
-import {tableOrders} from "@/test-data/orders";
 import {orders} from "@/test-data/headers";
 import OrderDetailsN from "@/components/orders/OrderDetailsN";
 
@@ -64,7 +63,7 @@ export default {
   data() {
     return {
       titles: orders,
-      data: tableOrders,
+      data: [],
       searchValue: '',
       details: false,
       selectId: ''

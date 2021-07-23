@@ -213,36 +213,6 @@ export const detailOrders = [
     },
 ]
 export const modelOrder = [
-    // {
-    //     id: '#123451',//
-    //     firstName: 'Andrey',
-    //     lastName: 'Smith',
-    //     creationDate: '05/03/2021 13:51 PM',
-    //     address: {
-    //         "cityName": "cityName",
-    //         "districtName": "districtName",
-    //         "street": "street",
-    //         "building": "building",
-    //         "apartment": "apartment"
-    //     },
-    //     driver: 'Robert Flores',
-    //     deliveryDate: '05/03/2021 12:00 - 15:00',//
-    //     orders: [
-    //         {
-    //             "title": "string",
-    //             "volume": 0,
-    //             "count": 2,
-    //             "price": 20,
-    //         },
-    //         {
-    //             "title": "string",
-    //             "volume": 0,
-    //             "count": 3,
-    //             "price": 10,
-    //         }
-    //     ],
-    //     status: 'Paid',//
-    // },
     {
         "id": "12",
         "status": "Created",
