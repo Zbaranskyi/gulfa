@@ -18,9 +18,19 @@ export default {
                 console.log(e);
             }
         },
+        async postNewCity({dispatch, rootState}, payload) {
+          try {
+              await api.POST('/admin/city', payload, rootState.token)
+              await dispatch('setSuccessMessage')
+              await dispatch('getCities')
+          } catch (e) {
+              console.log(e);
+          }
+        },
         async deleteCity({dispatch, rootState}, id) {
             try {
                 await api.DELETE(`/admin/city/${id}`, rootState.token)
+                await dispatch('setSuccessMessage')
                 await dispatch('getCities')
             } catch (e) {
                 console.log(e);

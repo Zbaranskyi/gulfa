@@ -9,17 +9,17 @@
         <el-form-item label="City Name" label-width="120px" prop="cityName">
           <el-input v-model="form.cityName" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="District" label-width="120px" prop="district">
-          <el-input v-model="form.district" autocomplete="off"></el-input>
+        <el-form-item label="District" label-width="120px" prop="districtName">
+          <el-input v-model="form.districtName" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Address" prop="address">
-          <el-input
-              type="textarea"
-              :autosize="{ minRows: 3}"
-              v-model="form.address"
-          >
-          </el-input>
-        </el-form-item>
+<!--        <el-form-item label="Address" prop="address">-->
+<!--          <el-input-->
+<!--              type="textarea"-->
+<!--              :autosize="{ minRows: 3}"-->
+<!--              v-model="form.address"-->
+<!--          >-->
+<!--          </el-input>-->
+<!--        </el-form-item>-->
       </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -53,7 +53,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        district: [
+        districtName: [
           {
             required: true,
             message: 'Please input a district',
@@ -71,8 +71,8 @@ export default {
       loadingSaveChanges: false,
       form: {
         cityName: "",
-        district: "",
-        address: "",
+        districtName: "",
+        // address: "",
       }
     }
   },
@@ -82,7 +82,9 @@ export default {
       let vm = this
       this.$refs['validation-city-form'].validate(async (valid) => {
         if (valid) {
-          //await this.$store.dispatch('postNewCity', this.form)//it still is not created
+          vm.loadingSaveChanges = true
+          await this.$store.dispatch('postNewCity', this.form)
+          vm.loadingSaveChanges = false
           this.closeModalWindow()
         } else {
           await vm.setErrorMessage('Error with validation')
