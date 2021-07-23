@@ -40,7 +40,7 @@
 <script>
 import api from "@/service/api";
 import {required, email, minLength} from 'vuelidate/lib/validators'
-import {hardPassword} from "../helpers/validate";
+import {hardPassword} from "@/helpers/validate";
 
 const Logo = () => import('@/components/helpers/Logo')
 

@@ -54,6 +54,7 @@
 <script>
 import ConfirmationWindow from "@/components/ConfirmationWindow";
 import confirmation from "@/mixins/confirmation";
+import rules from "@/helpers/validationRules";
 import {mapActions} from 'vuex'
 
 export default {
@@ -67,55 +68,7 @@ export default {
   },
   data() {
     return {
-      rules: {
-        firstName: [
-          {
-            required: true,
-            message: 'Please input a first name',
-            trigger: 'blur'
-          }
-        ],
-        lastName: [
-          {
-            required: true,
-            message: 'Please input a last name',
-            trigger: 'blur'
-          }
-        ],
-        phoneNumber: [
-          {
-            required: true,
-            message: 'Please input a phone number',
-            trigger: 'blur'
-          }
-        ],
-        birthDate: [
-          {
-            required: true,
-            message: 'Please input an email',
-            trigger: 'blur'
-          }
-        ],
-        cityName: [
-          {
-            required: true,
-            message: 'Please input an email',
-            trigger: 'blur'
-          }
-        ],
-        familyMembersCount: [
-          {
-            required: true,
-            message: 'Please input an email',
-            trigger: 'blur'
-          },
-          {
-            type: 'number',
-            message: 'Please input an email',
-            trigger: 'blur'
-          }
-        ]
-      },
+      rules,
       loadingSaveChanges: false,
       form: {
         firstName: '',

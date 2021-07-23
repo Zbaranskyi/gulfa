@@ -33,6 +33,8 @@
 
 <script>
 import {mapActions} from 'vuex'
+import rules from "@/helpers/validationRules";
+
 export default {
   name: "AddDriverN",
   props: {
@@ -42,54 +44,8 @@ export default {
     }
   },
   data() {
-    let testPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@.,#\$%\^&\*])(?=.{8,})/; //eslint-disable-line
-    let validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please input a password'));
-      } else if (!testPass.test(String(value))) {
-        callback(new Error('password must be contain digits, letters, symbols (min 8 characters)'))
-      } else {
-        callback();
-      }
-    };
     return {
-      rules: {
-        firstName: [
-          {
-            required: true,
-            message: 'Please input a first name',
-            trigger: 'blur'
-          }
-        ],
-        lastName: [
-          {
-            required: true,
-            message: 'Please input a last name',
-            trigger: 'blur'
-          }
-        ],
-        phoneNumber: [
-          {
-            required: true,
-            message: 'Please input a phone number',
-            trigger: 'blur'
-          }
-        ],
-        email: [
-          {
-            required: true,
-            message: 'Please input an email',
-            trigger: 'blur'
-          }
-        ],
-        password: [
-          {
-            required: true,
-            validator: validatePass,
-            trigger: 'blur'
-          }
-        ],
-      },
+      rules,
       loadingSaveChanges: false,
       form: {
         firstName: "",

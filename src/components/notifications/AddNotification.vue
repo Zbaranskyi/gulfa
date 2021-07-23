@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import rules from "@/helpers/validationRules";
+
 export default {
   name: "AddNotification",
   props: {
@@ -50,22 +52,7 @@ export default {
   },
   data() {
     return {
-      rules: {
-        arBody: [
-          {
-            required: true,
-            message: 'Please input an arabic description',
-            trigger: 'blur'
-          }
-        ],
-        enBody: [
-          {
-            required: true,
-            message: 'Please input an english description',
-            trigger: 'blur'
-          }
-        ],
-      },
+      rules,
       loadingSaveChanges: false,
       form: {
         arBody: "",

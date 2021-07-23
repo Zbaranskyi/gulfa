@@ -37,6 +37,7 @@
 import ConfirmationWindow from "@/components/ConfirmationWindow";
 import confirmation from "@/mixins/confirmation";
 import encodeImage from "@/mixins/encodeImage";
+import rules from "@/helpers/validationRules";
 
 export default {
   name: "EditCategoryN",
@@ -50,22 +51,7 @@ export default {
   data() {
     return {
       loadingSaveChanges: false,
-      rules: {
-        name: [
-          {
-            required: true,
-            message: 'Please input a city name',
-            trigger: 'blur'
-          }
-        ],
-        arName: [
-          {
-            required: true,
-            message: 'Please input a district',
-            trigger: 'blur'
-          }
-        ],
-      },
+      rules,
       form: {
         name: "",
         arName: "",

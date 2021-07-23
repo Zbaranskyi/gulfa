@@ -33,6 +33,7 @@
 
 <script>
 import encodeImage from "@/mixins/encodeImage";
+import rules from "@/helpers/validationRules";
 
 export default {
   name: "AddCategoryN",
@@ -45,22 +46,7 @@ export default {
   data() {
     return {
       loadingSaveChanges: false,
-      rules: {
-        name: [
-          {
-            required: true,
-            message: 'Please input a city name',
-            trigger: 'blur'
-          }
-        ],
-        arName: [
-          {
-            required: true,
-            message: 'Please input a district',
-            trigger: 'blur'
-          }
-        ]
-      },
+      rules,
       form: {
         name: "",
         arName: "",

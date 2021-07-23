@@ -74,6 +74,7 @@
 import encodeImage from "@/mixins/encodeImage";
 import ConfirmationWindow from "@/components/ConfirmationWindow";
 import confirmation from "@/mixins/confirmation";
+import rules from "@/helpers/validationRules";
 
 export default {
   name: "EditProductN",
@@ -86,67 +87,7 @@ export default {
   },
   data() {
     return {
-      rules: {
-        description: [
-          {
-            required: true,
-            message: 'Please input a description',
-            trigger: 'blur'
-          }
-        ],
-        arDescription: [
-          {
-            required: true,
-            message: 'Please input a description',
-            trigger: 'blur'
-          }
-        ],
-        price: [
-          {
-            required: true,
-            message: 'Please input a price',
-            trigger: 'blur'
-          },
-          {
-            type: 'number',
-            message: 'Please input a number',
-            trigger: 'blur'
-          }
-        ],
-        title: [
-          {
-            required: true,
-            message: 'Please input a title',
-            trigger: 'blur'
-          }
-        ],
-        arTitle: [
-          {
-            required: true,
-            message: 'Please input a title',
-            trigger: 'blur'
-          }
-        ],
-        volume: [
-          {
-            required: true,
-            message: 'Please input a volume',
-            trigger: 'blur'
-          },
-          {
-            type: 'number',
-            message: 'Please input a number',
-            trigger: 'blur'
-          }
-        ],
-        categoryId: [
-          {
-            required: true,
-            message: 'Please select a category',
-            trigger: 'change'
-          }
-        ],
-      },
+      rules,
       loadingSaveChanges: false,
       form: {
         description: '',

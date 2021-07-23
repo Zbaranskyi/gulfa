@@ -35,6 +35,8 @@
 
 <script>
 import {mapActions} from 'vuex'
+import rules from "@/helpers/validationRules";
+
 export default {
   name: "AddCity",
   props: {
@@ -45,29 +47,7 @@ export default {
   },
   data() {
     return {
-      rules: {
-        cityName: [
-          {
-            required: true,
-            message: 'Please input a city name',
-            trigger: 'blur'
-          }
-        ],
-        districtName: [
-          {
-            required: true,
-            message: 'Please input a district',
-            trigger: 'blur'
-          }
-        ],
-        address: [
-          {
-            required: true,
-            message: 'Please input an address',
-            trigger: 'blur'
-          }
-        ],
-      },
+      rules,
       loadingSaveChanges: false,
       form: {
         cityName: "",

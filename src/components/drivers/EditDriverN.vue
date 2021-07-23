@@ -39,6 +39,7 @@
 import ConfirmationWindow from "@/components/ConfirmationWindow";
 import confirmation from "@/mixins/confirmation";
 import {mapActions} from 'vuex'
+import rules from "@/helpers/validationRules";
 
 export default {
   name: "EditDriverN",
@@ -51,36 +52,7 @@ export default {
   },
   data() {
     return {
-      rules: {
-        firstName: [
-          {
-            required: true,
-            message: 'Please input a first name',
-            trigger: 'blur'
-          }
-        ],
-        lastName: [
-          {
-            required: true,
-            message: 'Please input a last name',
-            trigger: 'blur'
-          }
-        ],
-        phoneNumber: [
-          {
-            required: true,
-            message: 'Please input a phone number',
-            trigger: 'blur'
-          }
-        ],
-        email: [
-          {
-            required: true,
-            message: 'Please input an email',
-            trigger: 'blur'
-          }
-        ],
-      },
+      rules,
       loadingSaveChanges: false,
       form: {
         firstName: "",

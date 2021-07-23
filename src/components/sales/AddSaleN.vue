@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import rules from "@/helpers/validationRules";
 
 export default {
   name: "AddSaleN",
@@ -96,70 +97,7 @@ export default {
   },
   data() {
     return {
-      rules: {
-        description: [
-          {
-            required: true,
-            message: 'Please input a description',
-            trigger: 'blur'
-          }
-        ],
-        arDescription: [
-          {
-            required: true,
-            message: 'Please input a description',
-            trigger: 'blur'
-          }
-        ],
-        title: [
-          {
-            required: true,
-            message: 'Please input a title',
-            trigger: 'blur'
-          }
-        ],
-        arTitle: [
-          {
-            required: true,
-            message: 'Please input a title',
-            trigger: 'blur'
-          }
-        ],
-        startDate: [
-          {
-            required: true,
-            message: 'Please pick a date',
-            trigger: 'blur'
-          }
-        ],
-        endDate: [
-          {
-            required: true,
-            message: 'Please pick a date',
-            trigger: 'blur'
-          }
-        ],
-        shopItemsId: [
-          {
-            type: 'array',
-            required: true,
-            message: 'Please choose at least one product',
-            trigger: 'change'
-          }
-        ],
-        percent: [
-          {
-            required: true,
-            message: 'Please input a percent',
-            trigger: 'blur'
-          },
-          {
-            type: 'number',
-            message: 'must be a number',
-            trigger: 'blur'
-          }
-        ]
-      },
+      rules,
       loadingSaveChanges: false,
       form: {
         description: '',
