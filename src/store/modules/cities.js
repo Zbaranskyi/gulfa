@@ -2,11 +2,15 @@ import api from "@/service/api";
 
 export default {
     state: {
-        cities: []
+        cities: [],
+        editCity: null
     },
     mutations: {
         setCities(state, payload) {
             state.cities = payload
+        },
+        setEditCity(state, data) {
+            state.editCity = data
         }
     },
     actions: {
@@ -18,14 +22,26 @@ export default {
                 console.log(e);
             }
         },
+        setEditCity({commit}, data) {
+            commit('setEditCity', data)
+        },
         async postNewCity({dispatch, rootState}, payload) {
-          try {
-              await api.POST('/admin/city', payload, rootState.token)
-              await dispatch('setSuccessMessage')
-              await dispatch('getCities')
-          } catch (e) {
-              console.log(e);
-          }
+            try {
+                await api.POST('/admin/city', payload, rootState.token)
+                await dispatch('setSuccessMessage')
+                await dispatch('getCities')
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async putCity({dispatch, rootState, state}, data) {
+            try {
+                await api.PUT(`/admin/put/${state.editCity.id}`, data, rootState.token)
+                await dispatch('setSuccessMessage')
+                await dispatch('getCities')
+            } catch (e) {
+                console.log(e);
+            }
         },
         async deleteCity({dispatch, rootState}, id) {
             try {

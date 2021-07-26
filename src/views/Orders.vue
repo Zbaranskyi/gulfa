@@ -66,7 +66,6 @@ export default {
       data: [],
       searchValue: '',
       details: false,
-      selectId: ''
     }
   },
   async created() {
@@ -79,7 +78,7 @@ export default {
   },
   methods: {
     showDetails(id) {
-      this.selectId = id
+      this.$store.dispatch('showOrderDetails', id)
       this.details = true
     }
   }

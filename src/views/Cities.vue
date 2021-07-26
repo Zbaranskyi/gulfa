@@ -4,7 +4,7 @@
         @search="searchValue = $event"
         :btn-background="'#ED1C24'"
         btn-text="Create New City"
-        @btn-click="showAddNotification = true"
+        @btn-click="showModalWindow = true"
     />
     <el-table
         :data="cities"
@@ -29,7 +29,7 @@
         <template slot-scope="scope">
           <el-button
               type="warning"
-              @click="editCity(scope.row.id)"
+              @click="editCity(scope.row)"
           ><img src="../assets/icons/edit.svg" alt="edit"></el-button>
         </template>
       </el-table-column>
@@ -42,7 +42,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <add-city v-if="showAddNotification" v-model="showAddNotification"/>
+    <add-city v-if="showModalWindow" v-model="showModalWindow"/>
     <confirmation-window
         dialogText="delete current city"
         :dialogVisible="dialogVisible"
@@ -68,7 +68,7 @@ export default {
   data() {
     return {
       searchValue: '',
-      showAddNotification: false,
+      showModalWindow: false,
       deleteCityId: ''
     }
   },
@@ -83,8 +83,9 @@ export default {
   mixins: [confirmation],
   methods: {
     ...mapActions(['getCities']),
-    editCity(id) {
-      console.log(id)
+    editCity(city) {
+      this.$store.dispatch('setEditCity', city)
+      this.showModalWindow = true
     },
     openDeleteBannerWindow (id) {
       this.deleteCityId = id

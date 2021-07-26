@@ -1,36 +1,43 @@
-// import api from "@/service/api";
-
-// import api from "@/service/api";
-import {modelOrder} from "@/test-data/orders";
+import api from "@/service/api";
 
 export default {
     state: () => ({
-        data: []
+        data: [],
+        orderDetails: null
     }),
     mutations: {
-        setOrders (state, data) {
+        setOrders(state, data) {
             state.data = data
+        },
+        setOrderDetails(state, data) {
+            state.orderDetails = data
         }
     },
     actions: {
-        async getOrders ({commit}) {
-            // await api.GET('/orders', rootState.token)
-            //     .then(({data}) => commit('setOrders', data))
-            //     .catch(err => console.log(err))
-            // console.log(rootState.token)
-            commit('setOrders', modelOrder)
+        async getOrders({commit, rootState}) {
+            try {
+                const {data} = await api.GET('/orders', rootState.token)
+                commit('setOrders', data)
+            } catch (e) {
+                console.log(e);
+            }
         },
+        showOrderDetails({commit, state}, id) {
+            commit('setOrderDetails', state.data.find(el => el.id === id))
+        },
+        closeOrderDetails({commit}) {
+            commit('setOrderDetails', null)
+        }
     },
     getters: {
-        getSimpleOrdersInformation (state) {
-            return state.data.map(el=>({
+        getSimpleOrdersInformation(state) {
+            return state.data.map(el => ({
                 id: el.id,
                 name: el.customerName,
-                date: el.createDate,
-                total: `${el.ordersShopItems.reduce((acc, order)=>acc+(order.price*order.count), 0)} $`,
+                date: new Intl.DateTimeFormat('en-GB').format(new Date(`${el.createDate}Z`)),
+                total: `${el.ordersShopItems.reduce((acc, order) => acc + (order.price * order.count), 0)} $`,
                 payStatus: el.status,
                 payMethod: '??????',
-                details: 'View Details'
             }))
         }
     }

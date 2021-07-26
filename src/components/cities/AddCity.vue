@@ -1,5 +1,6 @@
 <template>
-  <el-dialog title="Create New City" :visible.sync="value" :before-close="closeModalWindow">
+  <el-dialog :title="getEditCity ? 'Edit City' : 'Create New City'" :visible.sync="value"
+             :before-close="closeModalWindow">
     <div class="create-city">
       <el-form
           :model="form"
@@ -12,14 +13,14 @@
         <el-form-item label="District" label-width="120px" prop="districtName">
           <el-input v-model="form.districtName" autocomplete="off"></el-input>
         </el-form-item>
-<!--        <el-form-item label="Address" prop="address">-->
-<!--          <el-input-->
-<!--              type="textarea"-->
-<!--              :autosize="{ minRows: 3}"-->
-<!--              v-model="form.address"-->
-<!--          >-->
-<!--          </el-input>-->
-<!--        </el-form-item>-->
+        <!--        <el-form-item label="Address" prop="address">-->
+        <!--          <el-input-->
+        <!--              type="textarea"-->
+        <!--              :autosize="{ minRows: 3}"-->
+        <!--              v-model="form.address"-->
+        <!--          >-->
+        <!--          </el-input>-->
+        <!--        </el-form-item>-->
       </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -56,23 +57,34 @@ export default {
       }
     }
   },
+  computed: {
+    getEditCity() {
+      return this.$store.state.cities.editCity
+    }
+  },
+  created() {
+    if (this.getEditCity) {
+      let {cityName, districtName} = this.getEditCity
+      this.form = {cityName, districtName}
+    }
+  },
   methods: {
     ...mapActions(['setErrorMessage']),
-    submitForm() {
-      let vm = this
-      this.$refs['validation-city-form'].validate(async (valid) => {
-        if (valid) {
-          vm.loadingSaveChanges = true
-          await this.$store.dispatch('postNewCity', this.form)
-          vm.loadingSaveChanges = false
-          this.closeModalWindow()
-        } else {
-          await vm.setErrorMessage('Error with validation')
-          return false;
-        }
-      });
+    async submitForm() {
+      try {
+        await this.$refs['validation-city-form'].validate()
+        this.loadingSaveChanges = true
+        if(this.getEditCity) await this.$store.dispatch('putCity', this.form)
+        else await this.$store.dispatch('postNewCity', this.form)
+        this.loadingSaveChanges = false
+        this.closeModalWindow()
+      } catch (e) {
+        await this.setErrorMessage('Error with validation')
+        console.log(e)
+      }
     },
     closeModalWindow() {
+      this.$store.dispatch('setEditCity', null)
       this.$emit('input', false)
     }
   }
