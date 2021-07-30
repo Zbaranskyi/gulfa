@@ -37,7 +37,7 @@ export default {
                 date: new Intl.DateTimeFormat('en-GB').format(new Date(`${el.createDate}Z`)),
                 total: `${el.ordersShopItems.reduce((acc, order) => acc + (order.price * order.count), 0)} $`,
                 payStatus: el.status,
-                payMethod: '??????',
+                subscription: String(!!el.isSubscribed)
             }))
         }
     }

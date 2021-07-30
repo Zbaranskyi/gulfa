@@ -3,7 +3,7 @@
     <div class="order-info">
       <div>
         <p><span class="fw500">Customer: </span>{{ order.customerName }}</p>
-        <p><span class="fw500">Order Date&Time: </span>{{ order.createDate }}</p>
+        <p><span class="fw500">Order Date&Time: </span>{{ getCreateDate }}</p>
         <p><span class="fw500">Delivery: </span>{{ getDeliveryDate }}</p>
         <p><span class="fw500">Address: </span>{{ getAddress }}</p>
       </div>
@@ -16,16 +16,15 @@
         <div v-for="(item, index) of order.ordersShopItems" :key="`${index} ${item.title}`" class="order-info_items">
           <span class="fw500">{{ index+1 }}. {{ item.title }}</span>
           <span class="fw500">{{ item.volume }}LT</span>
-          <span>${{ item.price }}</span>
+          <span>$ {{ item.price }}</span>
           <span>x{{ item.count }}</span>
-          <span>${{ item.price * item.count }}</span>
-          <p class="order-info_items-subscription"><span>Subscription </span>Thursday 12:00 - 15:00</p>
+          <span>$ {{ item.price * item.count }}</span>
         </div>
       </div>
       <div>
         <p><span class="fw500">Total price: </span>{{ getTotalPrice }}</p>
         <p><span class="fw500">Status: </span>{{ order.status }}</p>
-        <p><span class="fw500">Payment method: </span>???????</p>
+        <p><span class="fw500">Subscription: </span>{{ String(!!order.isSubscribed) }}</p>
       </div>
     </div>
     <span slot="footer" class="dialog-footer"></span>
@@ -59,6 +58,9 @@ export default {
     },
     getDeliveryDate() {
       return new Intl.DateTimeFormat('en-GB').format(new Date(`${this.order.deliveryDate}Z`))
+    },
+    getCreateDate() {
+      return new Intl.DateTimeFormat('en-GB').format(new Date(`${this.order.createDate}Z`))
     }
   },
   methods: {

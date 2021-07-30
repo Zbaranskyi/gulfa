@@ -31,8 +31,8 @@
           label="Payment Status">
       </el-table-column>
       <el-table-column
-          prop="payMethod"
-          label="Payment Method">
+          prop="subscription"
+          label="Subscription">
       </el-table-column>
       <el-table-column
           label="View Details">
