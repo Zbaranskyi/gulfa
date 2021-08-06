@@ -13,6 +13,7 @@ const Sale = () => import('../views/Sale')
 const Users = () => import('../views/Users')
 const Banners = () => import('../views/Banners')
 const Cities = () => import('../views/Cities')
+const Workers = () => import('../views/Workers')
 
 const routes = [
     {path: '/', redirect: '/products'},
@@ -85,6 +86,14 @@ const routes = [
     {name: 'cities', path: '/cities', meta: {layout: 'main'}, component: Cities,
         beforeEnter(to, from, next) {
             if (localStorage.getItem('token')) {
+                next();
+            } else {
+                next({path: '/auth/signin'});
+            }
+        }},
+    {name: 'workers', path: '/workers', meta: {layout: 'main'}, component: Workers,
+        beforeEnter(to, from, next) {
+            if (localStorage.getItem('token') && JSON.parse(localStorage.getItem('roles'))?.includes('GulfaOwner')) {
                 next();
             } else {
                 next({path: '/auth/signin'});

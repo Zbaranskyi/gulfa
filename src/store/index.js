@@ -8,6 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         token: localStorage.getItem('token') || '',
+        roles: JSON.parse(localStorage.getItem('roles')) || [],
         loading: {}
     },
     mutations: {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
         },
         setToken (state, token) {
             state.token = token
+        },
+        setRoles (state, roles) {
+            state.roles = roles
         }
     },
     getters: {},

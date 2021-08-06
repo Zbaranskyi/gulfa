@@ -7,6 +7,10 @@
     <transition name="slide-fade">
       <div class="menu" v-if="value">
         <p
+            v-if="getAdminRole"
+            @click="$router.push('/workers')"
+            class="title">Workers</p>
+        <p
             @click="logOut"
             class="title">Logout</p>
       </div>
@@ -19,6 +23,11 @@ import ClickOutside from 'vue-click-outside'
 export default {
   name: "AdminMenu",
   props: ['value'],
+  computed: {
+    getAdminRole() {
+      return this.$store.state.roles.includes('GulfaOwner')
+    }
+  },
   methods: {
     openClose () {
       this.menu = !this.menu
@@ -30,7 +39,9 @@ export default {
     },
     logOut() {
       localStorage.removeItem('token')
+      localStorage.removeItem('roles')
       this.$store.commit('setToken', '')
+      this.$store.commit('setRoles', [])
       this.$router.push('auth')
     }
   },
