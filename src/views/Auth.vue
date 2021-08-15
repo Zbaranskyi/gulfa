@@ -51,8 +51,8 @@ export default {
       loading: false,
       loadingForgot: false,
       form: {
-        email: 'gulfa.admin@mail.com',
-        password: 'Kk123456@'
+        email: '',
+        password: ''
       }
     }
   },
