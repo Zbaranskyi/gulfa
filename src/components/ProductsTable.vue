@@ -40,7 +40,6 @@ import ProductItem from "@/components/helpers/ProductItem";
 import AddCategoryN from "@/components/products/AddCategoryN";
 import EditCategoryN from "@/components/products/EditCategoryN";
 import EditProductN from "@/components/products/EditProductN";
-
 export default {
   name: "ProductsTable",
   components: {

@@ -29,12 +29,12 @@
           prop="phoneNumber"
           label="Phone Number">
       </el-table-column>
-      <el-table-column>
+      <el-table-column width="100">
         <template slot-scope="scope">
           <el-button
               type="warning"
-              @click="editWorker(scope.row.id)"
-          ><img src="../assets/icons/edit.svg" alt="edit"></el-button>
+              @click="openDeleteBannerWindow(scope.row.id)"
+          ><img src="../assets/icons/trash-can.svg" alt="edit"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -43,52 +43,64 @@
         v-model="showAddWorker"
         @get-workers="getWorkers"
     />
-        <edit-worker
-            v-if="showEditWorker"
-            v-model="showEditWorker"
-            :current-worker="currentWorker"
-            @get-workers="getWorkers"
-        />
+    <confirmation-window
+        dialogText="delete current worker"
+        :dialogVisible="dialogVisible"
+        :handlers="{cancel: closeConfirmWindow, confirm: deleteWorker}"
+    />
   </div>
 </template>
 
 <script>
 import TopRow from "../components/helpers/TopRow";
-import {mapState} from 'vuex'
+import {mapActions, mapState} from 'vuex'
 import AddWorker from "../components/workers/AddWorker";
 import api from "../service/api";
-import EditWorker from "../components/workers/EditWorker";
+import ConfirmationWindow from "@/components/ConfirmationWindow";
+import confirmation from "@/mixins/confirmation";
 
 export default {
   name: "Workers",
   components: {
-    EditWorker,
     AddWorker,
     TopRow,
+    ConfirmationWindow,
   },
   data() {
     return {
       searchValue: '',
       showAddWorker: false,
-      showEditWorker: false,
       workers: [],
-      currentWorker: null
+      deleteWorkerId: ''
     }
   },
   computed: mapState(['token']),
   async created() {
     await this.getWorkers()
   },
+  mixins: [confirmation],
   methods: {
-    editWorker(id) {
-      this.currentWorker = this.workers.find(el => el.id === id)
-      this.showEditWorker = true
-    },
+    ...mapActions(['setErrorMessage', 'setSuccessMessage']),
     async getWorkers() {
       try {
         const {data} = await api.GET('/Admin/Worker', this.token)
         this.workers = data
       } catch (e) {
+        console.log(e)
+      }
+    },
+    openDeleteBannerWindow (id) {
+      this.deleteWorkerId = id
+      this.dialogVisible = true
+    },
+    async deleteWorker() {
+      try {
+        await api.DELETE(`/admin/worker/${this.deleteWorkerId}`, this.token)
+        await this.getWorkers()
+        this.setSuccessMessage()
+        this.closeConfirmWindow()
+      } catch (e) {
+        this.setErrorMessage()
         console.log(e)
       }
     }

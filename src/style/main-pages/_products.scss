@@ -75,7 +75,7 @@
   .items {
     display: flex;
     flex-wrap: wrap;
-    width: 90%;
+    width: 100%;
   }
 }
 .form {
@@ -108,7 +108,7 @@
   border: 1px solid #E8E8E8;
   border-radius: 20px;
   padding: 10px;
-  margin: 5px;
+  margin: 5px 10px;
   position: relative;
   display: flex;
   flex-direction: column;

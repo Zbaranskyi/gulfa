@@ -4,7 +4,7 @@
       :visible.sync="dialogVisible"
       width="30%"
       append-to-body
-      :before-close="()=>$emit('close-confirm')">
+      :before-close="handlers.cancel">
     <span>Do you want to {{ dialogText }} ?</span>
     <span slot="footer" class="dialog-footer">
     <el-button @click="handlers.cancel">Cancel</el-button>
