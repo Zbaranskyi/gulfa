@@ -181,6 +181,63 @@ export default {
             trigger: 'change'
         }
     ],
+    code: [
+        {
+            required: true,
+            message: 'Please input a code',
+            trigger: 'blur'
+        }
+    ],
+    discount: [
+        {
+            required: true,
+            message: 'Please input a discount',
+            trigger: 'blur'
+        },
+        {
+            type: 'number',
+            message: 'Please input a number',
+            trigger: 'blur'
+        }
+    ],
+    toDiscountAmount: [
+        {
+            required: true,
+            message: 'Please input a toDiscountAmount',
+            trigger: 'blur'
+        },
+        {
+            type: 'number',
+            message: 'Please input a number',
+            trigger: 'blur'
+        }
+    ],
+    expireDate: [
+        {
+            required: true,
+            message: 'Please pick a date',
+            trigger: 'blur'
+        }
+    ],
+    personalAmountUse: [
+        {
+            required: true,
+            message: 'Please input a personalAmountUse',
+            trigger: 'blur'
+        },
+        {
+            type: 'number',
+            message: 'Please input a number',
+            trigger: 'blur'
+        }
+    ],
+    isForAll: [
+        {
+            required: true,
+            message: 'Please input a isForAll',
+            trigger: 'blur'
+        }
+    ],
     startDate: [
         {
             required: true,

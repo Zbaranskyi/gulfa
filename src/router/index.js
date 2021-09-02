@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from "vue-router";
+import Promo from "@/views/Promo";
 
 Vue.use(VueRouter)
 
@@ -92,6 +93,14 @@ const routes = [
             }
         }},
     {name: 'workers', path: '/workers', meta: {layout: 'main'}, component: Workers,
+        beforeEnter(to, from, next) {
+            if (localStorage.getItem('token') && JSON.parse(localStorage.getItem('roles'))?.includes('GulfaOwner')) {
+                next();
+            } else {
+                next({path: '/auth/signin'});
+            }
+        }},
+    {name: 'promo', path: '/promo', meta: {layout: 'main'}, component: Promo,
         beforeEnter(to, from, next) {
             if (localStorage.getItem('token') && JSON.parse(localStorage.getItem('roles'))?.includes('GulfaOwner')) {
                 next();
