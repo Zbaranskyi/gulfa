@@ -3,7 +3,7 @@
     <TopRow
         :btn-background="'#ED1C24'"
         btn-text="Add New Promo"
-        @search="searchValue = $event"
+        withoutSearch
         @btn-click="showAddPromo = true"
     />
     <el-table

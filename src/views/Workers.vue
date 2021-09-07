@@ -5,6 +5,7 @@
         btn-text="Add New Worker"
         @search="searchValue = $event"
         @btn-click="showAddWorker = true"
+        withoutSearch
     />
     <el-table
         :data="workers"
