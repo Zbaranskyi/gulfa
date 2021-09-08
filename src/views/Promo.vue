@@ -36,6 +36,13 @@
           prop="personalAmountUse"
           label="Personal Amount Use">
       </el-table-column>
+      <el-table-column
+          prop="userEmail"
+          label="Users">
+        <template slot-scope="scope">
+          {{ scope.row.userEmail ? scope.row.userEmail : 'All users' }}
+        </template>
+      </el-table-column>
       <el-table-column width="100">
         <template slot-scope="scope">
           <el-button
@@ -89,7 +96,7 @@ export default {
     ...mapActions(['setErrorMessage', 'setSuccessMessage']),
     async getPromos() {
       try {
-        const {data} = await api.GET('/Admin/PromoCode', this.token)
+        const {data} = await api.GET('/Admin/AllPromoCodes', this.token)
         this.promos = data
       } catch (e) {
         console.log(e)
