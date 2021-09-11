@@ -198,7 +198,9 @@ export default {
             type: 'number',
             message: 'Please input a number',
             trigger: 'blur'
-        }
+        },
+        { type: 'number', min: 1, max: 100, message: 'Discount should be 1 to 100', trigger: 'blur' }
+
     ],
     toDiscountAmount: [
         {
@@ -229,14 +231,8 @@ export default {
             type: 'number',
             message: 'Please input a number',
             trigger: 'blur'
-        }
-    ],
-    isForAll: [
-        {
-            required: true,
-            message: 'Please input a isForAll',
-            trigger: 'blur'
-        }
+        },
+        { type: 'number', min: 1, max: 100, message: 'Amount should be 1 to 100', trigger: 'blur' }
     ],
     startDate: [
         {
@@ -270,6 +266,6 @@ export default {
             type: 'number',
             message: 'must be a number',
             trigger: 'blur'
-        }
+        },
     ]
 }

@@ -33,10 +33,6 @@
         </template>
       </el-table-column>
       <el-table-column
-          prop="personalAmountUse"
-          label="Personal Amount Use">
-      </el-table-column>
-      <el-table-column
           prop="userEmail"
           label="Users">
         <template slot-scope="scope">

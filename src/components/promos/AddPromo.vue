@@ -68,12 +68,25 @@ export default {
         callback();
       }
     }
+    let validateForAll = (rule, value, callback) => {
+      if (!this.getOwnerEmail && !value) {
+        callback(new Error('Must be true or fill email'))
+      } else {
+        callback();
+      }
+    }
     return {
       rules: {
         ...rules,
         ownerEmail: [
           {
             validator: validateEmail,
+            trigger: 'blur'
+          }
+        ],
+        isForAll: [
+          {
+            validator: validateForAll,
             trigger: 'blur'
           }
         ],
@@ -86,7 +99,7 @@ export default {
         expireDate: null,
         personalAmountUse: 0,
         ownerEmail: '',
-        isForAll: false,
+        isForAll: true,
       },
       select: '%'
     }
@@ -102,7 +115,10 @@ export default {
     },
     getIsForAll() {
       return this.form.isForAll
-    }
+    },
+    getOwnerEmail() {
+      return this.form.ownerEmail
+    },
   },
   methods: {
     ...mapActions(['setErrorMessage', 'setSuccessMessage']),
@@ -112,7 +128,6 @@ export default {
       this.$refs['validation-promo-form'].validate(async (valid) => {
         if (valid) {
           await this.postPromo()
-          this.closeModalWindow()
         } else {
           await vm.setErrorMessage('Error with validation')
           return false;
@@ -122,7 +137,7 @@ export default {
     async postPromo() {
       this.setLoading()
       try {
-        this.form.expireDate = this.form.expireDate.toLocaleDateString('en-GB')
+        this.form.expireDate = this.form.expireDate?.toLocaleDateString('en-GB')
         let [day, month, year] = this.form.expireDate.split('/')
         this.form.expireDate = `${year}-${month}-${day}T00:00:00`
         if(this.select === '$') {
