@@ -199,7 +199,7 @@ export default {
             message: 'Please input a number',
             trigger: 'blur'
         },
-        { type: 'number', min: 1, max: 100, message: 'Discount should be 1 to 100', trigger: 'blur' }
+        { type: 'number', min: 1, max: 99, message: 'Discount should be 1 to 99', trigger: 'blur' }
 
     ],
     toDiscountAmount: [
@@ -232,7 +232,7 @@ export default {
             message: 'Please input a number',
             trigger: 'blur'
         },
-        { type: 'number', min: 1, max: 100, message: 'Amount should be 1 to 100', trigger: 'blur' }
+        { type: 'number', min: 1, max: 99, message: 'Amount should be 1 to 99', trigger: 'blur' }
     ],
     startDate: [
         {

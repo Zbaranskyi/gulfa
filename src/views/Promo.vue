@@ -26,6 +26,10 @@
           label="Discount Amount, $">
       </el-table-column>
       <el-table-column
+          prop="totalUsage"
+          label="Total Usage">
+      </el-table-column>
+      <el-table-column
           prop="expireDate"
           label="Expire Date">
         <template slot-scope="scope">

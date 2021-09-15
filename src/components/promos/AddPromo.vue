@@ -98,7 +98,7 @@ export default {
         toDiscountAmount: 0,
         expireDate: null,
         personalAmountUse: 0,
-        ownerEmail: '',
+        ownerEmail: null,
         isForAll: true,
       },
       select: '%'
@@ -145,9 +145,12 @@ export default {
           this.form.discount = 0
         }
         if(this.form.isForAll) {
-          this.form.ownerEmail = ''
+          this.form.ownerEmail = null
         }
-        await api.POST('/admin/promocode', this.form, this.token)
+        const {isForAll, ...data} = this.form // isForAll not used in request and need only for validation on front-end part
+        console.log(isForAll)
+        await api.POST('/admin/promocode', data, this.token)
+        this.form.expireDate = null
         this.$emit('get-promo')
         this.setSuccessMessage()
         this.closeModalWindow()
