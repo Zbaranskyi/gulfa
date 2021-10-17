@@ -14,7 +14,7 @@ const Sale = () => import('../views/Sale')
 const Users = () => import('../views/Users')
 const Banners = () => import('../views/Banners')
 const Cities = () => import('../views/Cities')
-const Workers = () => import('../views/Workers')
+const Employee = () => import('../views/Workers')
 
 const routes = [
     {path: '/', redirect: '/products'},
@@ -92,7 +92,7 @@ const routes = [
                 next({path: '/auth/signin'});
             }
         }},
-    {name: 'workers', path: '/workers', meta: {layout: 'main'}, component: Workers,
+    {name: 'Employee', path: '/workers', meta: {layout: 'main'}, component: Employee,
         beforeEnter(to, from, next) {
             if (localStorage.getItem('token') && JSON.parse(localStorage.getItem('roles'))?.includes('GulfaOwner')) {
                 next();

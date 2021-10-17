@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="Add Worker" :visible.sync="value" :before-close="closeModalWindow">
+  <el-dialog title="Add Employee" :visible.sync="value" :before-close="closeModalWindow">
     <div class="create-city">
       <el-form
           :model="form"

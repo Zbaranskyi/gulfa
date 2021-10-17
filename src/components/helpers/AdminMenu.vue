@@ -9,7 +9,7 @@
         <p
             v-if="getAdminRole"
             @click="$router.push('/workers')"
-            class="title">Workers</p>
+            class="title">Employee</p>
         <p
             v-if="getAdminRole"
             @click="$router.push('/promo')"

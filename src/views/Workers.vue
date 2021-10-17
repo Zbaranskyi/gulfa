@@ -2,13 +2,13 @@
   <div id="workers">
     <TopRow
         :btn-background="'#ED1C24'"
-        btn-text="Add New Worker"
+        btn-text="Add New Employee"
         @search="searchValue = $event"
         @btn-click="showAddWorker = true"
         withoutSearch
     />
     <el-table
-        :data="workers"
+        :data="employee"
         style="width: 100%"
         header-cell-class-name="header-cell"
         header-row-class-name="header-row"
@@ -45,7 +45,7 @@
         @get-workers="getWorkers"
     />
     <confirmation-window
-        dialogText="delete current worker"
+        dialogText="delete current employee"
         :dialogVisible="dialogVisible"
         :handlers="{cancel: closeConfirmWindow, confirm: deleteWorker}"
     />
@@ -61,7 +61,7 @@ import ConfirmationWindow from "@/components/ConfirmationWindow";
 import confirmation from "@/mixins/confirmation";
 
 export default {
-  name: "Workers",
+  name: "Employee",
   components: {
     AddWorker,
     TopRow,
@@ -71,7 +71,7 @@ export default {
     return {
       searchValue: '',
       showAddWorker: false,
-      workers: [],
+      employee: [],
       deleteWorkerId: ''
     }
   },
@@ -85,7 +85,7 @@ export default {
     async getWorkers() {
       try {
         const {data} = await api.GET('/Admin/Worker', this.token)
-        this.workers = data
+        this.employee = data
       } catch (e) {
         console.log(e)
       }
