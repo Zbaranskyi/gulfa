@@ -27,9 +27,9 @@ export default {
                 })
             commit('unsetLoading')
         },
-        async postBanner({rootState, dispatch, commit}, formdata) {
+        async postBanner({rootState, dispatch, commit}, {formdata, locale}) {
             commit('setLoading')
-            await api.POST(`/banners?Linq=http://www.syject.com/`, formdata, rootState.token, true)
+            await api.POST(`/banners?Linq=http://www.syject.com&localization=${locale}`, formdata, rootState.token, true)
                     .then(async () => {
                         await dispatch('getBanners')
                         dispatch('setSuccessMessage')
