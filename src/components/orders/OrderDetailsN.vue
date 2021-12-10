@@ -1,6 +1,5 @@
 <template>
   <el-dialog :title="`Order #${order.id}`" :visible.sync="value" :before-close="closeModalWindow">
-    {{order}}
     <div class="order-info">
       <div>
         <p><span class="fw500">Customer: </span>{{ order.customerName }}</p>
