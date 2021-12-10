@@ -1,6 +1,7 @@
 // import api from "@/service/api";
 
 import api from "@/service/api";
+import {search} from '@/service/search'
 
 export default {
     state: () => ({
@@ -94,35 +95,39 @@ export default {
     },
     getters: {
         getReformatSales(state) {
-            return state.data.map((el, index) => {
-                let orders = []
-                if (el.shopItems.length) {
-                    orders = el.shopItems.map(order => {
-                        return {
-                            id: order.id,
-                            title: order.title,
-                            image: order.imageUri,
-                            volume: `${order.volume}LT`,
-                            price: `$${(order.price * (1 - 0.01 * el.percent)).toFixed(2)}`
-                        }
-                    })
-                }
-                return {
-                    id: el.id,
-                    title: {
-                        en: el?.title ?? '',
-                        ar: state.dataAr[index]?.title ?? ''
-                    },
-                    percent: String(el.percent),
-                    startDate: new Intl.DateTimeFormat('en-GB').format(new Date(el.startDate)),
-                    endDate: new Intl.DateTimeFormat('en-GB').format(new Date(el.endDate)),
-                    description: {
-                        en: el?.description ?? '',
-                        ar: state.dataAr[index]?.description ?? ''
-                    },
-                    products: orders
-                }
-            })
+            return (searchString) => {
+                return state.data.map((el, index) => {
+                    let orders = []
+                    if (el.shopItems.length) {
+                        orders = el.shopItems.map(order => {
+                            return {
+                                id: order.id,
+                                title: order.title,
+                                image: order.imageUri,
+                                volume: `${order.volume}LT`,
+                                price: `${(order.price * (1 - 0.01 * el.percent)).toFixed(2)}د.إ`
+                            }
+                        })
+                    }
+                    return {
+                        id: el.id,
+                        title: {
+                            en: el?.title ?? '',
+                            ar: state.dataAr[index]?.title ?? ''
+                        },
+                        percent: String(el.percent),
+                        startDate: new Intl.DateTimeFormat('en-GB').format(new Date(el.startDate)),
+                        endDate: new Intl.DateTimeFormat('en-GB').format(new Date(el.endDate)),
+                        description: {
+                            en: el?.description ?? '',
+                            ar: state.dataAr[index]?.description ?? ''
+                        },
+                        products: orders
+                    }
+                }).filter(el => {
+                    return search([el?.title.en, el?.title.ar], searchString)
+                })
+            }
         },
         getCurrentSale(state) {
             // eslint-disable-next-line no-unused-vars

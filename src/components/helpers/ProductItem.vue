@@ -3,7 +3,7 @@
     <button class="item-edit" @click="$emit('open-modal')"></button>
     <img :src="item.imageUri ? item.imageUri : require('../../assets/bottle.svg')" alt="">
     <div class="item-info">
-      <div class="item-info-row"><span class="price">${{getPromotionalPrice}}</span><span v-show="getOldPrice" class="price-promo">${{ getOldPrice }}</span></div>
+      <div class="item-info-row"><span class="price">د.إ{{getPromotionalPrice}}</span><span v-show="getOldPrice" class="price-promo">${{ getOldPrice }}</span></div>
       <div class="item-info-row"><span class="volume">{{item.volume}} LT</span></div>
       <div class="item-info-row">
         <p class="description">

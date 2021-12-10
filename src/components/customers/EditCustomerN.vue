@@ -27,6 +27,18 @@
           <el-form-item label="City" label-width="120px" prop="cityName">
             <el-input v-model="form.cityName" autocomplete="off"></el-input>
           </el-form-item>
+          <el-form-item label="District Name" label-width="120px" prop="districtName">
+            <el-input v-model="form.districtName" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="Street" label-width="120px" prop="street">
+            <el-input v-model="form.street" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="Building" label-width="120px" prop="building">
+            <el-input v-model="form.building" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="Floor" label-width="120px" prop="floor">
+            <el-input v-model="form.floor" autocomplete="off"></el-input>
+          </el-form-item>
           <el-form-item label="Family Members" label-width="120px" prop="familyMembersCount">
             <el-input v-model.number="form.familyMembersCount" autocomplete="off"></el-input>
           </el-form-item>
@@ -76,6 +88,10 @@ export default {
         phoneNumber: '',
         birthDate: '',
         cityName: '',
+        districtName: '',
+        street: '',
+        building: '',
+        floor: '',
         familyMembersCount: 0,
         subscriptionIsActive: false,
         ordersId: []

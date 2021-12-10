@@ -4,7 +4,7 @@
         @search="searchValue = $event"
     />
     <el-table
-        :data="payments"
+        :data="getPayments(searchValue)"
         style="width: 100%"
         header-cell-class-name="header-cell"
         header-row-class-name="header-row"
@@ -38,6 +38,7 @@
 import {payments} from "@/test-data/payments";
 import {paymentsHeaders} from "@/test-data/headers";
 import TopRow from "@/components/helpers/TopRow";
+import {mapGetters} from 'vuex'
 
 export default {
   name: "Payments",
@@ -50,7 +51,13 @@ export default {
       payments: payments,
       searchValue: ''
     }
-  }
+  },
+  computed: {
+    ...mapGetters(['getPayments'])
+  },
+  async created() {
+    await this.$store.dispatch('fetchPayments')
+  },
 }
 </script>
 

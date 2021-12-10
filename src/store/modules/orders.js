@@ -1,4 +1,5 @@
 import api from "@/service/api";
+import {search} from '@/service/search'
 
 export default {
     state: () => ({
@@ -31,14 +32,18 @@ export default {
     },
     getters: {
         getSimpleOrdersInformation(state) {
-            return state.data.map(el => ({
-                id: el.id,
-                name: el.customerName,
-                date: new Intl.DateTimeFormat('en-GB').format(new Date(`${el.createDate}Z`)),
-                total: `${el.ordersShopItems.reduce((acc, order) => acc + (order.price * order.count), 0)} $`,
-                payStatus: el.status,
-                subscription: String(!!el.isSubscribed)
-            }))
+            return (searchString) => {
+                return state.data.map(el => ({
+                    id: el.id,
+                    name: el.customerName,
+                    date: new Intl.DateTimeFormat('en-GB').format(new Date(`${el.createDate}Z`)),
+                    total: `${el.ordersShopItems.reduce((acc, order) => acc + (order.price * order.count), 0)} د.إ`,
+                    payStatus: el.status,
+                    subscription: String(!!el.isSubscribed)
+                })).filter(el => {
+                    return search([el.name], searchString)
+                })
+            }
         }
     }
 }

@@ -3,7 +3,7 @@ export const tableOrders = [
         id: '#123451',
         name: 'Andrey Smith',
         date: '05/03/2021',
-        total: '$23.99',
+        total: 'د.إ23.99',
         payStatus: 'Paid',
         payMethod: 'Credit Card',
         details: 'View Details'
@@ -12,7 +12,7 @@ export const tableOrders = [
         id: '#123452',
         name: 'Alex Smith',
         date: '05/03/2021',
-        total: '$23.99',
+        total: 'د.إ23.99',
         payStatus: 'Paid',
         payMethod: 'Credit Card',
         details: 'View Details'
@@ -21,7 +21,7 @@ export const tableOrders = [
         id: '#123453',
         name: 'Nick Smith',
         date: '05/03/2021',
-        total: '$23.99',
+        total: 'د.إ23.99',
         payStatus: 'Paid',
         payMethod: 'Credit Card',
         details: 'View Details'
@@ -30,7 +30,7 @@ export const tableOrders = [
         id: '#123454',
         name: 'Oleg Smith',
         date: '05/03/2021',
-        total: '$23.99',
+        total: 'د.إ23.99',
         payStatus: 'Paid',
         payMethod: 'Credit Card',
         details: 'View Details'
@@ -39,7 +39,7 @@ export const tableOrders = [
         id: '#123455',
         name: 'George Smith',
         date: '05/03/2021',
-        total: '$23.99',
+        total: 'د.إ23.99',
         payStatus: 'Paid',
         payMethod: 'Credit Card',
         details: 'View Details'
@@ -58,9 +58,9 @@ export const detailOrders = [
             {
                 name: 'Buxton Pure Lite',//
                 volume: '3 LT',//
-                price: '$ 12,99',//
+                price: 'د.إ12,99',//
                 quantity: 'x2',//
-                priceAll: '$ 25,98',
+                priceAll: 'د.إ25,98',
                 substription: {
                     date: 'Thursday',
                     time: '12:00 - 15:00'
@@ -69,13 +69,13 @@ export const detailOrders = [
             {
                 name: 'Buxton Pure Lite',
                 volume: '5 LT',
-                price: '$ 12,99',
+                price: 'د.إ12,99',
                 quantity: 'x2',
-                priceAll: '$ 25,98',
+                priceAll: 'د.إ25,98',
                 substription: null
             }
         ],
-        total: '$99.99',
+        total: 'د.إ99.99',
         payStatus: 'Paid',//
         payMethod: 'Credit Card',
     },
@@ -91,9 +91,9 @@ export const detailOrders = [
             {
                 name: 'Buxton Pure Lite',
                 volume: '3 LT',
-                price: '$ 12,99',
+                price: 'د.إ12,99',
                 quantity: 'x2',
-                priceAll: '$ 25,98',
+                priceAll: 'د.إ25,98',
                 substription: {
                     date: 'Thursday',
                     time: '12:00 - 15:00'
@@ -102,13 +102,13 @@ export const detailOrders = [
             {
                 name: 'Buxton Pure Lite',
                 volume: '5 LT',
-                price: '$ 12,99',
+                price: 'د.إ12,99',
                 quantity: 'x2',
-                priceAll: '$ 25,98',
+                priceAll: 'د.إ25,98',
                 substription: null
             }
         ],
-        total: '$99.99',
+        total: 'د.إ99.99',
         payStatus: 'Paid',
         payMethod: 'Credit Card',
     },
@@ -124,9 +124,9 @@ export const detailOrders = [
             {
                 name: 'Buxton Pure Lite',
                 volume: '3 LT',
-                price: '$ 12,99',
+                price: 'د.إ12,99',
                 quantity: 'x2',
-                priceAll: '$ 25,98',
+                priceAll: 'د.إ25,98',
                 substription: {
                     date: 'Thursday',
                     time: '12:00 - 15:00'
@@ -135,13 +135,13 @@ export const detailOrders = [
             {
                 name: 'Buxton Pure Lite',
                 volume: '5 LT',
-                price: '$ 12,99',
+                price: 'د.إ12,99',
                 quantity: 'x2',
-                priceAll: '$ 25,98',
+                priceAll: 'د.إ25,98',
                 substription: null
             }
         ],
-        total: '$99.99',
+        total: 'د.إ99.99',
         payStatus: 'Paid',
         payMethod: 'Credit Card',
     },
@@ -157,9 +157,9 @@ export const detailOrders = [
             {
                 name: 'Buxton Pure Lite',
                 volume: '3 LT',
-                price: '$ 12,99',
+                price: 'د.إ12,99',
                 quantity: 'x2',
-                priceAll: '$ 25,98',
+                priceAll: 'د.إ25,98',
                 substription: {
                     date: 'Thursday',
                     time: '12:00 - 15:00'
@@ -168,13 +168,13 @@ export const detailOrders = [
             {
                 name: 'Buxton Pure Lite',
                 volume: '5 LT',
-                price: '$ 12,99',
+                price: 'د.إ12,99',
                 quantity: 'x2',
-                priceAll: '$ 25,98',
+                priceAll: 'د.إ25,98',
                 substription: null
             }
         ],
-        total: '$99.99',
+        total: 'د.إ99.99',
         payStatus: 'Paid',
         payMethod: 'Credit Card',
     },
@@ -190,9 +190,9 @@ export const detailOrders = [
             {
                 name: 'Buxton Pure Lite',
                 volume: '3 LT',
-                price: '$ 12,99',
+                price: 'د.إ12,99',
                 quantity: 'x2',
-                priceAll: '$ 25,98',
+                priceAll: 'د.إ25,98',
                 substription: {
                     date: 'Thursday',
                     time: '12:00 - 15:00'
@@ -201,13 +201,13 @@ export const detailOrders = [
             {
                 name: 'Buxton Pure Lite',
                 volume: '5 LT',
-                price: '$ 12,99',
+                price: 'د.إ12,99',
                 quantity: 'x2',
-                priceAll: '$ 25,98',
+                priceAll: 'د.إ25,98',
                 substription: null
             }
         ],
-        total: '$99.99',
+        total: 'د.إ99.99',
         payStatus: 'Paid',
         payMethod: 'Credit Card',
     },

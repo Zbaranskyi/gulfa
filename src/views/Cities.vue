@@ -7,7 +7,7 @@
         @btn-click="showModalWindow = true"
     />
     <el-table
-        :data="cities"
+        :data="getCities(searchValue)"
         style="width: 100%"
         header-cell-class-name="header-cell"
         header-row-class-name="header-row"
@@ -54,7 +54,7 @@
 <script>
 import AddCity from "@/components/cities/AddCity";
 import TopRow from "@/components/helpers/TopRow";
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import ConfirmationWindow from "@/components/ConfirmationWindow";
 import confirmation from "@/mixins/confirmation";
 
@@ -73,16 +73,14 @@ export default {
     }
   },
   async created() {
-    await this.getCities()
+    await this.fetchCities()
   },
   computed: {
-    cities(){
-      return this.$store.state.cities.cities
-    }
+    ...mapGetters(['getCities'])
   },
   mixins: [confirmation],
   methods: {
-    ...mapActions(['getCities']),
+    ...mapActions(['fetchCities']),
     editCity(city) {
       this.$store.dispatch('setEditCity', city)
       this.showModalWindow = true

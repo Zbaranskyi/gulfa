@@ -1,4 +1,5 @@
 import api from "@/service/api";
+import {search} from "@/service/search"
 
 export default {
     state: () => ({
@@ -69,24 +70,54 @@ export default {
     },
     getters: {
         getFilteredData(state) {
-            return state.data.map(el => ({
-                id: el.id,
-                name: el.firstName ?? '----',
-                lastName: el.lastName ?? '----',
-                number: el.phoneNumber ?? '----',
-                birthday: el?.birthDate ? new Intl.DateTimeFormat('en-GB').format(new Date(el.birthDate)) : '----',
-                city: el.cityName ?? '----',
-                family: el.familyMembersCount ?? '----',
-                lastOrder: el.ordersId?.length ? el.ordersId[0] : '----',
-                subscription: el.subscriptionIsActive
-            }))
+            return (searchString) => {
+                return state.data.map(el => ({
+                    id: el.id,
+                    name: el.firstName ?? '----',
+                    lastName: el.lastName ?? '----',
+                    number: el.phoneNumber ?? '----',
+                    birthday: el?.birthDate ? new Intl.DateTimeFormat('en-GB').format(new Date(el.birthDate)) : '----',
+                    city: el.cityName ?? '----',
+                    family: el.familyMembersCount ?? '----',
+                    lastOrder: el.ordersId?.length ? el.ordersId[0] : '----',
+                    subscription: el.subscriptionIsActive
+                })).filter(el => {
+                    return search([el.name, el.lastName, el.number, el.city], searchString)
+                })
+            }
         },
         getFullData: state => id => state.data.find(el =>el.id === id),
         getCustomers: state => state.data,
         getCustomer: state => id => state.data.find(el => el.id === id),
         getCurrentCustomer: state => {
-            let {firstName, lastName, phoneNumber, birthDate, cityName, familyMembersCount, subscriptionIsActive, ordersId} = state.currentCustomer
-            return {firstName, lastName, phoneNumber, birthDate, cityName, familyMembersCount, subscriptionIsActive, ordersId}
+            let {
+                firstName,
+                lastName,
+                phoneNumber,
+                birthDate,
+                cityName,
+                districtName,
+                street,
+                building,
+                floor,
+                familyMembersCount,
+                subscriptionIsActive,
+                ordersId
+            } = state.currentCustomer
+            return {
+                firstName,
+                lastName,
+                phoneNumber,
+                birthDate,
+                cityName,
+                districtName,
+                street,
+                building,
+                floor,
+                familyMembersCount,
+                subscriptionIsActive,
+                ordersId
+            }
         }
     }
 }

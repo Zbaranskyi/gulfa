@@ -1,5 +1,6 @@
 <template>
   <el-dialog :title="`Order #${order.id}`" :visible.sync="value" :before-close="closeModalWindow">
+    {{order}}
     <div class="order-info">
       <div>
         <p><span class="fw500">Customer: </span>{{ order.customerName }}</p>
@@ -16,9 +17,9 @@
         <div v-for="(item, index) of order.ordersShopItems" :key="`${index} ${item.title}`" class="order-info_items">
           <span class="fw500">{{ index+1 }}. {{ item.title }}</span>
           <span class="fw500">{{ item.volume }}LT</span>
-          <span>$ {{ item.price }}</span>
+          <span>{{ item.price }}د.إ</span>
           <span>x{{ item.count }}</span>
-          <span>$ {{ item.price * item.count }}</span>
+          <span>{{ item.price * item.count }}د.إ</span>
         </div>
       </div>
       <div>
@@ -43,6 +44,13 @@ export default {
   data() {
     return {
       loadingSaveChanges: false,
+      datetimeFormat: {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric"
+      }
     }
   },
   computed: {
@@ -57,10 +65,10 @@ export default {
       return this.order.orderShopItems ? this.order.orderShopItems?.reduce((acc, curr) => acc + curr?.count * curr?.price, 0) : 0
     },
     getDeliveryDate() {
-      return new Intl.DateTimeFormat('en-GB').format(new Date(`${this.order.deliveryDate}Z`))
+      return new Intl.DateTimeFormat('en-GB', this.datetimeFormat).format(new Date(`${this.order.deliveryDate}Z`))
     },
     getCreateDate() {
-      return new Intl.DateTimeFormat('en-GB').format(new Date(`${this.order.createDate}Z`))
+      return new Intl.DateTimeFormat('en-GB', this.datetimeFormat).format(new Date(`${this.order.createDate}Z`))
     }
   },
   methods: {

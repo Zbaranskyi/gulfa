@@ -15,7 +15,7 @@
             <el-input v-model.number="form.discount" autocomplete="off">
                 <el-select v-model="select" slot="append" placeholder="Select">
                   <el-option label="%" value="%"></el-option>
-                  <el-option label="$" value="$"></el-option>
+                  <el-option label="د.إ" value="د.إ"></el-option>
                 </el-select>
             </el-input>
           </el-form-item>
@@ -140,7 +140,7 @@ export default {
         this.form.expireDate = this.form.expireDate?.toLocaleDateString('en-GB')
         let [day, month, year] = this.form.expireDate.split('/')
         this.form.expireDate = `${year}-${month}-${day}T00:00:00`
-        if(this.select === '$') {
+        if(this.select === 'د.إ') {
           this.form.toDiscountAmount = this.form.discount
           this.form.discount = 0
         }

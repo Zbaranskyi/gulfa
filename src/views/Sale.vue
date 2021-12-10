@@ -9,7 +9,7 @@
         @btn-click="showAddSale = true"
     />
     <sale-item
-        v-for="(item,index) of getReformatSales"
+        v-for="(item,index) of getReformatSales(searchValue)"
         :key="index"
         :item="item"
         :lang="lang"
@@ -31,7 +31,7 @@ import TopRow from "@/components/helpers/TopRow";
 import SaleItem from "@/components/helpers/SaleItem";
 import AddSaleN from "@/components/sales/AddSaleN";
 import EditSaleN from "@/components/sales/EditSaleN";
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   name: "Sale",
@@ -50,9 +50,7 @@ export default {
     await this.getProducts()
   },
   computed: {
-    getReformatSales() {
-      return this.$store.getters.getReformatSales
-    },
+    ...mapGetters(['getReformatSales'])
   },
   methods: {
     ...mapActions(['getSales', 'getProducts', 'setCurrentSale']),

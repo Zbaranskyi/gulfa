@@ -11,10 +11,10 @@
           class="auth-item"
       >
         <el-form-item label="Email" label-width="120px" prop="email">
-          <el-input v-model="form.email" autocomplete="off"></el-input>
+          <el-input v-model.trim="form.email" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item v-if="mode === 'signin'" label="Password" label-width="120px" prop="password">
-          <el-input v-model="form.password" autocomplete="off" show-password></el-input>
+          <el-input v-model.trim="form.password" autocomplete="off" show-password></el-input>
         </el-form-item>
       </el-form>
       <div class="auth-item">
