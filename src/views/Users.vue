@@ -4,7 +4,7 @@
         @search="searchValue = $event"
     />
     <el-table
-        :data="getFilteredData"
+        :data="getFilteredData(searchValue)"
         style="width: 100%"
         header-cell-class-name="header-cell"
         header-row-class-name="header-row"

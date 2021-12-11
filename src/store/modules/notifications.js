@@ -1,4 +1,5 @@
 import api from "@/service/api";
+import {search} from '@/service/search'
 
 export default {
     state: () => ({
@@ -32,15 +33,19 @@ export default {
     },
     getters: {
         getNotifications(state) {
-            return state.notifications.map(el => {
-                let {postedTime, body} = el
-                postedTime = new Date(`${postedTime}Z`)
-                postedTime = new Intl.DateTimeFormat('en-GB', {
-                    year: 'numeric', month: 'numeric', day: 'numeric',
-                    hour: 'numeric', minute: 'numeric', hour12: true
-                }).format(postedTime).toUpperCase()
-                return {postedTime, body}
-            })
+            return (searchString) => {
+                return state.notifications.map(el => {
+                    let {postedTime, body} = el
+                    postedTime = new Date(`${postedTime}Z`)
+                    postedTime = new Intl.DateTimeFormat('en-GB', {
+                        year: 'numeric', month: 'numeric', day: 'numeric',
+                        hour: 'numeric', minute: 'numeric', hour12: true
+                    }).format(postedTime).toUpperCase()
+                    return {postedTime, body}
+                }).filter(el => {
+                    return search([el.body], searchString)
+                })
+            }
         }
     }
 }

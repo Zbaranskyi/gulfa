@@ -7,7 +7,7 @@
         @btn-click="showAddDriver = true"
     />
     <el-table
-        :data="getDriversS"
+        :data="getDrivers(searchValue)"
         style="width: 100%"
         header-cell-class-name="header-cell"
         header-row-class-name="header-row"
@@ -57,7 +57,7 @@
 import TopRow from "@/components/helpers/TopRow";
 import EditDriverN from "@/components/drivers/EditDriverN";
 import AddDriverN from "@/components/drivers/AddDriverN";
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   name: "Drivers",
@@ -74,15 +74,13 @@ export default {
     }
   },
   computed: {
-    getDriversS() {
-      return this.$store.state.drivers.data
-    }
+    ...mapGetters(['getDrivers'])
   },
   async created() {
-    await this.getDrivers()
+    await this.fetchDrivers()
   },
   methods: {
-    ...mapActions(['getDrivers', 'setCurrentDriver']),
+    ...mapActions(['fetchDrivers', 'setCurrentDriver']),
     async editDriver(id) {
       await this.setCurrentDriver(id)
       this.showEditDriver = true

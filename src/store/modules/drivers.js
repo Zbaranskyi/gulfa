@@ -1,4 +1,5 @@
 import api from "@/service/api";
+import {search} from '@/service/search'
 
 export default {
     state: () => ({
@@ -14,7 +15,7 @@ export default {
         }
     },
     actions: {
-        async getDrivers({commit, rootState}) {
+        async fetchDrivers({commit, rootState}) {
             await api.GET('/admin/driver', rootState.token)
                 .then(({data}) => commit('setDrivers', data))
                 .catch(err => console.log(err))
@@ -67,6 +68,13 @@ export default {
         getDriver: state => {
             let {firstName, lastName, phoneNumber, email} = state.currentDriver
             return {firstName, lastName, phoneNumber, email}
+        },
+        getDrivers(state) {
+            return (searchString) => {
+                return state.data.filter(el => {
+                    return search([el.email, el.firstName, el.lastName, el.phoneNumber], searchString)
+                })
+            }
         }
     }
 }

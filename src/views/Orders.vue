@@ -4,7 +4,7 @@
         @search="searchValue = $event"
     />
     <el-table
-        :data="getOrders"
+        :data="getSimpleOrdersInformation(searchValue)"
         style="width: 100%"
         header-cell-class-name="header-cell"
         header-row-class-name="header-row"
@@ -50,9 +50,10 @@
 </template>
 
 <script>
-import TopRow from "@/components/helpers/TopRow";
-import {orders} from "@/test-data/headers";
-import OrderDetailsN from "@/components/orders/OrderDetailsN";
+import TopRow from '@/components/helpers/TopRow'
+import {orders} from '@/test-data/headers'
+import OrderDetailsN from '@/components/orders/OrderDetailsN'
+import {mapGetters} from 'vuex'
 
 export default {
   name: "Orders",
@@ -72,9 +73,7 @@ export default {
     await this.$store.dispatch('getOrders')
   },
   computed: {
-    getOrders() {
-      return this.$store.getters.getSimpleOrdersInformation
-    }
+    ...mapGetters(['getSimpleOrdersInformation'])
   },
   methods: {
     showDetails(id) {

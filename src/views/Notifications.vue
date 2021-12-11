@@ -7,7 +7,7 @@
         @btn-click="showAddNotification = true"
     />
     <el-table
-        :data="getNotifications"
+        :data="getNotifications(searchValue)"
         style="width: 100%"
         header-cell-class-name="header-cell"
         header-row-class-name="header-row"
@@ -30,6 +30,7 @@
 import AddNotification from "../components/notifications/AddNotification";
 
 import TopRow from "@/components/helpers/TopRow";
+import {mapGetters} from 'vuex'
 
 export default {
   name: "Notifications",
@@ -51,10 +52,8 @@ export default {
     await this.$store.dispatch('getNotifications')
   },
   computed: {
-    getNotifications() {
-      return this.$store.getters.getNotifications
-    }
-  }
+    ...mapGetters(['getNotifications'])
+  },
 }
 </script>
 

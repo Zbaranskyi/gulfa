@@ -1,4 +1,5 @@
 import api from "@/service/api";
+import {search} from '@/service/search'
 
 export default {
     state: {
@@ -14,7 +15,7 @@ export default {
         }
     },
     actions: {
-        async getCities({commit}) {
+        async fetchCities({commit}) {
             try {
                 const {data} = await api.GET('/admin/city')
                 commit('setCities', data)
@@ -50,6 +51,15 @@ export default {
                 await dispatch('getCities')
             } catch (e) {
                 console.log(e);
+            }
+        }
+    },
+    getters: {
+        getCities(state) {
+            return (searchString) => {
+                return state.cities.filter(el => {
+                    return search([el.cityName, el.districtName], searchString)
+                })
             }
         }
     }
