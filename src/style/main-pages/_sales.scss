@@ -30,7 +30,9 @@
     grid-template-columns: 200px 300px;
   }
   &-products {
-    display: flex;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fill, 160px);
   }
   &-product {
     border: 1px solid #E8E8E8;

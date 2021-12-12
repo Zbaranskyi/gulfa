@@ -48,9 +48,9 @@
             <el-input v-model="form.floor" autocomplete="off"></el-input>
           </el-form-item>
 
-          <el-form-item label="Apartment" label-width="120px" prop="apartment">
-            <el-input v-model="form.apartment" autocomplete="off"></el-input>
-          </el-form-item>
+<!--          <el-form-item label="Apartment" label-width="120px" prop="apartment">-->
+<!--            <el-input v-model="form.apartment" autocomplete="off"></el-input>-->
+<!--          </el-form-item>-->
 
           <el-form-item label="Family Members" label-width="120px" prop="familyMembersCount">
             <el-input v-model.number="form.familyMembersCount" autocomplete="off"></el-input>
@@ -60,9 +60,16 @@
             <el-input v-model="form.subscriptionIsActive" autocomplete="off" readonly></el-input>
           </el-form-item>
         </div>
-        <el-form-item label="Orders" label-width="120px">
-          <el-input v-model="form.ordersId" autocomplete="off" readonly></el-input>
-        </el-form-item>
+        <div class="orders">
+          <div class="orders__label">
+            Orders:
+          </div>
+
+          <div class="orders__list">
+            {{form.ordersId.length ? form.ordersId.map(i=>`#${i}`).join(', ') : 'There are no orders yet.'}}
+          </div>
+        </div>
+
       </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -153,5 +160,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+
+.orders {
+  margin-top: 15px;
+}
+
+.orders__label {
+  margin-bottom: 10px;
+}
 </style>

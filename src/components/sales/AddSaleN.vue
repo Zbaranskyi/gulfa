@@ -127,7 +127,8 @@ export default {
     pickerOptionsS () {
       return {
         disabledDate(time) {
-          return time.getTime() < Date.now();
+          const d = new Date()
+          return time.getTime() < d.setDate(d.getDate()-1);
         }
       }
     }

@@ -11,15 +11,19 @@
         cell-class-name="table-cell"
     >
       <el-table-column
-          prop="id"
-          label="ID">
+          prop="paymentId"
+          label="Payment ID">
       </el-table-column>
       <el-table-column
-          prop="date"
+          prop="orderId"
+          label="Order ID">
+      </el-table-column>
+      <el-table-column
+          prop="dateTime"
           label="Date&Time">
       </el-table-column>
       <el-table-column
-          prop="name"
+          prop="customerName"
           label="Customer Name">
       </el-table-column>
       <el-table-column
@@ -27,7 +31,7 @@
           label="Price">
       </el-table-column>
       <el-table-column
-          prop="payMethod"
+          prop="paymentMethod"
           label="Payment Method">
       </el-table-column>
     </el-table>
