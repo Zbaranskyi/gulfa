@@ -11,12 +11,15 @@
           <el-form-item label="First Name" label-width="120px" prop="firstName">
             <el-input v-model="form.firstName" autocomplete="off"></el-input>
           </el-form-item>
+
           <el-form-item label="Last Name" label-width="120px" prop="lastName">
             <el-input v-model="form.lastName" autocomplete="off"></el-input>
           </el-form-item>
+
           <el-form-item label="Phone Number" label-width="120px" prop="phoneNumber">
             <el-input v-model="form.phoneNumber" autocomplete="off"></el-input>
           </el-form-item>
+
           <el-form-item label="Birthday" label-width="120px" prop="birthDate">
             <el-date-picker
                 v-model="form.birthDate"
@@ -24,24 +27,35 @@
                 placeholder="Pick a day">
             </el-date-picker>
           </el-form-item>
+
           <el-form-item label="City" label-width="120px" prop="cityName">
             <el-input v-model="form.cityName" autocomplete="off"></el-input>
           </el-form-item>
+
           <el-form-item label="District Name" label-width="120px" prop="districtName">
             <el-input v-model="form.districtName" autocomplete="off"></el-input>
           </el-form-item>
+
           <el-form-item label="Street" label-width="120px" prop="street">
             <el-input v-model="form.street" autocomplete="off"></el-input>
           </el-form-item>
+
           <el-form-item label="Building" label-width="120px" prop="building">
             <el-input v-model="form.building" autocomplete="off"></el-input>
           </el-form-item>
+
           <el-form-item label="Floor" label-width="120px" prop="floor">
             <el-input v-model="form.floor" autocomplete="off"></el-input>
           </el-form-item>
+
+          <el-form-item label="Apartment" label-width="120px" prop="apartment">
+            <el-input v-model="form.apartment" autocomplete="off"></el-input>
+          </el-form-item>
+
           <el-form-item label="Family Members" label-width="120px" prop="familyMembersCount">
             <el-input v-model.number="form.familyMembersCount" autocomplete="off"></el-input>
           </el-form-item>
+
           <el-form-item label="Subscription" label-width="120px">
             <el-input v-model="form.subscriptionIsActive" autocomplete="off" readonly></el-input>
           </el-form-item>
@@ -92,6 +106,7 @@ export default {
         street: '',
         building: '',
         floor: '',
+        apartment: '',
         familyMembersCount: 0,
         subscriptionIsActive: false,
         ordersId: []

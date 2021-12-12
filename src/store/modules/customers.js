@@ -41,18 +41,27 @@ export default {
         async putCustomer({dispatch, rootState, commit, state}, data) {
             let id = state.currentCustomer.id
             let customer = state.currentCustomer
-            let {cityName: cityName, ...mainInfo} = data
+            let {
+                cityName,
+                districtName,
+                street,
+                building,
+                floor,
+                apartment,
+                ...mainInfo
+            } = data
             let fullData = {
                 ...mainInfo,
                 nationality: customer.nationality,
                 addressTranslations: [
                     {
                         "culture": "en",
-                        "cityName": cityName,
-                        "districtName": customer.districtName,
-                        "street": customer.street,
-                        "building": customer.building,
-                        "apartment": customer.apartment
+                        cityName,
+                        districtName,
+                        street,
+                        building,
+                        floor,
+                        apartment
                     }
                 ]
             }
