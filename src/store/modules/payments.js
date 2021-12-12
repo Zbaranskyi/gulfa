@@ -1,5 +1,4 @@
-// import api from "@/service/api";
-import {payments} from "@/test-data/payments";
+import api from "@/service/api";
 import {search} from '@/service/search'
 
 export default {
@@ -12,27 +11,27 @@ export default {
         },
     },
     actions: {
-        fetchPayments({commit, /*rootState*/}) {
-            // try {
-            //     const {data} = await api.GET('/payments', rootState.token)
-            //     commit('setPayments', data)
-            // } catch (e) {
-            //     console.log(e);
-            // }
-            commit('setPayments', payments)
+        async fetchPayments({commit, rootState}) {
+            try {
+                const {data} = await api.GET('/admin/getpayments', rootState.token)
+                commit('setPayments', data)
+            } catch (e) {
+                console.log(e);
+            }
         },
     },
     getters: {
         getPayments(state) {
             return (searchString) => {
                 return state.data.map(el => ({
-                    id: el.id,
-                    date: el.date,
-                    name: el.name,
+                    paymentId: el.paymentId,
+                    orderId: el.orderId,
+                    dateTime: new Intl.DateTimeFormat('en-GB').format(new Date(`${el.dateTime}Z`)),
+                    customerName: el.customerName,
                     price: el.price,
-                    payMethod: el.payMethod,
+                    paymentMethod: el.paymentMethod,
                 })).filter(el => {
-                    return search([el.name], searchString)
+                    return search([el.paymentId.toString(), el.orderId.toString(), el.customerName], searchString)
                 })
             }
         }

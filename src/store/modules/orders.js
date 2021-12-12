@@ -41,7 +41,7 @@ export default {
                     payStatus: el.status,
                     subscription: String(!!el.isSubscribed)
                 })).filter(el => {
-                    return search([el.name], searchString)
+                    return search([el.id.toString(), el.name], searchString)
                 })
             }
         }
