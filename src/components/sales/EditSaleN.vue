@@ -18,7 +18,6 @@
                 style="width: 100%"
                 v-model="form.startDate"
                 type="date"
-                :picker-options="pickerOptionsS"
                 placeholder="Pick a date">
             </el-date-picker>
           </el-form-item>
@@ -131,13 +130,6 @@ export default {
         }
       }
     },
-    pickerOptionsS() {
-      return {
-        disabledDate(time) {
-          return time.getTime() < Date.now();
-        }
-      }
-    }
   },
   methods: {
     submitForm() {
