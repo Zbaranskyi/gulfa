@@ -46,13 +46,11 @@
       </el-table-column>
       <el-table-column
           label="City"
-          prop="cityName"
-          sortable>
+          prop="cityName">
       </el-table-column>
       <el-table-column
           label="District"
-          prop="districtName"
-          sortable>
+          prop="districtName">
       </el-table-column>
       <el-table-column
           label="Date"
