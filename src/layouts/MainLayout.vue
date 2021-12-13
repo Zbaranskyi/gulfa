@@ -56,9 +56,6 @@ export default {
         {
           name: 'Banners',
         },
-        {
-          name: 'Cities',
-        }
       ],
       menu: false
     }

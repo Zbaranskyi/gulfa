@@ -1,44 +1,78 @@
 <template>
   <div id="users">
-    <TopRow
-        @search="searchValue = $event"
-    />
+    <TopRow @search="searchValue = $event">
+      <el-select
+          v-model="filterByCity"
+          clearable
+          placeholder="Filter by City"
+          @change="filterByDistrict = null"
+      >
+        <el-option
+            v-for="city in getCityList"
+            :key="city"
+            :label="city"
+            :value="city">
+        </el-option>
+      </el-select>
+
+      <el-select
+          v-if="filterByCity"
+          v-model="filterByDistrict"
+          clearable
+          placeholder="Filter by District"
+      >
+        <el-option
+            v-for="district in getDistrictList(filterByCity)"
+            :key="district"
+            :label="district"
+            :value="district">
+        </el-option>
+      </el-select>
+    </TopRow>
     <el-table
-        :data="getSimpleOrdersInformation(searchValue)"
-        style="width: 100%"
+        :data="getSimpleOrdersInformation(searchValue, filterByCity, filterByDistrict)"
+        cell-class-name="table-cell"
         header-cell-class-name="header-cell"
         header-row-class-name="header-row"
-        cell-class-name="table-cell"
+        style="width: 100%"
     >
       <el-table-column
-          prop="id"
-          label="Order ID">
+          label="Order ID"
+          prop="id">
       </el-table-column>
       <el-table-column
-          prop="name"
-          label="Customer Name">
+          label="Customer Name"
+          prop="name">
       </el-table-column>
       <el-table-column
-          prop="date"
-          label="Date">
+          label="City"
+          prop="cityName">
       </el-table-column>
       <el-table-column
-          prop="total"
-          label="Total">
+          label="District"
+          prop="districtName">
       </el-table-column>
       <el-table-column
-          prop="payStatus"
-          label="Payment Status">
+          label="Date"
+          prop="date">
       </el-table-column>
       <el-table-column
-          prop="subscription"
-          label="Subscription">
+          label="Total"
+          prop="total">
+      </el-table-column>
+      <el-table-column
+          label="Payment Status"
+          prop="payStatus">
+      </el-table-column>
+      <el-table-column
+          label="Subscription"
+          prop="subscription">
       </el-table-column>
       <el-table-column
           label="View Details">
         <template slot-scope="scope">
-          <span @click="showDetails(scope.row.id)"
-                style="cursor: pointer; text-decoration: underline">View Details</span>
+          <span style="cursor: pointer; text-decoration: underline"
+                @click="showDetails(scope.row.id)">View Details</span>
         </template>
       </el-table-column>
     </el-table>
@@ -56,7 +90,7 @@ import OrderDetailsN from '@/components/orders/OrderDetailsN'
 import {mapGetters} from 'vuex'
 
 export default {
-  name: "Orders",
+  name: 'Orders',
   components: {
     OrderDetailsN,
     TopRow,
@@ -66,6 +100,8 @@ export default {
       titles: orders,
       data: [],
       searchValue: '',
+      filterByCity: null,
+      filterByDistrict: null,
       details: false,
     }
   },
@@ -73,14 +109,18 @@ export default {
     await this.$store.dispatch('getOrders')
   },
   computed: {
-    ...mapGetters(['getSimpleOrdersInformation'])
+    ...mapGetters([
+      'getSimpleOrdersInformation',
+      'getCityList',
+      'getDistrictList',
+    ]),
   },
   methods: {
     showDetails(id) {
       this.$store.dispatch('showOrderDetails', id)
       this.details = true
-    }
-  }
+    },
+  },
 }
 </script>
 
