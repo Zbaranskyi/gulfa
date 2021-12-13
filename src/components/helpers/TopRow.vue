@@ -1,16 +1,20 @@
 <template>
   <div class="top-row">
     <TitleOfPage/>
-    <SearchRow
-        v-if="!withoutSearch"
-        @search="$emit('search', $event)"
-    />
-    <switch-language
-        v-if="btnSwitch"
-        :lang="value"
-        @change-lang="$emit('input', $event)"
-    />
-    <el-button v-if="btnBackground && btnText" @click="$emit('btn-click')" class="button-top-row" type="info">{{btnText}}</el-button>
+
+    <div class="top-row__right">
+      <slot />
+      <SearchRow
+          v-if="!withoutSearch"
+          @search="$emit('search', $event)"
+      />
+      <switch-language
+          v-if="btnSwitch"
+          :lang="value"
+          @change-lang="$emit('input', $event)"
+      />
+      <el-button v-if="btnBackground && btnText" @click="$emit('btn-click')" class="button-top-row" type="info">{{btnText}}</el-button>
+    </div>
   </div>
 </template>
 
@@ -51,5 +55,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.top-row__right {
+  display: flex;
+  flex-wrap: wrap;
+
+  > * {
+    margin-left: 20px;
+  }
+}
 </style>

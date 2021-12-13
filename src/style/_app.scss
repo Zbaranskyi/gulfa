@@ -75,6 +75,31 @@
     color: #CBCBCB;
   }
 }
+.el-select {
+  .el-input {
+    min-width: 200px;
+  }
+
+  .el-input__inner {
+
+    border: 1px solid #E8E8E8!important;
+    border-radius: 10px;
+    @include fontPoppins(12px, 400, 18px);
+    color: #2F3741;
+  }
+
+}
+
+.el-select-dropdown.el-popper {
+  .el-select-dropdown__item {
+    span {
+      font-size: 12px !important;
+      @include fontPoppins(12px, 400, 18px);
+    }
+  }
+}
+
+
 .switch {
   border-radius: 10px;
   border: 1px solid #E8E8E8;
